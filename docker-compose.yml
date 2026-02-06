@@ -1,0 +1,32 @@
+services:
+  soe-web-viewer:
+    image: ghcr.io/shards-of-eternity/soe_web_viewer:latest
+    container_name: soe-web-viewer
+    restart: unless-stopped
+    labels:
+      # Enable Traefik
+      - "traefik.enable=true"
+      
+      # HTTP Router (redirects to HTTPS)
+      - "traefik.http.routers.soe-viewer-http.rule=Host(`viewer.calamity-online.cloud`)"
+      - "traefik.http.routers.soe-viewer-http.entrypoints=web"
+      - "traefik.http.routers.soe-viewer-http.middlewares=redirect-to-https"
+      
+      # HTTPS Router
+      - "traefik.http.routers.soe-viewer.rule=Host(`viewer.calamity-online.cloud`)"
+      - "traefik.http.routers.soe-viewer.entrypoints=websecure"
+      - "traefik.http.routers.soe-viewer.tls=true"
+      - "traefik.http.routers.soe-viewer.tls.certresolver=letsencrypt"
+      
+      # Service port
+      - "traefik.http.services.soe-viewer.loadbalancer.server.port=80"
+      
+      # Redirect middleware
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

@@ -51,12 +51,12 @@ export function QuestDetail({ quest, onClose, onNpcClick, onItemClick }: QuestDe
                                 <div
                                     key={idx}
                                     className="relationship-item clickable"
-                                    onClick={() => onNpcClick?.(npc.npcId)}
+                                    onClick={() => npc.enfId && onNpcClick?.(npc.enfId)}
                                 >
                                     <span className="rel-name">
                                         {npc.npcName || `NPC #${npc.npcId}`}
                                     </span>
-                                    <span className="rel-info">NPC #{npc.npcId}</span>
+                                    <span className="rel-info">NPC #{npc.enfId || npc.npcId}</span>
                                 </div>
                             ))}
                         </div>
@@ -72,12 +72,12 @@ export function QuestDetail({ quest, onClose, onNpcClick, onItemClick }: QuestDe
                                 <div
                                     key={idx}
                                     className="relationship-item clickable"
-                                    onClick={() => onNpcClick?.(killReq.npcId)}
+                                    onClick={() => killReq.enfId && onNpcClick?.(killReq.enfId)}
                                 >
                                     <span className="rel-name">
                                         {killReq.npcName || `NPC #${killReq.npcId}`}
                                     </span>
-                                    <span className="rel-info">× {killReq.count}</span>
+                                    <span className="rel-info">× {killReq.count} (NPC #{killReq.enfId || killReq.npcId})</span>
                                 </div>
                             ))}
                         </div>

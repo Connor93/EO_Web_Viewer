@@ -422,11 +422,27 @@ function indexQuests(
             item.questRewards.push(questReward);
         }
 
-        // Index kill requirements
+        // Index kill requirements - quest files reference NPCs by ENF ID directly (not vendor ID)
         for (const killReq of quest.killRequirements) {
+            // Kill requirements use ENF ID directly, not vendor ID
             const npc = npcs.get(killReq.npcId);
             if (npc) {
                 killReq.npcName = npc.name;
+                killReq.enfId = npc.id;  // Same as killReq.npcId since it's already ENF ID
+                killReq.graphicId = npc.graphicId;
+
+                // Create reverse reference on the NPC
+                if (!npc.questInvolvement) {
+                    npc.questInvolvement = [];
+                }
+
+                const involvement: QuestInvolvement = {
+                    questId: quest.id,
+                    questName: quest.name,
+                    role: 'kill',
+                };
+
+                npc.questInvolvement.push(involvement);
             }
         }
 

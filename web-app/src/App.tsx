@@ -235,6 +235,7 @@ function HomePage() {
           npc={selectedNpc}
           onClose={() => setSelectedNpc(null)}
           onItemClick={handleItemIdClick}
+          onQuestClick={handleQuestIdClick}
         />
       )}
 

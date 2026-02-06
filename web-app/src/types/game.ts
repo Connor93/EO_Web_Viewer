@@ -268,7 +268,7 @@ export interface MapSpawnInfo {
 export interface QuestInvolvement {
     questId: number;
     questName: string;
-    role: 'dialogue' | 'reward';
+    role: 'dialogue' | 'reward' | 'kill';
 }
 
 export interface QuestReward {
@@ -296,7 +296,7 @@ export interface GameQuest {
     involvedNpcs: { npcId: number; npcName?: string; enfId?: number; graphicId?: number }[];
     rewardItems: { itemId: number; itemName?: string; amount: number }[];
     rewardExp: number;
-    killRequirements: { npcId: number; npcName?: string; count: number }[];
+    killRequirements: { npcId: number; npcName?: string; count: number; enfId?: number; graphicId?: number }[];
     itemRequirements: { itemId: number; itemName?: string; count: number }[];
 }
 

@@ -10,13 +10,14 @@ interface NpcDetailProps {
     npc: GameNpc;
     onClose: () => void;
     onItemClick?: (itemId: number) => void;
+    onQuestClick?: (questId: number) => void;
 }
 
 function getTypeLabel(type: NpcType): string {
     return getNpcTypeName(type);
 }
 
-export function NpcDetail({ npc, onClose, onItemClick }: NpcDetailProps) {
+export function NpcDetail({ npc, onClose, onItemClick, onQuestClick }: NpcDetailProps) {
     const isHostile = npc.type === NpcType.Aggressive || npc.type === NpcType.Passive;
 
     return (
@@ -206,6 +207,25 @@ export function NpcDetail({ npc, onClose, onItemClick }: NpcDetailProps) {
                                 <div key={idx} className="relationship-item">
                                     <span className="rel-name">{spawn.mapName || `Map #${spawn.mapId}`}</span>
                                     <span className="rel-info">({spawn.x}, {spawn.y})</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Quests Involved In Section */}
+                {npc.questInvolvement && npc.questInvolvement.length > 0 && (
+                    <div className="detail-section">
+                        <h3>📜 Quests Involved In</h3>
+                        <div className="relationship-list">
+                            {npc.questInvolvement.map((quest, idx) => (
+                                <div
+                                    key={idx}
+                                    className="relationship-item clickable"
+                                    onClick={() => onQuestClick?.(quest.questId)}
+                                >
+                                    <span className="rel-name">{quest.questName || `Quest #${quest.questId}`}</span>
+                                    <span className="rel-info">{quest.role === 'dialogue' ? 'Dialogue' : quest.role === 'kill' ? 'Kill' : 'Reward'}</span>
                                 </div>
                             ))}
                         </div>

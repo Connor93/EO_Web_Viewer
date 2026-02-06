@@ -1,0 +1,23 @@
+# Note: .git is NOT ignored because we need it for git-lfs pull
+.gitignore
+.gitattributes
+
+# Dependencies (will be installed fresh in container)
+web-app/node_modules
+
+# Build artifacts
+web-app/dist
+
+# IDE and OS files
+.DS_Store
+*.swp
+*.swo
+.vscode
+.idea
+
+# Documentation
+*.md
+!README.md
+
+# Brain artifacts
+.gemini
