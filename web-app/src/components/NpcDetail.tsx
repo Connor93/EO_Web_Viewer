@@ -198,20 +198,32 @@ export function NpcDetail({ npc, onClose, onItemClick, onQuestClick }: NpcDetail
                     </div>
                 )}
 
-                {/* Map Spawns Section - placeholder for future */}
-                {npc.spawnsOnMaps && npc.spawnsOnMaps.length > 0 && (
-                    <div className="detail-section">
-                        <h3>🗺️ Found On Maps</h3>
-                        <div className="relationship-list">
-                            {npc.spawnsOnMaps.map((spawn, idx) => (
-                                <div key={idx} className="relationship-item">
-                                    <span className="rel-name">{spawn.mapName || `Map #${spawn.mapId}`}</span>
-                                    <span className="rel-info">({spawn.x}, {spawn.y})</span>
-                                </div>
-                            ))}
+                {/* Map Spawns Section */}
+                {npc.spawnsOnMaps && npc.spawnsOnMaps.length > 0 && (() => {
+                    // Group spawns by map and count
+                    const mapCounts = npc.spawnsOnMaps.reduce((acc, spawn) => {
+                        const key = spawn.mapId;
+                        if (!acc.has(key)) {
+                            acc.set(key, { mapId: spawn.mapId, mapName: spawn.mapName, count: 0 });
+                        }
+                        acc.get(key)!.count++;
+                        return acc;
+                    }, new Map<number, { mapId: number; mapName?: string; count: number }>());
+
+                    return (
+                        <div className="detail-section">
+                            <h3>🗺️ Found On Maps</h3>
+                            <div className="relationship-list">
+                                {Array.from(mapCounts.values()).map((map) => (
+                                    <div key={map.mapId} className="relationship-item">
+                                        <span className="rel-name">{map.mapName || `Map #${map.mapId}`}</span>
+                                        <span className="rel-info">{map.count} spawn{map.count !== 1 ? 's' : ''}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    );
+                })()}
 
                 {/* Quests Involved In Section */}
                 {npc.questInvolvement && npc.questInvolvement.length > 0 && (
