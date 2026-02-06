@@ -4,6 +4,7 @@
 import type { GameItem } from '../types/game';
 import { getItemImageUrl, handleImageError } from '../utils/images';
 import { ItemType, getItemTypeName } from '../types/game';
+import { DropRateBar } from './DropRateBar';
 import './ItemDetail.css';
 
 interface ItemDetailProps {
@@ -96,14 +97,16 @@ export function ItemDetail({ item, onClose, onNpcClick, onQuestClick }: ItemDeta
                             {item.dropsFrom.map((drop, idx) => (
                                 <div
                                     key={idx}
-                                    className="relationship-item clickable"
+                                    className="relationship-item clickable drop-item"
                                     onClick={() => onNpcClick?.(drop.npcId)}
                                 >
-                                    <span className="rel-name">{drop.npcName}</span>
-                                    <span className="rel-info">
-                                        {drop.minAmount === drop.maxAmount ? drop.minAmount : `${drop.minAmount}-${drop.maxAmount}`}
-                                        {' | '}{drop.dropRate.toFixed(1)}%
-                                    </span>
+                                    <div className="drop-info-row">
+                                        <span className="rel-name">{drop.npcName}</span>
+                                        <span className="rel-amount">
+                                            {drop.minAmount === drop.maxAmount ? drop.minAmount : `${drop.minAmount}-${drop.maxAmount}`}x
+                                        </span>
+                                    </div>
+                                    <DropRateBar rate={drop.dropRate} />
                                 </div>
                             ))}
                         </div>

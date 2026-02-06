@@ -72,6 +72,9 @@
     margin-top: 6px;
     font-size: 12px;
     color: rgba(160, 220, 180, 0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .special-badge {

@@ -34,7 +34,7 @@ export function SpellCard({ spell, onClick }: SpellCardProps) {
         >
             <div className="spell-icon-wrapper">
                 <img
-                    src={getSpellIconUrl(spell.graphicId, spell.name)}
+                    src={getSpellIconUrl(spell.id, spell.name)}
                     alt={spell.name}
                     className="spell-icon"
                     onError={handleImageError}

@@ -45,7 +45,7 @@ export function SpellDetail({ spell, onClose }: SpellDetailProps) {
                 <div className="detail-header">
                     <div className="detail-icon-wrapper">
                         <img
-                            src={getSpellIconUrl(spell.graphicId, spell.name)}
+                            src={getSpellIconUrl(spell.id, spell.name)}
                             alt={spell.name}
                             className="detail-icon"
                             onError={handleImageError}

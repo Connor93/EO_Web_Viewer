@@ -5,6 +5,7 @@ import type { GameNpc } from '../types/game';
 import { getNpcImageUrl, handleImageError } from '../utils/images';
 import { NpcType, getNpcTypeName } from '../types/game';
 import './ItemDetail.css'; // Reuse detail styles
+import { DropRateBar } from './DropRateBar';
 
 interface NpcDetailProps {
     npc: GameNpc;
@@ -86,14 +87,16 @@ export function NpcDetail({ npc, onClose, onItemClick, onQuestClick }: NpcDetail
                             {npc.drops.map((drop, idx) => (
                                 <div
                                     key={idx}
-                                    className="relationship-item clickable"
+                                    className="relationship-item clickable drop-item"
                                     onClick={() => onItemClick?.(drop.itemId)}
                                 >
-                                    <span className="rel-name">{drop.itemName || `Item #${drop.itemId}`}</span>
-                                    <span className="rel-info">
-                                        {drop.minAmount === drop.maxAmount ? drop.minAmount : `${drop.minAmount}-${drop.maxAmount}`}
-                                        {' | '}{drop.dropRate.toFixed(1)}%
-                                    </span>
+                                    <div className="drop-info-row">
+                                        <span className="rel-name">{drop.itemName || `Item #${drop.itemId}`}</span>
+                                        <span className="rel-amount">
+                                            {drop.minAmount === drop.maxAmount ? drop.minAmount : `${drop.minAmount}-${drop.maxAmount}`}x
+                                        </span>
+                                    </div>
+                                    <DropRateBar rate={drop.dropRate} />
                                 </div>
                             ))}
                         </div>

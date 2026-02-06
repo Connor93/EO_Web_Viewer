@@ -57,11 +57,12 @@ export function getNpcAnimationUrls(
 
 /**
  * Get the URL for a spell's icon
+ * Folder uses SPELL ID, not graphicId
  */
-export function getSpellIconUrl(graphicId: number, spellName: string): string {
-    const paddedId = String(graphicId).padStart(4, '0');
+export function getSpellIconUrl(spellId: number, spellName: string): string {
+    const paddedId = String(spellId).padStart(4, '0');
     const safeName = sanitizeName(spellName);
-    return encodePath(`/gfx/Spells/spell_${paddedId}_${safeName}/icon.bmp`);
+    return encodePath(`/gfx/Spells/spell_${paddedId}_${safeName}/icons/spell_icon.bmp`);
 }
 
 /**

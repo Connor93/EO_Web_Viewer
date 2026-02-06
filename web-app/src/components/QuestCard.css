@@ -51,6 +51,9 @@
     font-size: 16px;
     font-weight: 600;
     color: #e0e6f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .quest-meta {

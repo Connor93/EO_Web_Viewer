@@ -206,3 +206,20 @@
     font-size: 13px;
     color: #a0b8e0;
 }
+
+/* Drop item styles with rate bar */
+.drop-item {
+    flex-direction: column;
+    gap: 6px;
+}
+
+.drop-info-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.rel-amount {
+    color: rgba(160, 180, 220, 0.7);
+    font-size: 13px;
+}
