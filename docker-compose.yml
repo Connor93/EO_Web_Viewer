@@ -1,6 +1,6 @@
 services:
   soe-web-viewer:
-    image: ghcr.io/shards-of-eternity/soe_web_viewer:latest
+    image: ghcr.io/connor93/eo_web_viewer:latest
     container_name: soe-web-viewer
     restart: unless-stopped
     labels:
