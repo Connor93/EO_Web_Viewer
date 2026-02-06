@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useGameData } from '../hooks/useGameData';
 import { NpcCard } from './NpcCard';
 import { NpcDetail } from './NpcDetail';
+import { QuestDetail } from './QuestDetail';
 import { Pagination } from './Pagination';
 import { NpcType } from '../types/game';
-import type { GameNpc } from '../types/game';
+import type { GameNpc, GameQuest } from '../types/game';
 import './ListPage.css';
 
 type SortOption = 'name' | 'id' | 'hp' | 'exp';
@@ -13,7 +14,6 @@ type SortOption = 'name' | 'id' | 'hp' | 'exp';
 export function MonsterListPage() {
     const { database, loading, error } = useGameData();
     const location = useLocation();
-    const navigate = useNavigate();
 
     const [search, setSearch] = useState('');
     const [sortBy, setSortBy] = useState<SortOption>('exp');
@@ -21,6 +21,7 @@ export function MonsterListPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(50);
     const [selectedNpc, setSelectedNpc] = useState<GameNpc | null>(null);
+    const [selectedQuest, setSelectedQuest] = useState<GameQuest | null>(null);
 
     // Filter to only aggressive/passive combat NPCs
     const allMonsters = useMemo(() => {
@@ -85,7 +86,7 @@ export function MonsterListPage() {
     const handleQuestClick = (questId: number) => {
         const quest = database?.quests.get(questId);
         if (quest) {
-            navigate(`/quests?search=${encodeURIComponent(quest.name)}`);
+            setSelectedQuest(quest);
         }
     };
 
@@ -201,6 +202,13 @@ export function MonsterListPage() {
                     onClose={() => setSelectedNpc(null)}
                     onItemClick={handleItemClick}
                     onQuestClick={handleQuestClick}
+                />
+            )}
+
+            {selectedQuest && (
+                <QuestDetail
+                    quest={selectedQuest}
+                    onClose={() => setSelectedQuest(null)}
                 />
             )}
         </div>
