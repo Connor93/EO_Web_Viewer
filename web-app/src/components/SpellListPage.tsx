@@ -1,43 +1,46 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useGameData } from '../hooks/useGameData';
-import { QuestCard } from './QuestCard';
-import { QuestDetail } from './QuestDetail';
-import { ItemDetail } from './ItemDetail';
-import { NpcDetail } from './NpcDetail';
+import { SpellCard } from './SpellCard';
+import { SpellDetail } from './SpellDetail';
 import { Pagination } from './Pagination';
-import type { GameQuest, GameItem, GameNpc } from '../types/game';
+import { SpellType, getSpellTypeName } from '../types/game';
+import type { GameSpell } from '../types/game';
 import './ListPage.css';
 
-type SortOption = 'name' | 'id';
+type SortOption = 'name' | 'id' | 'level';
 
-export function QuestListPage() {
+export function SpellListPage() {
     const { database, loading, error } = useGameData();
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [search, setSearch] = useState(() => searchParams.get('search') || '');
     const [sortBy, setSortBy] = useState<SortOption>('name');
+    const [selectedTypes, setSelectedTypes] = useState<Set<number>>(new Set());
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(50);
-    const [selectedQuest, setSelectedQuest] = useState<GameQuest | null>(null);
-    const [selectedItem, setSelectedItem] = useState<GameItem | null>(null);
-    const [selectedNpc, setSelectedNpc] = useState<GameNpc | null>(null);
+    const [selectedSpell, setSelectedSpell] = useState<GameSpell | null>(null);
 
-    const allQuests = useMemo(() => {
+    const allSpells = useMemo(() => {
         if (!database) return [];
-        return Array.from(database.quests.values());
+        return Array.from(database.spells.values()).filter(spell => spell.name && spell.name.trim() !== '');
     }, [database]);
 
-    const filteredQuests = useMemo(() => {
-        let result = allQuests;
+    const filteredSpells = useMemo(() => {
+        let result = allSpells;
 
         // Search filter
         if (search.trim()) {
             const q = search.toLowerCase();
-            result = result.filter((quest) =>
-                quest.name.toLowerCase().includes(q) || quest.id.toString().includes(q)
+            result = result.filter((spell) =>
+                spell.name.toLowerCase().includes(q) || spell.id.toString().includes(q)
             );
+        }
+
+        // Type filter
+        if (selectedTypes.size > 0) {
+            result = result.filter((spell) => selectedTypes.has(spell.type));
         }
 
         // Sort
@@ -47,23 +50,38 @@ export function QuestListPage() {
                     return a.name.localeCompare(b.name);
                 case 'id':
                     return a.id - b.id;
+                case 'level':
+                    return (b.levelRequirement ?? 0) - (a.levelRequirement ?? 0);
                 default:
                     return 0;
             }
         });
 
         return result;
-    }, [allQuests, search, sortBy]);
+    }, [allSpells, search, selectedTypes, sortBy]);
 
     // Pagination
-    const totalPages = Math.ceil(filteredQuests.length / itemsPerPage);
-    const paginatedQuests = useMemo(() => {
+    const totalPages = Math.ceil(filteredSpells.length / itemsPerPage);
+    const paginatedSpells = useMemo(() => {
         const start = (currentPage - 1) * itemsPerPage;
-        return filteredQuests.slice(start, start + itemsPerPage);
-    }, [filteredQuests, currentPage, itemsPerPage]);
+        return filteredSpells.slice(start, start + itemsPerPage);
+    }, [filteredSpells, currentPage, itemsPerPage]);
 
     const handleSearch = (value: string) => {
         setSearch(value);
+        setCurrentPage(1);
+    };
+
+    const toggleType = (type: number) => {
+        setSelectedTypes((prev) => {
+            const next = new Set(prev);
+            if (next.has(type)) {
+                next.delete(type);
+            } else {
+                next.add(type);
+            }
+            return next;
+        });
         setCurrentPage(1);
     };
 
@@ -76,30 +94,12 @@ export function QuestListPage() {
         }
     }, [search, setSearchParams]);
 
-    const handleNpcClick = useCallback((npcId: number) => {
-        const npc = database?.npcs.get(npcId);
-        if (npc) {
-            setSelectedNpc(npc);
-            setSelectedQuest(null);
-            setSelectedItem(null);
-        }
-    }, [database]);
-
-    const handleItemClick = useCallback((itemId: number) => {
-        const item = database?.items.get(itemId);
-        if (item) {
-            setSelectedItem(item);
-            setSelectedQuest(null);
-            setSelectedNpc(null);
-        }
-    }, [database]);
-
     if (loading) {
         return (
             <div className="list-page">
                 <div className="list-page-empty">
                     <div className="spinner"></div>
-                    <p>Loading quests...</p>
+                    <p>Loading spells...</p>
                 </div>
             </div>
         );
@@ -115,21 +115,28 @@ export function QuestListPage() {
         );
     }
 
+    const spellTypes = [
+        { value: SpellType.Heal, label: getSpellTypeName(SpellType.Heal) },
+        { value: SpellType.Damage, label: getSpellTypeName(SpellType.Damage) },
+        { value: SpellType.Bard, label: getSpellTypeName(SpellType.Bard) },
+    ];
+
     return (
         <div className="list-page">
             <header className="list-page-header">
                 <div className="list-page-header-content">
                     <h1 className="list-page-title">
-                        <span className="icon">📜</span>
-                        Quests
+                        <span className="icon">✨</span>
+                        Spells
                     </h1>
                     <p className="list-page-subtitle">
-                        Browse all {allQuests.length} quests in the game
+                        Browse all {allSpells.length} spells in the game
                     </p>
                     <nav className="list-page-nav">
                         <Link to="/" className="list-page-nav-link">🏠 Home</Link>
+                        <Link to="/items" className={`list-page-nav-link ${location.pathname === '/items' ? 'active' : ''}`}>🎒 Items</Link>
+                        <Link to="/spells" className={`list-page-nav-link ${location.pathname === '/spells' ? 'active' : ''}`}>✨ Spells</Link>
                         <Link to="/npcs" className={`list-page-nav-link ${location.pathname === '/npcs' ? 'active' : ''}`}>👾 NPCs</Link>
-                        <Link to="/monsters" className={`list-page-nav-link ${location.pathname === '/monsters' ? 'active' : ''}`}>⚔️ Monsters</Link>
                         <Link to="/quests" className={`list-page-nav-link ${location.pathname === '/quests' ? 'active' : ''}`}>📜 Quests</Link>
                     </nav>
                 </div>
@@ -140,7 +147,7 @@ export function QuestListPage() {
                     <div className="list-page-search">
                         <input
                             type="text"
-                            placeholder="Search quests by name or ID..."
+                            placeholder="Search spells by name or ID..."
                             value={search}
                             onChange={(e) => handleSearch(e.target.value)}
                         />
@@ -151,20 +158,33 @@ export function QuestListPage() {
                         <select value={sortBy} onChange={(e) => setSortBy(e.target.value as SortOption)}>
                             <option value="name">Name (A-Z)</option>
                             <option value="id">ID</option>
+                            <option value="level">Level Req</option>
                         </select>
+                    </div>
+
+                    <div className="list-page-filters">
+                        {spellTypes.map((type) => (
+                            <button
+                                key={type.value}
+                                className={`list-page-filter-btn ${selectedTypes.has(type.value) ? 'active' : ''}`}
+                                onClick={() => toggleType(type.value)}
+                            >
+                                {type.label}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
-                {paginatedQuests.length === 0 ? (
+                {paginatedSpells.length === 0 ? (
                     <div className="list-page-empty">
                         <div className="list-page-empty-icon">🔍</div>
-                        <p>No quests found matching your criteria</p>
+                        <p>No spells found matching your criteria</p>
                     </div>
                 ) : (
                     <>
                         <div className="list-page-grid">
-                            {paginatedQuests.map((quest) => (
-                                <QuestCard key={quest.id} quest={quest} onClick={setSelectedQuest} />
+                            {paginatedSpells.map((spell) => (
+                                <SpellCard key={spell.id} spell={spell} onClick={setSelectedSpell} />
                             ))}
                         </div>
 
@@ -172,7 +192,7 @@ export function QuestListPage() {
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}
-                                totalItems={filteredQuests.length}
+                                totalItems={filteredSpells.length}
                                 itemsPerPage={itemsPerPage}
                                 onPageChange={setCurrentPage}
                                 onItemsPerPageChange={(perPage) => {
@@ -185,44 +205,10 @@ export function QuestListPage() {
                 )}
             </main>
 
-            {selectedQuest && (
-                <QuestDetail
-                    quest={selectedQuest}
-                    onClose={() => setSelectedQuest(null)}
-                    onNpcClick={handleNpcClick}
-                    onItemClick={handleItemClick}
-                />
-            )}
-
-            {selectedItem && (
-                <ItemDetail
-                    item={selectedItem}
-                    onClose={() => setSelectedItem(null)}
-                    onNpcClick={handleNpcClick}
-                    onQuestClick={(questId: number) => {
-                        const quest = database?.quests.get(questId);
-                        if (quest) {
-                            setSelectedQuest(quest);
-                            setSelectedItem(null);
-                            setSelectedNpc(null);
-                        }
-                    }}
-                />
-            )}
-
-            {selectedNpc && (
-                <NpcDetail
-                    npc={selectedNpc}
-                    onClose={() => setSelectedNpc(null)}
-                    onItemClick={handleItemClick}
-                    onQuestClick={(questId: number) => {
-                        const quest = database?.quests.get(questId);
-                        if (quest) {
-                            setSelectedQuest(quest);
-                            setSelectedNpc(null);
-                            setSelectedItem(null);
-                        }
-                    }}
+            {selectedSpell && (
+                <SpellDetail
+                    spell={selectedSpell}
+                    onClose={() => setSelectedSpell(null)}
                 />
             )}
         </div>

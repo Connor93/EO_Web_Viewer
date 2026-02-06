@@ -1,12 +1,13 @@
-import { useState, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useGameData } from '../hooks/useGameData';
 import { NpcCard } from './NpcCard';
 import { NpcDetail } from './NpcDetail';
 import { QuestDetail } from './QuestDetail';
+import { ItemDetail } from './ItemDetail';
 import { Pagination } from './Pagination';
 import { NpcType, getNpcTypeName } from '../types/game';
-import type { GameNpc, GameQuest } from '../types/game';
+import type { GameNpc, GameQuest, GameItem } from '../types/game';
 import './ListPage.css';
 
 type SortOption = 'name' | 'id' | 'hp';
@@ -14,14 +15,16 @@ type SortOption = 'name' | 'id' | 'hp';
 export function NpcListPage() {
     const { database, loading, error } = useGameData();
     const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(() => searchParams.get('search') || '');
     const [sortBy, setSortBy] = useState<SortOption>('name');
     const [selectedTypes, setSelectedTypes] = useState<Set<number>>(new Set());
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(50);
     const [selectedNpc, setSelectedNpc] = useState<GameNpc | null>(null);
     const [selectedQuest, setSelectedQuest] = useState<GameQuest | null>(null);
+    const [selectedItem, setSelectedItem] = useState<GameItem | null>(null);
 
     const allNpcs = useMemo(() => {
         if (!database) return [];
@@ -88,9 +91,20 @@ export function NpcListPage() {
         setCurrentPage(1);
     };
 
+    // Sync search to URL
+    useEffect(() => {
+        if (search) {
+            setSearchParams({ search }, { replace: true });
+        } else {
+            setSearchParams({}, { replace: true });
+        }
+    }, [search, setSearchParams]);
+
     const handleItemClick = (itemId: number) => {
-        // In a full implementation, this would navigate to item detail
-        console.log('Item clicked:', itemId);
+        const item = database?.items.get(itemId);
+        if (item) {
+            setSelectedItem(item);
+        }
     };
 
     const handleQuestClick = (questId: number) => {
@@ -227,6 +241,18 @@ export function NpcListPage() {
                 <QuestDetail
                     quest={selectedQuest}
                     onClose={() => setSelectedQuest(null)}
+                />
+            )}
+
+            {selectedItem && (
+                <ItemDetail
+                    item={selectedItem}
+                    onClose={() => setSelectedItem(null)}
+                    onNpcClick={(npcId) => {
+                        const npc = database?.npcs.get(npcId);
+                        if (npc) setSelectedNpc(npc);
+                    }}
+                    onQuestClick={handleQuestClick}
                 />
             )}
         </div>

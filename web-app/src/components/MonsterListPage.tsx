@@ -1,12 +1,13 @@
-import { useState, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useGameData } from '../hooks/useGameData';
 import { NpcCard } from './NpcCard';
 import { NpcDetail } from './NpcDetail';
 import { QuestDetail } from './QuestDetail';
+import { ItemDetail } from './ItemDetail';
 import { Pagination } from './Pagination';
 import { NpcType } from '../types/game';
-import type { GameNpc, GameQuest } from '../types/game';
+import type { GameNpc, GameQuest, GameItem } from '../types/game';
 import './ListPage.css';
 
 type SortOption = 'name' | 'id' | 'hp' | 'exp';
@@ -14,14 +15,16 @@ type SortOption = 'name' | 'id' | 'hp' | 'exp';
 export function MonsterListPage() {
     const { database, loading, error } = useGameData();
     const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(() => searchParams.get('search') || '');
     const [sortBy, setSortBy] = useState<SortOption>('exp');
     const [bossOnly, setBossOnly] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(50);
     const [selectedNpc, setSelectedNpc] = useState<GameNpc | null>(null);
     const [selectedQuest, setSelectedQuest] = useState<GameQuest | null>(null);
+    const [selectedItem, setSelectedItem] = useState<GameItem | null>(null);
 
     // Filter to only aggressive/passive combat NPCs
     const allMonsters = useMemo(() => {
@@ -80,8 +83,20 @@ export function MonsterListPage() {
     };
 
     const handleItemClick = (itemId: number) => {
-        console.log('Item clicked:', itemId);
+        const item = database?.items.get(itemId);
+        if (item) {
+            setSelectedItem(item);
+        }
     };
+
+    // Sync search to URL
+    useEffect(() => {
+        if (search) {
+            setSearchParams({ search }, { replace: true });
+        } else {
+            setSearchParams({}, { replace: true });
+        }
+    }, [search, setSearchParams]);
 
     const handleQuestClick = (questId: number) => {
         const quest = database?.quests.get(questId);
@@ -209,6 +224,18 @@ export function MonsterListPage() {
                 <QuestDetail
                     quest={selectedQuest}
                     onClose={() => setSelectedQuest(null)}
+                />
+            )}
+
+            {selectedItem && (
+                <ItemDetail
+                    item={selectedItem}
+                    onClose={() => setSelectedItem(null)}
+                    onNpcClick={(npcId) => {
+                        const npc = database?.npcs.get(npcId);
+                        if (npc) setSelectedNpc(npc);
+                    }}
+                    onQuestClick={handleQuestClick}
                 />
             )}
         </div>

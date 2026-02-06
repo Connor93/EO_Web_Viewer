@@ -14,6 +14,8 @@ import { QuestDetail } from './components/QuestDetail';
 import { NpcListPage } from './components/NpcListPage';
 import { MonsterListPage } from './components/MonsterListPage';
 import { QuestListPage } from './components/QuestListPage';
+import { ItemListPage } from './components/ItemListPage';
+import { SpellListPage } from './components/SpellListPage';
 import type { GameItem, GameNpc, GameSpell, GameQuest } from './types/game';
 import './App.css';
 
@@ -123,6 +125,8 @@ function HomePage() {
             <span>{database?.quests.size || 0} Quests</span>
           </div>
           <nav className="header-nav">
+            <Link to="/items" className="nav-link">🎒 Items</Link>
+            <Link to="/spells" className="nav-link">✨ Spells</Link>
             <Link to="/npcs" className="nav-link">👾 NPCs</Link>
             <Link to="/monsters" className="nav-link">⚔️ Monsters</Link>
             <Link to="/quests" className="nav-link">📜 Quests</Link>
@@ -139,10 +143,20 @@ function HomePage() {
         {showWelcome ? (
           <div className="welcome-section">
             <div className="welcome-grid">
+              <Link to="/items" className="welcome-card clickable">
+                <span className="welcome-icon">🎒</span>
+                <h3>Items</h3>
+                <p>Browse all equipment, consumables, and materials</p>
+              </Link>
+              <Link to="/spells" className="welcome-card clickable">
+                <span className="welcome-icon">✨</span>
+                <h3>Spells</h3>
+                <p>Discover healing, damage, and bard spells</p>
+              </Link>
               <Link to="/npcs" className="welcome-card clickable">
                 <span className="welcome-icon">👾</span>
                 <h3>NPCs</h3>
-                <p>Browse all NPCs, shops, and NPCs</p>
+                <p>Browse all NPCs, shops, and vendors</p>
               </Link>
               <Link to="/monsters" className="welcome-card clickable">
                 <span className="welcome-icon">⚔️</span>
@@ -154,11 +168,6 @@ function HomePage() {
                 <h3>Quests</h3>
                 <p>Explore quests, requirements, and rewards</p>
               </Link>
-              <div className="welcome-card">
-                <span className="welcome-icon">🔗</span>
-                <h3>Relationships</h3>
-                <p>See where items drop from and crafting recipes</p>
-              </div>
             </div>
             <p className="welcome-hint">Start typing to search the database...</p>
           </div>
@@ -262,6 +271,8 @@ function AppContent() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/items" element={<ItemListPage />} />
+      <Route path="/spells" element={<SpellListPage />} />
       <Route path="/npcs" element={<NpcListPage />} />
       <Route path="/monsters" element={<MonsterListPage />} />
       <Route path="/quests" element={<QuestListPage />} />
