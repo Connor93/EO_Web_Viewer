@@ -3,14 +3,6 @@ services:
     image: ghcr.io/connor93/eo_web_viewer:latest
     container_name: soe-web-viewer
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.viewer.rule=Host(`viewer.calamity-online.cloud`)"
-      - "traefik.http.routers.viewer.entrypoints=web"
-      - "traefik.http.routers.viewer.tls=true"
-      - "traefik.http.routers.viewer.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.viewer.service=viewer"
-      - "traefik.http.services.viewer.loadbalancer.server.port=80"
     networks:
       - web
 

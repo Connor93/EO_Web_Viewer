@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useGameData } from '../hooks/useGameData';
 import { NpcCard } from './NpcCard';
 import { NpcDetail } from './NpcDetail';
@@ -13,6 +13,7 @@ type SortOption = 'name' | 'id' | 'hp';
 export function NpcListPage() {
     const { database, loading, error } = useGameData();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [search, setSearch] = useState('');
     const [sortBy, setSortBy] = useState<SortOption>('name');
@@ -89,6 +90,13 @@ export function NpcListPage() {
     const handleItemClick = (itemId: number) => {
         // In a full implementation, this would navigate to item detail
         console.log('Item clicked:', itemId);
+    };
+
+    const handleQuestClick = (questId: number) => {
+        const quest = database?.quests.get(questId);
+        if (quest) {
+            navigate(`/quests?search=${encodeURIComponent(quest.name)}`);
+        }
     };
 
     if (loading) {
@@ -210,6 +218,7 @@ export function NpcListPage() {
                     npc={selectedNpc}
                     onClose={() => setSelectedNpc(null)}
                     onItemClick={handleItemClick}
+                    onQuestClick={handleQuestClick}
                 />
             )}
         </div>

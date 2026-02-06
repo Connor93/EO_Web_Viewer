@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useGameData } from '../hooks/useGameData';
 import { NpcCard } from './NpcCard';
 import { NpcDetail } from './NpcDetail';
@@ -13,6 +13,7 @@ type SortOption = 'name' | 'id' | 'hp' | 'exp';
 export function MonsterListPage() {
     const { database, loading, error } = useGameData();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [search, setSearch] = useState('');
     const [sortBy, setSortBy] = useState<SortOption>('exp');
@@ -79,6 +80,13 @@ export function MonsterListPage() {
 
     const handleItemClick = (itemId: number) => {
         console.log('Item clicked:', itemId);
+    };
+
+    const handleQuestClick = (questId: number) => {
+        const quest = database?.quests.get(questId);
+        if (quest) {
+            navigate(`/quests?search=${encodeURIComponent(quest.name)}`);
+        }
     };
 
     if (loading) {
@@ -192,6 +200,7 @@ export function MonsterListPage() {
                     npc={selectedNpc}
                     onClose={() => setSelectedNpc(null)}
                     onItemClick={handleItemClick}
+                    onQuestClick={handleQuestClick}
                 />
             )}
         </div>
