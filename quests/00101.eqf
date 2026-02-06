@@ -1,0 +1,28 @@
+Main // warp
+{
+    questname     "Vulture Island Warp"
+    version          1.0
+    hidden
+}
+
+state Begin
+{
+	action	AddNpcChat (6, "Arrrr nice to see ya again matey!");	
+    action  AddNpcText(6, "Want to head back to Vultur Island?");
+
+	action  AddNpcInput(6, 1, "Let's go");
+    action  AddNpcInput(6, 2, "Later");
+
+    rule    InputNpc(1) goto Warp
+}
+
+state Warp
+{
+    action  SetCoord(228, 13, 53);
+    rule    Always() goto Begin
+}
+
+state Restart
+{
+    action  Reset();
+}

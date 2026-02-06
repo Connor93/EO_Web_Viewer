@@ -1,0 +1,232 @@
+Main
+{
+	QuestName 	"True Mexican"
+	version		1
+}
+State Begin
+{
+	desc		"Speak with Juan"
+
+	action		AddNpcText (159, "Hola Amigo.. My name is Juan. Trippies tio.. or uncle, to you common folk.");
+	action		AddNpcText (159, "He has asked me to come here to give yall a test.. Don't fret cabron, it's just a series of questions..");
+	action		AddNpcText (159, "This is a one time thing perrito, so make sure you think you're ready before you even THINK about trying.");
+	action		AddNpcText (159, "So what do you say? Are you down like James Brown or naaa?");
+
+	action		AddNpcInput (159, 1, "Lets give it a try!");
+	action		AddNpcInput (159, 2, "Naaa..");
+
+	rule		InputNpc (1) goto Juan
+	rule		InputNpc (2) goto Reset
+}
+State Juan
+{
+	desc		"Start the test"
+
+	action		PlaySound (17);
+	action		ShowHint ("Quest reward: ???????");
+
+	action		AddNpcText (159, "So you think you know the ways of a true mexican, eh? Okay.. lets see what you know.");
+	action		AddNpcText (159, "Remember.. this is a ONE TIME test. IF you fail, that's it.");
+
+	action		AddNpcInput (159, 1, "I'm sure, let me try!");
+	action		AddnpcInput (159, 2, "Nevermind, I need some time..");
+
+	rule		InputNpc (1) goto Test1
+	rule		InputNpc (2) goto Reset
+}
+State Test1
+{
+	desc		"Test 1"
+
+	action		AddNpcText (159, "Okay, first question: In which year were the Olympic Games held in Mexico?");
+
+	action		AddNpcInput (159, 1, "1968");
+	action		AddNpcInput (159, 2, "1998");
+	action		AddNpcInput (159, 3, "1987");
+
+	rule		InputNpc (1) goto Test2
+	rule		InputNpc (2) goto Talk3
+	rule		InputNpc (3) goto Talk3
+}
+State Test2
+{
+	desc		"Test 2"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Right! Next question: Which old Mexican civilization rose during the 14th century?");
+
+	action		AddNpcInput (159, 1, "The Zapotec");
+	action		AddNpcInput (159, 2, "The Aztecs");
+	action		AddNpcInput (159, 3, "The Maya Civilization");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Test3
+	rule		InputNpc (3) goto Talk3
+}
+State Test3
+{
+	desc		"Test 3"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Correct! Next question: What is the capital of Mexico?");
+
+	action		AddNpcInput (159, 1, "Mexico City");
+	action		AddNpcInput (159, 2, "Guadalajara");
+	action		AddNpcInput (159, 3, "Ciudad Juarez");
+
+	rule		InputNpc (1) goto Test4
+	rule		InputNpc (2) goto Talk3
+	rule		InputNpc (3) goto Talk3
+}
+State Test4
+{
+	desc		"Test 4"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Correct! Next question: What was Mexico originally known as?");
+
+	action		AddNpcInput (159, 1, "Tortillas");
+	action		AddNpcInput (159, 2, "New Mexico");
+	action		AddNpcInput (159, 3, "New Spain");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Talk3
+	rule		InputNpc (3) goto Test5
+}
+State Test5
+{
+	desc		"Test 5"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Correct! Next question: What Mexican food shares a name with an instrument used to record vehicle speed?");
+
+	action		AddNpcInput (159, 1, "Torta");
+	action		AddNpcInput (159, 2, "Taco");
+	action		AddNpcInput (159, 3, "Tacho");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Test6
+	rule		InputNpc (3) goto Test6
+}
+State Test6
+{
+	desc		"Test 6"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Right! So far so good.. Next question: How many states does Mexico have?");
+
+	action		AddNpcInput (159, 1, "twenty two");
+	action		AddNpcInput (159, 2, "twenty five");
+	action		AddNpcInput (159, 3, "twenty nine");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Talk3
+	rule		InputNpc (3) goto Test7
+}
+State Test7
+{
+	desc		"Test 7"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Correct! What is the main Export of Mexico?");
+
+	action		AddNpcInput (159, 1, "Oil");
+	action		AddNpcInput (159, 2, "Cotton");
+	action		AddNpcInput (159, 3, "Canned Food");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Test8
+	rule		InputNpc (3) goto Talk3
+}
+State Test8
+{
+	desc		"Test 8"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Correct! What breed of dog is named after a Mexican state?");
+
+	action		AddNpcInput (159, 1, "Pit Bull");
+	action		AddNpcInput (159, 2, "Chihuahua");
+	action		AddNpcInput (159, 3, "Hairless Terrier");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Test9
+	rule		InputNpc (3) goto Talk3
+}
+State Test9
+{
+	desc		"Test 9"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Right! Finish this mexican saying: The longer the socks.. the");
+
+	action		AddNpcInput (159, 1, "More I want tacos");
+	action		AddNpcInput (159, 2, "Longer the legs");
+	action		AddNpcInput (159, 3, "Downer the fool");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Talk3
+	rule		InputNpc (3) goto Test10
+}
+State Test10
+{
+	desc		"Test 10"
+	
+	action		PlaySound (18);
+	action		AddNpcText (159, "Correct! Now.. for the last question: Which state does Trippie live in?");
+
+	action		AddNpcInput (159, 1, "Mexico");
+	action		AddNpcInput (159, 2, "New Mexico");
+	action		AddNpcInput (159, 3, "Texas");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Talk2
+	rule		InputNpc (3) goto Talk3
+}
+State Talk2
+{
+	desc		"Speak with Juan"
+
+	action		PlaySound (18);
+	action		AddNpcText (159, "Orale! You know your stuff! You made this tio shed a tear..");
+	action		AddNpcText (159, "Make sure you show off this item I'm about to give you to Trippie.");
+	action		AddNpcText (159, "Also, tell him: Alegre el indio y le das maracas");
+
+	action		AddNpcInput (159, 1, "Will do!");
+
+	rule		InputNpc (1) goto Reward
+}
+State Talk3
+{
+	desc		"Speak with Juan"
+
+	action		PlaySound (6);
+	action		AddNpcText (159, "I'm sorry friend, but you are wrong. I can only give these to people with the correct answers. Nos vemos, amigo.");
+
+	rule		TalkedToNpc (159) goto End
+}
+
+State Reward
+{
+	action		ShowHint ("[Quest Complete] You received a Sombrero and 6900 EXP!");
+	action		GiveItem(2140, 1);
+	action		GiveExp(6900);
+	action		PlaySound(97);
+	action		End();
+}
+State Reset
+{
+	action		PlaySound (6)
+	action		AddNpcText (159, "Come back when you're ready..");
+	action		Reset();
+}
+State End
+{
+	action		End();
+}
+
+
+
+
+
+

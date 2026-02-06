@@ -1,0 +1,78 @@
+Main
+{
+	questname 	"Cave Research"
+	version		1
+}
+
+state Begin
+{
+	desc		"Collect bat wings"
+
+	action		AddNpcText (27, "I was sent here to do bat research, but im too scared to go in that dark cave. Rumors are that these bats inside are quite fast and tough!" );
+	action		AddNpcText (27, "Cyndi, the shop owner in village, is crafting swords in exchange for certain items dropped by snakes." );
+
+	rule 		TalkedToNpc (27) goto Begin2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+
+state Begin2
+{
+	desc		"Collect 5 bat wings"
+
+	action		ShowHint ("Quest reward: 1500 EXP, 100 gold");
+
+	action		AddNpcText (27, "You look really brave. Could you collect 5 bat wings for me?" );
+
+	action		AddNpcInput (27, 1, "I can try!");
+	action		AddNpcInput (27, 2, "Im too afraid..");
+
+	rule 		InputNpc (1) goto CollectBatWings
+	rule		InputNpc (2) goto Reset
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state CollectBatWings
+{
+	desc		"Collect 5 Bat Wings!"
+	
+	action		ShowHint ("Collect 5 Bat Wings and return to Researcher!");
+	action		PlaySound (17);
+
+	rule 		GotItems (704,5) goto Talk2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state Talk2
+{
+	desc		"Talk to the cave researcher."
+
+	action		ShowHint ("You succesfully collected 5 bat wings! Return to Cave Researcher!")
+	action		PlaySound (18);
+
+	action		AddNpcText (27, "Thank you so much, now I can get back to my studies. Here is your reward." );
+
+	rule 		TalkedToNpc (27) goto GetReward
+	rule		LostItems (704,5) goto Begin2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+
+}
+
+state GetReward
+{
+	action		ShowHint ("[Quest Complete] You gained 1500 EXP and 100 gold!");
+	action		PlaySound (97);
+
+	action		RemoveItem (704,5)
+	action		GiveExp (1500)
+	action		GiveItem (1,100)
+	action		End();
+}
+
+state Reset
+{
+	action		ShowHint ("Cave research cave aborted..")
+	action		PlaySound (6);
+	action		Reset()
+}	

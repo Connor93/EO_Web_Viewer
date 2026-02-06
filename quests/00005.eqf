@@ -1,0 +1,520 @@
+Main
+{
+	questname 	"Pirate Quest"
+	version		4
+}
+
+state Begin
+{
+	desc		"Speak to the Old Pirate"
+
+	action		ShowHint("Quest reward: 18200 or 22200 EXP!");
+	action		AddNpcChat(5, "Arrrrr..");
+	action		AddNpcText(5, "Arrr, And whome might ya be, got something to drink?");
+
+	action		AddNpcInput(5, 1, "No, I dont drink");
+	action		AddNpcInput(5, 2, "Sure, lets drink");
+
+	rule 		InputNpc(1) goto Reset
+	rule 		InputNpc(2) goto GetSoda1
+}
+
+state GetSoda1
+{
+	desc		"Collect 1 Big Fairy Soda"
+
+	action		ShowHint("Find 1 Big Fairy Soda");
+	action		PlaySound(18);
+
+	action		AddNpcText(5, "Arrr matey! I am really in need of a drink, bring me some Big Fairy Soda will you?");
+	action		AddNpcChat(5, "Yarrr, bring me more Soda!");
+
+	rule 		GotItems(211, 1) goto Begin1
+}
+
+state Begin1
+{
+	desc		"Speak to the Old Pirate"
+
+	action		ShowHint("You have collected 1 Big Fairy Soda. Return to the Old Pirate");
+	action		PlaySound(18);
+
+	action		AddNpcText(5, "Arrrrr! Dun make me laugh at ya, I need more Big Fairy Soda! Bring me 20!");
+
+	rule		TalkedToNpc(5) goto GetSoda2
+}
+
+state GetSoda2
+{
+	desc		"Collect 20 Big Fairy Soda"
+
+	action		ShowHint("Collect 20 Big Fairy Soda");
+	action		PlaySound(18);
+
+	action		AddNpcChat(5, "Arrrr, is that all?");
+	action		AddNpcText(5, "Arrrrr! Bring me at least 20 Big Fairy Soda!");
+
+	rule 		GotItems(211, 20) goto Begin2
+}
+
+state Begin2
+{
+	desc		"Speak to the Old Pirate"
+
+	action		ShowHint("You've collected 20 Big Fairy Soda, return to Old Pirate!");
+	action		PlaySound(18);
+
+	action		AddNpcText(5, "Arrrrr! Gimme all your Big Fairy Soda and yuw will be my friend!");
+
+	action		AddNpcInput(5, 1, "Sure, have a drink on me.");
+	action		AddNpcInput(5, 2, "Never, find it yourself.");
+
+	rule 		InputNpc(1) goto GetMap
+	rule		InputNpc(2) goto Reset
+	rule 		LostItems(211, 20) goto GetSoda2
+}
+
+state GetMap
+{ 
+	desc		"Talk to the Old Pirate"
+
+	action		RemoveItem(211, 21);
+	action		ShowHint("You have given 20 Big Fairy Soda to the Old Pirate");
+
+	action		AddNpcText(5, "Arrr.. *hick* my h*eeajddd *hic* hhhhuwrtssss ssso muwwwwch, mmaybe I *hic* shoouwwwwld stop drinkkking sowwww muwchh *hic* fajiuwwrryyyyys")
+	action		AddNpcText(5, "Hejrrejjj t*jkej *hic* thhis old *hic* papejr,, iuw duwn *hic* neeejd this anywaysss..")
+
+	rule		TalkedToNpc(5) goto GiveMap
+}
+
+state GiveMap
+{
+	action		GiveItem(412);
+	action		ShowHint("You've obtained an Old Treasure Map! You should find the Pirate Captain and show him!");
+	action		PlaySound(18);
+	rule		Always() goto SpeakToCaptain
+}
+
+state SpeakToCaptain
+{
+
+	desc		"Speak to the Pirate Captain" 
+
+	action		AddNpcChat(5, "Hejrrejjj t*jkej *hic* thhis old *hic* papejr,, iuw duwn *hic* neeejd this anywaysss..");
+
+	action		AddNpcText(6, "How dare you enter tha boat of Captain Tobias the Cruel!?");
+	action		AddNpcInput(6, 1, "My apologies, I will leave");
+	action		AddNpcInput(6, 2, "The Cruel?.. ha ha ha");
+	action		AddNpcInput(6, 3, "I got this old map..");
+
+	rule		InputNpc(1) goto DontGo
+	rule		InputNpc(2) goto KickFromBoat
+	rule 		InputNpc(3) goto TalkMap
+}
+
+state KickFromBoat
+{
+	desc		"Try again"
+
+	action 		ShowHint("Don't make a mockery of the Captain!");
+	action		PlaySound(17);
+
+	action		AddNpcChat(6, "Arrrrgh.. this is no laughing matter!");
+	action		SetMap(16, 45, 14);
+
+	action		AddNpcText(6, "Argh.. Don't laugh in my face! Show some respect!.. As I was sayin..");
+	rule		TalkedToNpc(6) goto SpeakToCaptain
+}
+
+state DontGo
+{
+	desc		"Speak with Pirate Captain"
+
+	action		AddNpcChat(6, "Argggh.. you dont need to go no where..");
+	action		AddNpcText(6, "Don't be silly.. no ones forcin ya to leave.");
+
+	rule		TalkedToNpc(6) goto SpeakToCaptain
+}
+
+state TalkMap
+{
+	desc		"Speak with Pirate Captain" 
+
+	action		AddNpcText(6, "Arrr.. Let me see that map. Looks intresting, how did you get this old treasure map?")
+
+	action		AddNpcInput(6, 1, "I stole it from the king!");
+	action		AddNpcInput(6, 2, "That drunk pirate gave it.");
+
+	rule 		InputNpc(1) goto TalkMore
+	rule 		InputNpc(2) goto GoReset
+}
+
+state GoReset
+{
+	action		RemoveItem(412);
+	action		AddNpcChat(6, "Arrrr.. Give me that map! Get out of here!");
+
+	action		ShowHint("[Quest Failed] The captain grabbed your map and walked away");
+	action		PlaySound(17);
+	action		Reset();
+}
+
+state TalkMore
+{
+	desc		"Speak with Pirate Captain" 
+
+	action		ShowHint("[CAUTION: This is a group quest that require 4 or more players to complete, heavy battle]");
+	action		PlaySound(18);
+
+	action		AddNpcText(6, "Ha har harr! I wish I could see the face of that incapable foolish king. Now gimme that map, and get onboard!");
+	action		AddNpcInput(6, 1, "Aye! Let's go");
+	action		AddNpcInput(6, 2, "Hold on");
+
+	rule 		InputNpc(1) goto Sail
+
+}
+
+state Sail
+{
+	desc		"The captain wants to speak you" 
+
+	action		SetMap(224, 27, 26); // goto boat map
+
+	action		AddNpcText(7, "Arrr there you are, I fearr we got followed by an imperial warship! Are you ready for battle?");
+	action		AddNpcInput(7, 1, "Aye aye captain!");
+	action		AddNpcInput(7, 2, "We need to run!");
+
+	action		AddNpcText(6, "Ahh there you are, I couldnt find that bloody treasure, lets forget about it.")
+	rule		TalkedToNpc(6) goto GoReset
+
+	rule 		InputNpc(1) goto WarpBattle
+	rule		InputNpc(2) goto WarpReset
+}
+
+state WarpBattle
+{
+	action		SetMap(225, 15, 25); // goto war boat
+	action		Quake(1);
+	rule		Always() goto KillGuards
+}
+
+state KillGuards
+{
+	desc		"Kill 50 Imperial Sea Guards"
+
+	action		ShowHint("The ship has been invaded! Kill 50 soldiers to survive!");
+	action		PlaySound(18);
+
+	action		AddNpcText(7, "Arrrr my boaatt!!! Remove those guards from my boaaatttt!");
+	action		AddNpcChat(7, "Arrrr my boaatt!!! Remove those guards from my boaaatttt!");
+
+	action		AddNpcText(6, "Ahh there you are, I couldnt find that bloody treasure, lets forget about it.")
+	rule		TalkedToNpc(6) goto GoReset
+
+	rule 		KilledNpcs(178, 50) goto Survived
+
+}
+
+state Survived
+{
+	desc		"Speak with Pirate Captain" 
+
+	action		ShowHint("You've successfully killed 50 Imperial Sea Guards! Speak with Pirate Captain");
+	action		PlaySound(18);
+
+	action		AddNpcChat(7, "Arrrr, lets get out of here!");
+	action		AddNpcText(7, "Arrr, That was close! Vulture island is close now lets try to get rid of those Imperial Soldiers..");
+	action		AddNpcText(7, "Lets get out of here, quickly come onboard my boat.");
+
+	action		AddNpcText(6, "Ahh there you are, I couldnt find that bloody treasure, lets forget about it.");
+
+	rule		TalkedToNpc(7) goto Island_Entry
+	rule		TalkedToNpc(6) goto GoReset
+}
+
+state Island_Entry
+{
+	action		SetMap(228, 13, 53);
+	action		ShowHint("You arived at Vulture island. Explore the Pyramid and see what you can find!");
+	action		PlaySound(18);
+	rule		Always() goto LocatePyramid
+}
+
+state LocatePyramid
+{
+	desc		"Locate the Pyramid"
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, I forgot something..");
+
+	rule 		InputNpc(1) goto Island_Entry
+	rule		EnterMap(229) goto Escape
+}
+
+state Escape
+{
+	desc		"Locate the Archeologist"
+
+	action		ShowHint("You have located the Pyramid, speak to the Archeologist to learn more about the treasure.");
+	action		PlaySound(18);
+
+	action		AddNpcText(8, "AArgghh im going to die!!! Ohh.. *cough* who are you anyway?");
+	action		AddNpcText(8, "Let me introduce myself, Im doctor Gerstanisk, about twenty moons ago, me and 3 other scientists left to explore the tombes.");
+	action		AddNpcText(8, "We found this opening in the wall, everything looked safe and the other scientists went through the hole.");
+	action		AddNpcText(8, "All of a sudden a giant wurm appeared.. It was horrible i could barely escape, and now im trapped here inside this tomb.");
+	action		AddNpcText(8, "I lost my mapbook in a huge room with the giant wurm in it, there must be some other way to there.. Could you please get my map?");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, I forgot something..");
+
+	rule 		TalkedToNpc(8) goto FindMap
+	rule 		InputNpc(1) goto Island_Entry
+}
+
+state FindMap
+{
+	desc		"Find the Archeologist's book"
+
+	action		AddNpcText(8, "Please find my mapbook, I lost my map in a huge room with the giant wurm in it!");
+	action		AddNpcChat(8, "Please find my mapbook, I lost my map in a huge room with the giant wurm in it!");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, I forgot something..");
+
+	rule 		InputNpc(1) goto Island_Entry
+	rule		EnterCoord(229, 3, 35) goto GotMap
+}
+
+state GotMap_Entry
+{
+	action		SetMap(228, 13, 53);
+	rule		Always() goto GotMap
+}
+
+state GotMap
+{
+	desc		"Speak to the Archeologist"
+
+	action		ShowHint("You found docter Gerstanisk's mapbook! Return to Archeologist Gerstanisk.");
+	action		PlaySound(18);
+
+	action		AddNpcText(8, "My book!! Thank you now i can finally think of a way out..");
+	action		AddNpcText(8, "I discovered some incryptions that are rather intresting, I'll stay a little longer to investigate it..");
+	action		AddNpcInput(8, 1, "I got this old map..");
+	action		AddNpcInput(8, 2, "Ok doc, take care");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 3, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 4, "Hold on, i forgot something..");
+
+	rule 		InputNpc(3) goto GotMap_Entry
+	rule 		InputNpc(1) goto ShowMap
+}
+
+state ShowMap_Entry
+{
+	action		SetMap(228,13,53)
+	rule		Always() goto ShowMap
+}
+
+state ShowMap
+{
+	desc		"Talk to the Archeologist"
+	action		RemoveItem(412);
+	action		ShowHint("You gave the map to the Archeologist");
+
+	action		AddNpcText(8, "Hmm intresting map.. Its some old ancient language, please let me have a closer look..");
+	action		AddNpcText(8, "Dentos ihrum.. megros.. This doesnt make much sense, I think the words look similar to these words in front of a sacred altar.. But I could be wrong.");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, i forgot something..");
+
+	rule 		TalkedToNpc(8) goto FindAltar
+	rule 		InputNpc(1) goto ShowMap_Entry
+}
+
+state FindAltar_Entry 
+{
+	action		SetMap(228,13, 53);
+	rule		Always() goto FindAltar
+}
+
+state FindAltar
+{
+	desc		"Find the Sacred Altar"
+
+	action		ShowHint("Locate the Sacred Alter within the Pyramid");
+	action		PlaySound(18);
+
+	action		AddNpcText(8, "I think the words look similar to these words in front of a sacred altar.. But I could be wrong.");
+	action		AddNpcChat(8, "Check the Sacred Alter, the words might match");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, i forgot something..");
+
+	rule		EnterCoord(229,157, 84) goto TalkAboutQuake
+	rule 		InputNpc(1) goto FindAltar_Entry
+}
+
+state TalkAboutQuake_Entry
+{
+	action		SetMap(228,13, 53)
+	rule		Always() goto TalkAboutQuake
+}
+
+state TalkAboutQuake
+{
+	desc		"Talk to the Archeologist"
+
+	action		ShowHint("You've found the Sacred Alter! Let the Archeologist know!");
+	action		PlaySound(18);
+	action		Quake(5);
+
+	action		AddNpcText(8, "Whaaa what .. what was that earthquake?!!");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, i forgot something..");
+
+	rule 		TalkedToNpc(8) goto SecondTombes
+	rule 		InputNpc(1) goto TalkAboutQuake_Entry
+}
+
+state SecondTombes_Entry
+{
+	action		SetMap(228,13, 53)
+	rule		Always() goto SecondTombes
+}
+
+
+state SecondTombes
+{
+	desc		"Find entrance of Second Tombes"
+
+	action		ShowHint("The Archeologist has tasked you with finding the second Pyramid.");
+	action		PlaySound(18);
+
+	action		AddNpcChat(8, "See if you can find the second Pyramid.");
+	action		AddNpcText(8, "Ah you have unlocked the altar? hmm that might explain why the entrance of the second pyramid has been cleared.. See if you can find the second Pyramid.");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, i forgot something..");
+
+	rule		EnterCoord(228, 31, 14) goto InsideSecondTombes
+	rule		EnterCoord(228, 32, 14) goto InsideSecondTombes
+
+	rule 		InputNpc(1) goto SecondTombes_Entry
+}
+
+state InsideSecondTombes
+{
+	desc		"Research the Second Tombes"
+
+	action		SetMap(230, 32, 60);
+	action		ShowHint("You found the entrace to the Second Tombes!");
+
+	action		AddNpcText(7, "Aye matey just get onboard if you want to go back to the mainlands");
+
+	action		AddNpcText(6, "Arrr, You want to go on treasure hunting again?");
+	action		AddNpcInput(6, 1, "Yes, lets find the treasure");
+	action		AddNpcInput(6, 2, "Hold on, i forgot something..");
+
+	rule		EnterCoord(228, 31, 14) goto InsideSecondTombes
+	rule		EnterCoord(228, 32, 14) goto InsideSecondTombes
+	rule		EnterCoord(231, 9, 13) goto ObtainCrown
+	rule		EnterCoord(231, 9, 15) goto ObtainCrown
+	rule 		InputNpc(1) goto SecondTombes_Entry
+}
+
+state ObtainCrown
+{
+	desc		"Trade the Aztec Crown"
+
+	action		GiveItem(418);
+
+	action		ShowHint("You found the Aztec Crown!! Return to the Archeologist or Leave the Island");
+	action		PlaySound(18);
+
+	action		AddNpcText(6, "Ahh you found the treasure, ill give ya 2600 gold for it. Whad da ya think?");
+	action		AddNpcInput(6, 1, "Ok, its a deal!");
+	action		AddNpcInput(6, 2, "No, im not interested.");
+
+	action		AddNpcText(8, "You found the aztec crown!! We been looking for that crown for many years, would you like to contribute it us and help science?");
+	action		AddNpcInput(8, 3, "Ok, ill give you the crown");
+	action		AddNpcInput(8, 4, "No, im not interested.");
+
+	rule 		InputNpc(1) goto Reward1
+	rule 		InputNpc(3) goto Reward2
+	rule 		LostItems(418) goto Reset
+}
+
+state Reward1
+{
+	action		RemoveItem(418);
+
+	action      StartQuest(101, "begin");
+	action		GiveItem(1,2600);
+	action		GiveExp(18200);
+	action		RemoveKarma(100);
+
+	action		ShowHint("You have given the Aztec Crown to the Pirate Captain.");
+	action		ShowHint("[Quest Complete] You gained 18200 EXP and 2200 gold!");
+	action		PlaySound(97);
+
+	action  	End();
+}
+
+state Reward2
+{
+	action		RemoveItem(418);
+
+    action      StartQuest(101, "begin");
+	action		GiveExp(22200);
+	action		GiveKarma(100);
+
+	action		ShowHint("You have given the Aztec Crown to the Archeologist.");
+	action		ShowHint("[Quest Complete] You gained 22200 EXP!");
+	action		PlaySound(97);
+
+	action  	End();
+}
+
+state Reset
+{
+	action		ShowHint("[Quest Failed] You lost the Aztec Crown, all is lost!!");
+	action		PlaySound(17);
+	action		AddNpcChat(6, "Argh.. get off me boat!");
+	action		Reset();
+}
+
+state WarpReset
+{
+	action		SetCoord(16,27,54);
+	action		ShowHint("[Quest Failed] You gave up too early.");
+	action		PlaySound(17);
+
+	action		AddNpcChat(6, "Argh.. get off me boat!");
+	action		Reset();
+}

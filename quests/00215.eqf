@@ -1,0 +1,131 @@
+Main
+{
+	questname	"Blocto Clean Up (rep)"
+	version		1
+}
+state Begin
+{
+	desc		"Speak with Hula Guy"
+
+	action		AddNpcText (215, "These poor baby turtles.. they're born, and then expected to fend for themselves until they make it to the water..");
+	action		AddNpcText (215, "These Blocto like to bully them.. Kinda mean, if you really think about it.");
+	action		AddNpcText (215, "Say.. you mind helping me get rid of some? These baby turtles need our help..");
+
+	action		AddNpcInput (215, 1, "I can help you");
+	action		AddNpcInput (215, 2, "I'm busy atm");
+
+	rule		InputNpc (1) goto Task1
+	rule		InputNpc (2) goto Reset
+}
+state Task1
+{
+	desc		"Get rid of 20 Blocto"
+
+	action		ShowHint ("Kill 20 Blocto and go back to Hula Guy!");
+	action		PlaySound (17);
+
+	rule		KilledNpcs (172,20) goto Talk2
+}
+state Talk2
+{
+	desc		"Speak with Hula Guy"
+
+	action		ShowHint ("You've killed 20 Blocto, return to Hula Guy!");
+	action		PlaySound (18);
+
+	action		AddNpcText (215, "That was quick! Although you got rid of quite a few, im afraid more and more will come and bother these poor baby turtles.");
+	action		AddNpcText (215, "Come see me anytime you want to help with this. Here's something for your time.");
+	
+	action		AddNpcInput (215, 1, "Okay!");
+
+	rule		InputNpc (1) goto Roll1
+}
+state Roll1
+{
+	action		Roll(20);
+
+	rule		Rolled (1) goto Reward1
+	rule		Rolled (2) goto Reward1
+	rule		Rolled (3) goto Reward1
+	rule		Rolled (4) goto Reward1
+	rule		Rolled (5) goto Reward1
+	rule		Rolled (6) goto Reward1
+	rule		Rolled (7) goto Reward1
+	rule		Rolled (8) goto Reward1
+	rule		Rolled (9) goto Reward1
+	rule		Rolled (10) goto Reward1
+	rule		Rolled (11) goto Reward1
+	rule		Rolled (12) goto Reward1
+	rule		Rolled (13) goto Roll_Harder
+	rule		Rolled (14) goto Reward1
+	rule		Rolled (15) goto Reward1
+	rule		Rolled (16) goto Reward1
+	rule		Rolled (17) goto Reward1
+	rule		Rolled (18) goto Reward1
+	rule		Rolled (19) goto Reward1
+	rule		Rolled (20) goto Reward1
+
+}
+state Roll_Harder
+{
+	action		Roll(20);
+
+	rule		Rolled (1) goto Reward1
+	rule		Rolled (2) goto Reward1
+	rule		Rolled (3) goto Reward1
+	rule		Rolled (4) goto Reward1
+	rule		Rolled (5) goto Reward1
+	rule		Rolled (6) goto Reward1
+	rule		Rolled (7) goto Reward2
+	rule		Rolled (8) goto Reward1
+	rule		Rolled (9) goto Reward1
+	rule		Rolled (10) goto Reward1
+	rule		Rolled (11) goto Reward1
+	rule		Rolled (12) goto Reward1
+	rule		Rolled (13) goto Reward1
+	rule		Rolled (14) goto Reward1
+	rule		Rolled (15) goto Reward1
+	rule		Rolled (16) goto Reward1
+	rule		Rolled (17) goto Reward2
+	rule		Rolled (18) goto Reward1
+	rule		Rolled (19) goto Reward1
+	rule		Rolled (20) goto Reward1
+
+}
+state Reward1
+{
+	action		ShowHint ("You gained 550 EXP! (rep)");
+	action		PlaySound (96);
+	action		GiveExp (550)
+	action		Reset();
+}
+state Reward2
+{	
+	rule		IsGender (1) goto Reward3
+	rule		IsGender (0) goto Reward4
+}
+state Reward3
+{
+	action		ShowHint ("You gained 550 EXP, Hula Shorts and a Blocto Hat!");
+	action		PlaySound (96);
+	action		GiveExp (550);
+	action		GiveItem (332);
+	action		GiveItem (605);
+	action		Reset();
+}
+state Reward4
+{
+	action		ShowHint ("You gained 550 EXP, Hula Skirt and a Blocto Hat!");
+	action		PlaySound (96);
+	action		GiveExp (550);
+	action		GiveItem (333);
+	action		GiveItem (605);
+	action		Reset();
+}
+state Reset
+{
+	action		Reset();
+}
+	
+
+	

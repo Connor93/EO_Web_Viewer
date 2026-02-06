@@ -1,0 +1,118 @@
+Main
+{
+	questname	"Weed Killer"
+	version		1
+    // NPC ID 423
+}
+
+state Begin
+{
+    desc    "Talk to Fenn"
+
+    action  AddNpcText(203, "These damn vines are killing the plants! They're even worse than the Kali Weed we dealt with last year!");
+    action  AddNpcText(203, "Tell you what, if you can help me cull their number I would be greatful. What do you say?");
+    action  AddNpcText(203, "[Quest Reward: 6,500exp");
+
+    action  AddNpcInput(203, 1, "Accept Quest");
+    action  AddNpcInput(203, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto QuestStart
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state Reward
+{
+    action  GiveExp(6500);
+    action  ShowHint("[Quest Complete] You have received 6,500exp!");
+    action  PlaySound(97);
+    action  Reset();
+}
+
+state QuestStart
+{
+    desc    "Kill 25 Vines"
+
+    action  AddNpcText(203, "Oh thank you for the help! These fuckers are everywhere..");
+
+    rule    KilledNpcs(402,25) goto VinesKilled
+}
+
+state VinesKilled
+{
+    desc    "Talk to Fenn"
+
+    rule    GotItems(804,10) goto SkipGaslight
+
+    action  ShowHint("You have killed 25 vines, return to Fenn");
+    action  PlaySound(37);
+
+    action  AddNpcText(203, "You're back, were you able to collect those 10 Plant Fibers?");
+    action  AddNpcInput(203,1, "Collect?");
+
+    rule    InputNpc(1) goto GaslightPlayer
+}
+
+state GaslightPlayer
+{
+    desc    "Collect 10 Plant Fiber's"
+
+    action  AddNpcText(203, "I told you to collect 10 Plant Fiber's.. I think I would remember what I said..");
+    action  AddNpcText(203, "Well what are you waiting for? Those plant fiber's wont collect themselves.");
+
+    rule    GotItems(804,10) goto GotFibers
+}
+
+state SkipGaslight
+{
+    desc    "Talk to Fenn"
+
+    action  ShowHint("You have killed 25 vines, return to Fenn");
+    action  PlaySound(37);
+
+    action  AddNpcText(203, "You're back, were you able to collect those 10 Plant Fibers?");
+    action  AddNpcInput(203,1, "Yep, here you go");
+
+    rule    InputNpc(1) goto CheckFibers
+}
+
+state GotFibers
+{
+    desc    "Talk to Fenn"
+
+    action  ShowHint("You have collected 10 plant fiber's, return to Fenn");
+    action  PlaySound(37);
+
+    action  AddNpcText(203, "You're back, were you able to collect those 10 Plant Fibers?");
+    action  AddNpcInput(203,1, "Yep, here you go");
+
+    rule    InputNpc(1) goto CheckFibers
+}
+
+state CheckFibers
+{
+    desc    "Talk to Fenn"
+
+    rule    GotItems(804,10) goto RemoveFiber
+
+    action  AddNpcText(203, "I thought you said you had collected those 10 plant fibers?");
+    action  AddNpcInput(203, 1, "I'll get them");
+    rule    InputNpc(1) goto GaslightPlayer
+}
+
+state RemoveFiber
+{
+    desc    "Talk to Fenn"
+
+    action  RemoveItem(804,10);
+
+    action  AddNpcText(203, "Ah perfect.. if you ever want more work there are some weeds that need killing..");
+    action  AddNpcInput(203, 1, "Collect Reward");
+
+    rule    InputNpc(1) goto Reward
+}

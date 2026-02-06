@@ -1,0 +1,63 @@
+Main
+{
+	questname 	"Onto new Adventures!"
+	version		1
+}
+state Begin
+{
+	desc		"Speak with Boatman"
+
+	rule		StatGreater("level", 4) goto CanLeave
+
+	action		AddNpcText(57, "Wow there, you're not yet high enough level to leave.");
+	action		AddNpcText(57, "Come back once you reach level 5.");
+	rule		TalkedToNpc(57) goto NotLevel5
+}
+
+state CanLeave
+{
+	desc		"Speak with Boatman"
+
+	action		AddNpcChat(57, "Oloha Kāua!");
+	action		AddNpcText(57, "Are you ready to leave the Island?");
+
+	action		AddNpcInput (57, 1, "I'm ready!");
+	action		AddNpcInput (57, 2, "I forgot to turn in quests..");
+
+	rule		InputNpc (1) goto Talk2
+	rule		InputNpc (2) goto Restart
+}
+
+state Talk2
+{
+	desc		"Speak with Boatman"
+
+	action		AddNpcText (57, "Are you sure you're ready to board and get off this island? If you leave, you cannot return to this area.");
+	action		AddNpcText (57, "Who knows.. completing all the quests here could be rewarding.. eventually..");
+
+	action		AddNpcInput (57, 1, "Yes, get me out of here!");
+	action		AddNpcInput (57, 2, "Maybe ill stay a bit longer..");
+
+	rule		InputNpc (1) goto Ending
+	rule		InputNpc (2) goto Restart
+}
+
+state Ending
+{
+	action		ShowHint ("[Quest Complete] Welcome to Endless Memories! We hope you enjoy your time here!");
+	action		StartQuest (105, "begin");
+	action		SetCoord (1,9,21);
+	action		SetHome("main");
+	action		End();
+}
+state Restart
+{
+	action		Reset();
+}
+state NotLevel5
+{
+	action		ShowHint ("You will be able to leave the island once you reach level 5");
+	action		PlaySound(95);
+	action		Reset();
+}
+

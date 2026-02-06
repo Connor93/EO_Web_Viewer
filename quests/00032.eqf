@@ -1,0 +1,77 @@
+Main
+{
+	questname 	"Lost Piggy"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to little Eddy"
+
+	action		AddNpcText (32, "I lost my glasses while I was visiting my aunty Cyndi in the village. Can you help me get them back?!" );
+
+	rule 		TalkedToNpc (32) goto Begin2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+
+state Begin2
+{
+	desc		"Collect little piggy"
+
+	action		ShowHint("Quest reward: 400 EXP")
+
+	action		AddNpcText (32, "I think I dropped them near the piglets. Do you think you can find them? I wonder if one ate them.." );
+
+	action		AddNpcInput (32 , 1 , "I'll see if I can find them!");
+	action		AddNpcInput (32 , 2 , "Sorry, I can't right now");
+
+	rule 		InputNpc (1) goto GetGlasses
+	rule		InputNpc (2) goto Reset
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state GetGlasses
+{
+	desc		"Find Eddies Glasses"
+
+	action		ShowHint ("Return to the village and investigate the piglets!");
+
+	rule 		GotItems (670,1) goto Talk2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state Talk2
+{
+	desc		"Talk to little Eddy"
+
+	action		ShowHint("You found Eddies Glasses! Return to him asap!")
+	action		PlaySound (18);
+
+	action		AddNpcChat (32, "Yeeee!" );
+	action		AddNpcText (32, "You found them! You found my glasses! Thank you so much!" );
+
+	rule 		TalkedToNpc (32) goto GetReward
+	rule		LostItems (670,1) goto Begin2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+
+}
+
+state GetReward
+{
+	action		ShowHint("You gained 400 EXP and 5 health potions!");
+	action		PlaySound(61);
+
+	action		RemoveItem (670 , 1 )
+	action		GiveItem (686,5)
+	action		GiveExp (400)
+	action		End();
+}
+
+state Reset
+{
+	action		ShowHint("Little piggy quest aborted..")
+	action		PlaySound (6);
+	action		Reset()
+}	

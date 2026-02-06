@@ -1,0 +1,27 @@
+Main
+{
+    	questname     	"Aeven Warp"
+    	version         1
+    	hidden
+}
+
+state Begin
+{	
+    action  	AddNpcText(57, "Would you like to go back towards Aeven?");
+
+	action  	AddNpcInput(57, 1, "Let's go");
+    action  	AddNpcInput(57, 2, "Later");
+
+     rule    	InputNpc (1) goto Warp
+}
+
+state Warp
+{
+	action		SetCoord (1,9,21);
+    rule    	Always() goto Begin
+}
+
+state Restart
+{
+    action  Reset();
+}

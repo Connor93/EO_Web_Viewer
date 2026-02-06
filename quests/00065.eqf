@@ -1,0 +1,89 @@
+Main
+{
+	QuestName	"Demon Horns"
+	Version		1
+}
+State Begin
+{
+	desc		"Speak with Gate Keeper"
+	
+	action	AddNpcText(65, "I am the gate keeper.. what brings you to this area? people don't usually go out seeking death..");
+	action	AddNpcText(65, "Well.. I guess that doesn't really matter. Complete a few tasks for me, and ill reward you.. you up for it?");
+
+	action	AddNpcInput (65, 1, "Sure..");
+	action	AddNpcInput (65, 2, "I'm leaving!");
+	
+	rule		InputNpc (1) goto HelpGK
+	rule		InputNpc (2) goto Reset
+
+}
+State HelpGK
+{
+	desc		"Speak with Gate Keeper"
+	
+	action	ShowHint ("Quest reward: ????? and 5500 EXP")
+      action	PlaySound (18);
+		
+	action	AddNpcText(65, "For your first task.. kill 200 Twin Demons for me.");
+
+	action	AddNpcInput (65,1, "Okay!");
+	action	AddNpcInput (65,2, "I want to quit");
+
+	rule		InputNpc (1) goto KillDemons
+	rule 		InputNpc (2) goto Reset
+}
+State KillDemons
+{
+	desc   "Kill 200 Twin Demons"
+
+	action	PlaySound (18);
+	action	ShowHint ("Kill 200 Twin Demons!");
+
+	rule		KilledNpcs(140,200) goto KilledDemons
+}
+State KilledDemons
+{
+	desc		"Speak with Gate Keeper"
+	
+	action		ShowHint ("Return to Gate Keeper")
+	action		PlaySound (18);
+	
+	action		AddNpcText (65, "So, you killed 200 demons already? I am sorry, I don't believe you.. Bring me 100 horns of those demons to prove it.");
+	
+	rule		TalkedToNpc (65) goto CollectHorns
+}
+State CollectHorns
+{
+	desc		"Collect 100 Twin Horns"
+
+	action		PlaySound (18);
+	action		ShowHint ("Collect 100 Twin Horns from Twin Demons");
+	
+	rule		GotItems (402,100) goto TalkGK
+}
+State TalkGK
+{
+	desc		"Speak with Gate Keeper"
+	
+	action		PlaySound (18);
+	action		ShowHint ("Return to Gate Keeper!");
+	
+	action		AddNpcText (65, "Well well.. you've proven me wrong.");
+	
+	rule		TalkedToNpc (65) goto Reward
+}
+State Reward
+{
+	action	GiveExp (5500);
+	action	GiveItem (648,1);
+	action	RemoveItem (402,200);
+	action	PlaySound (97);
+
+
+	action	ShowHint("[Quest Complete] You gained 5500 EXP and Twisted Horns!");
+	action	Reset();
+}
+State Reset
+{
+	action	Reset();
+}

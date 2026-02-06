@@ -1,0 +1,84 @@
+Main
+{
+	questname 	"Claw necklaces (daily)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Speak to Dan"
+
+	action		AddNpcText (44, "Crow claw necklaces are said to have magical powers. Im selling quite a lot of them." );
+
+	rule 		TalkedToNpc (44) goto Begin2
+}
+
+state Begin2
+{
+	desc		"Collect Crow Claws"
+
+	action		ShowHint ("Quest reward: 120 gold and 1320 EXP!")
+	action		PlaySound (17);
+
+	action		AddNpcText (44 , "But, it's hard to get new supplies lately since Jacob has started his cleaning operation.." );
+	action		AddNpcText (44 , "Could you find me 12 crow claws? I will pay you 120 gold and give 1320 experience." );
+
+	action		AddNpcInput (44, 1, "Forget it");
+	action		AddNpcInput (44, 2, "Im working on it!");
+
+	rule		DoneDaily (1) goto EndWithoutReset // once a day ( 1 )
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto GetClaws
+}
+
+state GetClaws
+{
+	desc		"Collect 12 Crow Claws"
+
+	action		PlaySound (18);
+	action		ShowHint ("Collect 12 Crow Claws and return to Dan!");
+
+	rule 		GotItems (248, 12) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Return to Dan"
+
+	action		ShowHint("You've succesfully collected 12 Crow Claws, return to Dan!")
+	action		PlaySound (18);
+
+	action		AddNpcChat (44 , "New supplies!" );
+	action		AddNpcText (44 , "Thanks for bringing me new supplies of crow claws, now I can make new merchandise!");
+
+	rule 		TalkedToNpc (44) goto GetReward
+	rule		LostItems (248, 12) goto Begin2
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 1320 EXP and 120 gold (DAILY)");
+	action		PlaySound (97);
+	action		RemoveItem (248, 12)
+	action		GiveItem (1, 120)
+	action		GiveExp (1320)
+	action		ResetDaily();
+}
+
+state EndWithoutReset
+{
+	desc		"Talk to Dan, Aeven"
+
+	action		ShowHint("You can only complete this quest once a day.");
+	action		AddNpcText (44, "I already have enough supplies! I will let you know once i need more crow claws.." );
+	action		AddNpcText (44, "[ you cannot complete this quest today , please come back tomorrow ]" );
+	rule 		TalkedToNpc (44) goto Reset
+}
+
+state Reset
+{
+	action		ShowHint("Snake Antidote quest aborted..")
+	action		PlaySound (98);
+	action		Reset();
+}	

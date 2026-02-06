@@ -1,0 +1,71 @@
+Main
+{
+	questname	"Bright Night"
+	version		1
+    // NPC ID 421
+}
+
+state Begin
+{
+	desc	"Talk to Ray"
+
+    action  AddNpcText(205, "The glowstone's those firefly's produce make for great lamps! It's a shame not all produce them.");
+    action  AddNpcText(205, "If you manage to get your hands on some, come and see me. I'll reward you well.");
+    action  AddNpcText(205, "[Quest Reward: 7,300 exp & 150g]");
+
+    action  AddNpcInput(205, 1, "Accept Quest");
+    action  AddNpcInput(205, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto AcceptQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state RewardTime
+{
+    action  RemoveItem(806,5);
+    action  GiveExp(7300);
+    action  GiveItem(1,150);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have gained 7,300 exp & 150g!");
+    action  Reset();
+}
+
+state AcceptQuest
+{
+    desc    "Collect 5 Glowstones"
+
+    action  AddNpcText(205, "Good to hear kid, I'll be waiting.");
+    action  AddNpcText(205, "Come and speak with me again once you have 5 Glowstones!");
+
+    rule    GotItems(806,5) goto GotGlowstones
+}
+
+state GotGlowstones
+{
+    desc    "Talk to Ray"
+
+    action  ShowHint("You have collected 5 Glowstones! Return to Ray");
+    action  PlaySound(37);
+
+    action  AddNpcText(205, "You're back, did you get the Glowstones?");
+    action  AddNpcInput(205, 1, "Give Glowstones");
+
+    rule    InputNpc(1) goto CheckGlowstones
+}
+
+state CheckGlowstones
+{
+    desc    "Talk to Ray"
+
+    rule    GotItems(806,5) goto RewardTime
+
+    action  AddNpcText(205, "Oh I thought you had the Glowstones?");
+    action  AddNpcInput(205, 1, "I'll get it.");
+    rule    InputNpc(1) goto AcceptQuest
+}

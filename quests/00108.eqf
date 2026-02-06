@@ -1,0 +1,432 @@
+Main
+{
+	questname	"Citizenship Quest"
+	version		1.0
+	hidden
+}
+
+state Begin
+{
+	desc		"Talk to Inn Assistant"
+
+	action		AddNpcText (108, "Hello.. The Inn Keeper is busy right now, are you looking to register as a citizen of our town?");
+
+	action		AddNpcInput (108, 1, "Yes, become citizen");
+	action		AddNpcInput (108, 2, "No, goodbye..");
+
+	rule		InputNpc (1) goto CitizenExplination
+	rule		InputNpc (2) goto Restart
+}
+
+state Restart
+{
+	action	Reset();
+}
+
+state CitizenExplination
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "Oh good, I can help you with that. Are you ready to take the test now or do you need some time preparing?");
+	action	AddNpcInput(108, 1, "Take the test");
+	action	AddNpcInput(108, 2, "Later");
+
+	rule	InputNpc(1) goto CheckMap
+	rule	InputNpc(2) goto Restart
+}
+
+state	CheckMap
+{
+	rule	EnterMap(70) goto AevenQuestion1
+	rule	EnterMap(68) goto EstaqQuestion1
+	rule	EnterMap(217) goto HalowdaleQuestion1
+	rule	EnterMap(205) goto CentaurQuestion1
+	rule	EnterMap(204) goto AnundoQuestion1
+	rule	EnterMap(330) goto IceMointainQuestion1
+	rule	EnterMap(351) goto TreasureIsleQuestion1
+}
+
+state WrongAnswer
+{
+	action	AddNpcText(108, "I'm sorry but that is the wrong answer. Do you want to try the test again?");
+	action	AddNpcInput(108, 1, "Try again");
+	action	AddNpcInput(108, 2, "Give Up");
+
+	rule	InputNpc(1) goto CheckMap
+	rule	InputNpc(2) goto Restart
+}
+
+
+// Aeven
+state AevenQuestion1
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "How many houses are on the Aeven map?");
+	action	AddNpcInput(108, 1, "18 Houses");
+	action	AddNpcInput(108, 2, "20 Houses");
+	action	AddNpcInput(108, 3, "16 Houses");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto AevenQuestion2
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state AevenQuestion2
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "What is the name of the blue hair guy near Aeven square?");
+	action	AddNpcInput(108, 1, "Candy");
+	action	AddNpcInput(108, 2, "Paul");
+	action	AddNpcInput(108, 3, "Dan");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto AevenQuestion3
+}
+
+state AevenQuestion3
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "How much do flowers cost at the Aeven grocery?");
+	action	AddNpcInput(108, 1, "180");
+	action	AddNpcInput(108, 2, "220");
+	action	AddNpcInput(108, 3, "120");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto AevenCitizenCompleted
+}
+
+state AevenCitizenCompleted
+{
+	desc	"Talk to Inn Assistant"
+
+	action	SetHome("aeven");
+	action	ShowHint("[Congratz!] You have become a citizen of Aeven.");
+	action	PlaySound(97);
+	action	Reset();
+}
+
+
+// Estaq
+state EstaqQuestion1
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "By whom was the Illusion Master named Hitaru cursed?");
+	action	AddNpcInput(108, 1, "Apozen");
+	action	AddNpcInput(108, 2, "Bone Spider");
+	action	AddNpcInput(108, 3, "Reaper");
+
+	rule	InputNpc(1) goto EstaqQuestion2
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state EstaqQuestion2
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "How may axes are ther to be found on the Estaq map?");
+	action	AddNpcInput(108, 1, "5 axes");
+	action	AddNpcInput(108, 2, "7 axes");
+	action	AddNpcInput(108, 3, "6 axes");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto EstaqQuestion3
+}
+
+state EstaqQuestion3
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "Everyone in estaq have walked over it...");
+	action	AddNpcInput(108, 1, "Grass");
+	action	AddNpcInput(108, 2, "Flowers");
+	action	AddNpcInput(108, 3, "Bridge");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto EstaqCitizenCompleted
+}
+
+state EstaqCitizenCompleted
+{
+	desc	"Talk to Inn Assistant"
+
+	action	SetHome("estaq");
+	action	ShowHint("[Congratz!] You have become a citizen of Estaq.");
+	action	PlaySound(97);
+	action	Reset();
+}
+
+
+// Halowdale
+state HalowdaleQuestion1
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "Which unique skill can be learned in Hallowdale?");
+	action	AddNpcInput(108, 1, "Small Fire");
+	action	AddNpcInput(108, 2, "Bard");
+	action	AddNpcInput(108, 3, "Small Thunder");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto HalowdaleQuestion2
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state HalowdaleQuestion2
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "Which famous person picknicked in our town 1 century ago?");
+	action	AddNpcInput(108, 1, "Sirloins");
+	action	AddNpcInput(108, 2, "Sirorkesh");
+	action	AddNpcInput(108, 3, "Sirhalowdi");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto HalowdaleQuestion3
+}
+
+state HalowdaleQuestion3
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "How many gold spawns in the golden chest in Hallowdale?");
+	action	AddNpcInput(108, 1, "26 gold");
+	action	AddNpcInput(108, 2, "48 gold");
+	action	AddNpcInput(108, 3, "34 gold");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto HalowdaleCitizenCompleted
+}
+
+state HalowdaleCitizenCompleted
+{
+	desc	"Talk to Inn Assistant"
+
+	action	SetHome("hallowdale");
+	action	ShowHint("[Congratz!] You have become a citizen of Halowdale.");
+	action	PlaySound(97);
+	action	Reset();
+}
+
+// Centaur
+state CentaurQuestion1
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "Centaurs are half human and half...");
+	action	AddNpcInput(108, 1, "Goat");
+	action	AddNpcInput(108, 2, "Horse");
+	action	AddNpcInput(108, 3, "Undead");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto CentaurQuestion2
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state CentaurQuestion2
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "What weapon does the weapon smith sell that he can't have smith?");
+	action	AddNpcInput(108, 1, "Spoon");
+	action	AddNpcInput(108, 2, "Pen");
+	action	AddNpcInput(108, 3, "Book");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto CentaurQuestion3
+}
+
+state CentaurQuestion3
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "How many candles are lit in the church of Centaur?");
+	action	AddNpcInput(108, 1, "2 candles");
+	action	AddNpcInput(108, 2, "4 candles");
+	action	AddNpcInput(108, 3, "6 candles");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto CentaurCitizenCompleted
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state CentaurCitizenCompleted
+{
+	desc	"Talk to Inn Assistant"
+
+	action	SetHome("centaur");
+	action	ShowHint("[Congratz!] You have become a citizen of Centaur.");
+	action	PlaySound(97);
+	action	Reset();
+}
+
+// Anundo
+state AnundoQuestion1
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "What do pandas eat for dinner?");
+	action	AddNpcInput(108, 1, "Bamboo");
+	action	AddNpcInput(108, 2, "Leaves");
+	action	AddNpcInput(108, 3, "Children");
+
+	rule	InputNpc(1) goto AnundoQuestion2
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state AnundoQuestion2
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "Which famous panda rests in Anundo?");
+	action	AddNpcInput(108, 1, "Pandakapanda");
+	action	AddNpcInput(108, 2, "Pandakopanda");
+	action	AddNpcInput(108, 3, "Pandakepanda");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto AnundoQuestion3
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state AnundoQuestion3
+{
+	desc	"Talk to Inn Assistant"
+
+	action	AddNpcText(108, "What does the word 'idaku' mean?");
+	action	AddNpcInput(108, 1, "Fight");
+	action	AddNpcInput(108, 2, "Hug");
+	action	AddNpcInput(108, 3, "Run");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto AnundoCitizenCompleted
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state AnundoCitizenCompleted
+{
+	desc	"Talk to Inn Assistant"
+
+	action	SetHome("anundo");
+	action	ShowHint("[Congratz!] You have become a citizen of Anundo.");
+	action	PlaySound(97);
+	action	Reset();
+}
+
+
+// Ice Mountain Town
+state IceMointainQuestion1
+{
+	desc	"Talk to Mayor"
+
+	action	AddNpcText(108, "How many houses are in Ice Mountain?");
+	action	AddNpcInput(108, 1, "18 Houses");
+	action	AddNpcInput(108, 2, "6 Houses");
+	action	AddNpcInput(108, 3, "13 Houses");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto IceMointainQuestion2
+}
+
+state IceMointainQuestion2
+{
+	desc	"Talk to Mayor"
+
+	action	AddNpcText(108, "What is the name of Ron's brother?");
+	action	AddNpcInput(108, 1, "Don");
+	action	AddNpcInput(108, 2, "Simon");
+	action	AddNpcInput(108, 3, "Jon");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto IceMointainQuestion3
+}
+
+state IceMointainQuestion3
+{
+	desc	"Talk to Mayor"
+
+	action	AddNpcText(108, "What monster drops Ketova?");
+	action	AddNpcInput(108, 1, "Penguin");
+	action	AddNpcInput(108, 2, "Ice Giant");
+	action	AddNpcInput(108, 3, "Yeti");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto IceMointainCompleted
+}
+
+state IceMointainCompleted
+{
+	desc	"Talk to Mayor"
+
+	action	SetHome("icemountain");
+	action	ShowHint("[Congratz!] You have become a citizen of Ice Mountain.");
+	action	PlaySound(97);
+	action	Reset();
+}
+
+// Treasure Isle
+state TreasureIsleQuestion1
+{
+	desc	"Talk to the Priestess"
+
+	action	AddNpcText(108, "What mob is hard to see in the long grass?");
+	action	AddNpcInput(108, 1, "Angry Vine");
+	action	AddNpcInput(108, 2, "Vine");
+	action	AddNpcInput(108, 3, "Dorp Dorp");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto TreasureIsleQuestion2
+	rule	InputNpc(3) goto WrongAnswer
+}
+
+state TreasureIsleQuestion2
+{
+	desc	"Talk to the Priestess"
+
+	action	AddNpcText(108, "What NPC can be found in the pig farm?");
+	action	AddNpcInput(108, 1, "Don");
+	action	AddNpcInput(108, 2, "Simon");
+	action	AddNpcInput(108, 3, "None");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto TreasureIsleQuestion3
+}
+
+state TreasureIsleQuestion3
+{
+	desc	"Talk to the Priestess"
+
+	action	AddNpcText(108, "How much gold does Dark Hand cost?");
+	action	AddNpcInput(108, 1, "6000g");
+	action	AddNpcInput(108, 2, "7500g");
+	action	AddNpcInput(108, 3, "7000g");
+
+	rule	InputNpc(1) goto WrongAnswer
+	rule	InputNpc(2) goto WrongAnswer
+	rule	InputNpc(3) goto TreasureIsleCompleted
+}
+
+state TreasureIsleCompleted
+{
+	desc	"Talk to the Priestess"
+
+	action	SetHome("treasureisle");
+	action	ShowHint("[Congratz!] You have become a citizen of Treasure Isle.");
+	action	PlaySound(97);
+	action	Reset();
+}

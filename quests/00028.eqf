@@ -1,0 +1,67 @@
+Main
+{
+	questname 	"Piglet Trouble"
+	version		1
+}
+
+state Begin
+{
+	desc		"Kill 10 normal piglets."
+
+	action		ShowHint("Quest reward: 100 EXP, 25 gold")
+
+	action		AddNpcText (28 , "Those piglets are a real plague, could you help me get ride of them?" );
+	action		AddNpcText (28 , "Could you kill 10 normal piglets for me? Press on your [CTRL] key to attack." );
+
+	action		AddNpcInput (28, 1 , "Sure!");
+	action		AddNpcInput (28, 2 , "Sorry, I cant..");
+
+	rule 		InputNpc (1) goto KillPiglet
+	rule		InputNpc (2) goto Reset
+
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state KillPiglet
+{
+	desc		"Kill 10 Piglet!"
+	
+	action		ShowHint ("Kill off 10 Piglet then speak to Adventurer!");
+	action		PlaySound (18);
+
+	rule 		KilledNpcs (390,10) goto Talk2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state Talk2
+{
+	desc		"Talk to the village adventurer."
+
+	action		ShowHint ("You've successfully killed 10 piglets, go to Adventurer!");
+	action		PlaySound (18);
+
+	action		AddNpcChat (28, "Great job!" );
+	action		AddNpcText (28, "Thank you so much thats better, please accept this gold for your great work." );
+
+	rule 		TalkedToNpc (28) goto GetReward
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 100 EXP and 25 gold!");
+	action		PlaySound(97);
+
+	action		GiveExp (100);
+	action		GiveItem (1, 25);
+	action		End();
+}
+
+state Reset
+{
+	action		ShowHint("Piglet trouble quest aborted..");
+	action		PlaySound (17);
+	action		Reset();
+}	

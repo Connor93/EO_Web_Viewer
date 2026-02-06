@@ -1,0 +1,63 @@
+Main
+{
+	questname 	"Penguin Protection (Rep)"
+	version		1
+}
+
+state Begin
+{
+    desc    "Talk to the Penguin Tamer"
+
+    action  AddNpcText(211, "These poor penguins are being slaughtered by the Yeti. Please, you must help me defend them!");
+    action  AddNpcText(211, "We need to thin the Yeti population, kill 30 of them for me and I shall reward you!");
+    action  AddNpcText(211, "[Quest Reward: 1970EXP & 40g]");
+    action  AddNpcInput(211, 1, "Accept Quest");
+    action  AddNpcInput(211, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto StartQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state QuestFailed
+{
+    action  PlaySound(98);
+    action  ShowHint("[Quest Failed] You have killed a penguin, failing to protect them.");
+    action  Reset();
+}
+
+state StartQuest
+{
+    desc    "Kill 30 Yeti"
+
+    action  AddNpcText(211, "Ah a fellow lover of Penguins! Thank you for your help, come and see me once you have slayed 30 Yeti.");
+
+    rule    KilledNpcs(208,30) goto KilledYeti
+    rule    KilledNpcs(13,1) goto QuestFailed
+}
+
+state KilledYeti
+{
+    desc    "Return to the Penguin Tamer"
+
+    action  PlaySound(17);
+    action  ShowHint("You have killed 30 Yeti, return to the Penguin Tamer");
+
+    action  AddNpcText(211, "The penguins thank you for your help, now here's the reward I promised.");
+    action  AddNpcInput(211, 1, "Collect Reward");
+    rule    InputNpc(1) goto Reward
+}
+
+state Reward
+{
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have received 1970exp & 40g.");
+    action  GiveExp(1970);
+    action  GiveItem(1,40);
+    action  Reset();
+}

@@ -1,0 +1,75 @@
+Main
+{
+	questname 	"Crazy puppets! (rep)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to Puppeteer"
+
+	action		AddNpcText( 79 , "Help! you there! Can you help me?" );
+	action		AddNpcText( 79 , "I've lived in this house making puppets all my life but now every puppet I make comes alive!" );
+	action		AddNpcText( 79 , "I think this land is cursed, the house on the other side of the swamp also gives me the creeps..." );
+	action		AddNpcText( 79 , "Can you put an end to these evil puppets?" );
+
+	action		AddNpcInput( 79 , 1 , "I'm busy, sorry");
+	action		AddNpcInput( 79 , 2 , "I will help you");
+
+	rule 		InputNpc( 1 ) goto Reset
+	rule 		InputNpc( 2 ) goto Talk1
+
+}
+
+state Talk1
+{
+	desc		"Talk to Puppeteer"
+	
+	action		ShowHint("Quest reward: 4000 EXP (rep)")
+	action		PlaySound (95);
+	
+	action		AddNpcText( 79 , "Please kill 40 evil puppets for me and I will reward you well!");
+
+	action		AddNpcInput( 79 , 1 , "Sorry, i give up.");
+	action		AddNpcInput( 79 , 2 , "Im working on it!");
+
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto Killpuppet
+}
+
+state Killpuppet
+{
+	desc		"Kill 40 puppets"
+	
+	action		ShowHint ("Find and kill 40 puppets");
+	action		PlaySound (18)
+	
+	rule 		KilledNpcs( 173, 40) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Talk to Puppeteer"
+	
+	action		ShowHint("Go find the Puppeteer!")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 79 , "Oh you did a great job but they keep coming back alive! It feels never ending.." );
+
+	rule 		TalkedToNpc( 79 ) goto GetReward
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 4000 EXP!");
+	action		PlaySound(97);
+	action		GiveExp(4000);
+	action		Reset();
+}
+
+state Reset
+{
+	action		ShowHint("Hopefully someone comes soon..")
+	action		Reset();
+}

@@ -1,0 +1,98 @@
+Main
+{
+	questname 	"Slime Anarky"
+	version		1
+    
+}
+
+state Begin
+{
+    desc    "Talk to Dominick" 
+
+    action  AddNpcText(76, "These damn slimes all worked up! I've heard one of the slimes has evolved into something new..");
+    action  AddNpcText(76, "I need someone to go an investigate, perhaps even kill the blasted thing. What do you say?");
+    action  AddNpcText(76, "Quest Reward: 900exp & 5 Small Health Potions");
+    action  AddNpcInput(76, 1, "Sure, I'll look");
+    action  AddNpcInput(76, 2, "Maybe later");
+
+    rule    InputNpc(1) goto StartQuest
+    rule    InputNpc(2) goto Later
+}
+
+state Later
+{
+    desc    "Talk to Dominick" 
+
+    action  AddNpcText(76, "Ah sure, maybe another time..");
+    rule    TalkedToNpc(76) goto GoReset
+}
+
+state GoReset
+{
+    action  Reset();
+}
+
+state StartQuest
+{
+    desc    "Investigate Slime Area"
+
+    action  AddNpcText(76, "I'll await good news.");
+
+    rule    EnterCoord(197, 58, 12) goto QuestUpdate
+    rule    EnterCoord(197, 60, 14) goto QuestUpdate
+    rule    EnterCoord(197, 61, 15) goto QuestUpdate
+    rule    EnterCoord(197, 62, 16) goto QuestUpdate
+    rule    EnterCoord(197, 67, 17) goto QuestUpdate
+    rule    EnterCoord(197, 68, 18) goto QuestUpdate
+    rule    EnterCoord(197, 69, 19) goto QuestUpdate
+    rule    EnterCoord(197, 70, 20) goto QuestUpdate
+}
+
+state QuestUpdate
+{
+    action  ShowHint("You have come across an Evolved Slime, kill it to calm the slimes in the area.");
+    action  PlaySound(5);
+    rule    Always() goto KillSlime
+}
+
+state KillSlime
+{
+    desc    "Kill the Evolved Slime"
+
+    action  AddNpcText(76, "So an evolved slime has entered the area? Wow that's bad news!");
+    action  AddNpcText(76, "Tell you what, if you can kill the thing I will give you a reward.");
+
+    rule    KilledNpcs(375,1) goto GoBack
+}
+
+state GoBack
+{
+    desc    "Talk to Dominick" 
+
+    action  ShowHint("You have killed the Evolved Slime, go and talk to Dominick.");
+    action  PlaySound(5);
+
+    action  AddNpcText(76, "You're back, how did you go.");
+    action  AddNpcInput(76, 1, "Explain..");
+
+    rule    InputNpc(1) goto CollectReward
+}
+
+state CollectReward
+{
+    desc    "Talk to Dominick"
+
+    action  AddNpcText(76, "Wow, an evolved slime.. well I'm glad you took it out before it became a bigger problem.");
+    action  AddNpcText(76, "Here take this for your troubles.");
+
+    rule    TalkedToNpc(76) goto Reward
+}
+
+state Reward
+{
+    action  GiveExp(900); // 900 EXP Reward
+    action  GiveItem(2,5); // Small health potions
+    action  ShowHint("[Quest Complete] You have received 900exp & 5 Small Health Potions.");
+    action  PlaySound(97);
+    action  End();
+}

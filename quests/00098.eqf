@@ -1,0 +1,76 @@
+Main
+{
+    questname   "Overgrown Vines!"
+    version     1.0
+}
+state Begin
+{
+    desc        "Talk with X"
+
+    action      AddNpcText(98, "Hello adventurer! I need your help.");
+    action      AddNpcText(98, "Vines have completely overrun this area. Can you help me cut them back?");
+
+    action      AddNpcInput(98, 1, "Bush whacking sounds easy!");
+    action      AddNpcInput(98, 2, "I'm not much of a gardener");
+
+    rule        InputNpc(1) goto KillVines;
+    rule        InputNpc(2) goto NoWay;
+
+}
+state KillVines
+{
+	desc		"Kill 30 Vines"
+
+	rule		KilledNpcs(137, 30) goto Talk1
+}
+state Talk1
+{
+	desc		"Talk to X"
+
+    action      PlaySound(18);
+    action      ShowHint("You've successfully killed 30 vines, return to X!")
+
+	action		AddNpcText(98, "Thanks for cutting back the vines, however it looks like the rotveig have taken their place");
+    action		AddNpcText(98, "Can you destroy them as well so the swamp isn't as dangeous of a place?");
+
+    action      AddNpcInput(98, 1, "They don't stand a chance");
+
+    rule        InputNpc(1) goto KillRot
+
+}
+state KillRot
+{
+	desc		"Kill 30 Rotveig"
+
+	rule		KilledNpcs(220, 30) goto Talk2
+}
+state Talk2
+{
+	desc		"Talk to X"
+
+    action      PlaySound(18);
+    action      ShowHint("You've successfully killed 30 Rotveig, return to X!");
+
+	action		AddNpcText(98, "You did it! Thanks so much. Speak to me again if you'd like to keep helping!");
+    action      AddNpcInput(98, 1, "No problem");
+
+    rule        InputNpc(1) goto Reward
+
+}
+state Reward
+{
+    desc		"Reward"
+
+    action		ShowHint ("[Quest Complete] You recieved 7000 exp and 200g");
+    action		PlaySound (97);
+
+    action      GiveExp(7000);
+    action      GiveItem(1, 200); //give gold
+
+    action      Reset();
+}
+state NoWay
+{
+	action		AddNpcText(98, "I guess your talents will be better put to use elsewhere..");
+	action		Reset();
+}

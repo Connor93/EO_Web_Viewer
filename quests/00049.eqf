@@ -1,0 +1,64 @@
+Main
+{
+	questname 	"Snake Hunt (rep)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Speak to Snake Hunter"
+
+	action		ShowHint("Quest reward: 66 EXP and 25 gold (REP)")
+
+	action		AddNpcText (49, "Hi im hunting some snakes, would you like to join me? As you can see there is (rep) behind my name, this means that you can do this quest as many times as you like." );
+	action		AddNpcText (49, "You will find a lot more (rep) quests all over the world, however keep in mind that you can only have 10 active quests at a time!" );
+	action		AddNpcText (49, "Once your questbook is full, you need to abort an active quest to be able to take a new quest. Click on the Q button in the upper left corner to find out." );
+	action		AddNpcText (49, "Are you ready to hunt 3 snakes?" );
+
+	action		AddNpcInput (49,1, "Yes!");
+	action		AddNpcInput (49,2, "I'm too weak..");
+
+	rule		InputNpc (1) goto KillSnakes
+	rule		InputNpc (2) goto Reset
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state KillSnakes
+{
+	desc		"Find and kill 3 Snakes!"
+	
+	action		ShowHint ("Find and kill 3 Snakes! Then return to Snake Hunter!");
+	action		PlaySound (17);
+
+	rule 		KilledNpcs( 6, 3) goto Talk1
+}
+state Talk1
+{
+	desc		"Speak to Snake Hunter"
+
+	action		ShowHint("You have successfully killed 3 snakes! Return to Snake Hunter!");
+	action		PlaySound (18);
+
+	action		AddNpcText (49, "Great you killed 3 snakes, snake hunting is fun isnt it, I cannot get enough! Here is your reward, 20 gold and 66 exp. Thanks for your aid!" );
+
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+	rule		TalkedToNpc (49) goto GetReward
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 66 EXP and 20 gold (REP)");
+	action		PlaySound(97);
+
+	action		GiveExp(66)
+	action		GiveItem(1,25)
+	action		Reset()
+}
+
+state Reset
+{
+	action		ShowHint("snake hunt quest aborted..")
+	action		PlaySound (98);
+	action		Reset()
+}	

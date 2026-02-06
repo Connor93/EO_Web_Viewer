@@ -1,0 +1,313 @@
+Main
+{
+	questname  "Glamor gem"
+	version  1.0
+}
+
+state Begin
+{
+    desc     "Talk to the Juwellers wife"
+
+    action   AddNpcText(77, "Hello! I'm the juwellers GLAMOROUS wife!");
+    action   AddNpcText(77, "Fashion is an expression of our personalilty, and to feel our best, we have to look our best.");
+    action   AddNpcText(77, "I'm designing a beautiful gem with the help of my wonderful husband to help you look your best where ever you go. Would you be willing to help?");
+   
+    action   AddNpcInput(77, 1, "I will help");
+    action   AddNpcInput(77, 2, "Maybe later..");
+   
+    rule     InputNpc(1) goto QuestStart
+    rule     InputNpc(2) goto GoCancel
+}  
+
+// Collect Samurai hat
+state QuestStart
+{
+   desc     "Collect Samurai Hat"
+   
+   action   AddNpcText(77, "Great! It would be helpful if you can collect some items for me.");
+   action   AddNpcText(77, "First, go and bring me a Samurai Hat");
+
+   rule     GotItems(196,1) goto HatCollected
+}
+
+// Talk to Wife
+state HatCollected
+{
+   desc     "Talk to the Juwellers wife"
+
+   action   ShowHint("You have collected a Samurai Hat, go and speak to the Juwellers wife");
+   action   PlaySound(18);
+
+   action   AddNpcText(77, "Just what I needed! let me try that hat on!");
+
+   action   AddNpcInput(77, 1, "Give the hat");
+   action   AddNpcInput(77, 2, "I think I'll keep it");
+   
+   rule     InputNpc(1) goto CheckHat
+}
+
+// Check for samurai hat
+state CheckHat
+{
+  rule    GotItems(196,1) goto RemoveHat
+  action  AddNpcText(77, "Oh, I thought you had collected a samurai hat, my mistake.");
+  rule    TalkedToNpc(77) goto QuestStart
+}
+
+// Remove Samurai Hat
+state RemoveHat
+{
+   action   RemoveItem (196,1);
+   action   ShowHint("Samurai Hat has been given to the Juwellers wife");
+   rule     Always() goto CollectArrows
+}
+
+// Collect Arrows
+state CollectArrows
+{
+   desc    "Collect Normal Arrows"
+
+   action  AddNpcText(77, "Great work! I'm going to need some normal arrows from Halowdale as well, please bring them to me.");
+   rule    GotItems(423,1) goto ArrowsCollected
+
+}
+
+// Talk to Wife
+state ArrowsCollected
+{
+   desc    "Talk to the Juwellers wife"
+
+   action  ShowHint("You have collected Normal Arrows, go and speak to the Juwellers wife");
+   action  PlaySound(18);
+
+   action  AddNpcText(77, "Arrows! are those arrows I see?! quick hand them over");
+   action  AddNpcInput(77, 1, "Give the arrows");
+   action  AddNpcInput(77, 2, "No way!");
+
+   rule    InputNpc(1) goto CheckArrows
+}
+
+// Check for Normal Arrows
+state CheckArrows
+{
+   rule    GotItems(423, 1) goto RemoveArrows
+   action  AddNpcText(77, "Oh, I thought you had collected those normal arrows, my mistake.");
+   rule    TalkedToNpc(77) goto CollectArrows
+}
+
+// Remove Normal Arrows
+state RemoveArrows
+{
+   action   RemoveItem(423,1);
+   action   ShowHint("Normal Arrows have been given to the Juwellers wife");
+   rule     Always() goto CollectSpear
+}
+
+// Remove Arrows & Collect battle spear
+state CollectSpear   
+{
+   desc   "Collect a Battle Spear"
+
+   action AddNpcText(77, "I'm going to need a battle spear for this to work I think..hmm..yes a battle spear, go get me one!");
+   rule   GotItems(351,1) goto SpearCollected
+}
+
+// Return to Wife
+state SpearCollected
+{
+  desc   "Talk to the Juwellers wife"
+
+  action  ShowHint("You have collected a Battle Spear, go and speak to the Juwellers wife");
+  action  PlaySound(18);
+
+  action  AddNpcText(77, "You got the spear! let me see that thing, pass it over!");
+  action  AddNpcInput(77, 1, "Take it!");
+  action  AddNpcInput(77, 2, "I think I'm gonna hold onto this");
+  
+  rule   InputNpc(1) goto CheckSpear
+}
+
+// Check for battle spear
+state CheckSpear
+{
+  rule    GotItems(351,1) goto RemoveSpear
+  action  AddNpcText(77, "Oh, I thought you had collected that battle spear, my mistake.");
+  rule    TalkedToNpc(77) goto CollectSpear
+}
+
+// Remove battle spear
+state RemoveSpear
+{
+  action   RemoveItem(351,1);
+  action   ShowHint("A Battle Spear has been given to the Juwellers wife");
+  rule     Always() goto CollectBoots
+}
+
+// Remove battle spear collect white boots
+state CollectBoots
+{
+  desc   "Collet a pair of white boots"
+  
+  action  AddNpcText(77, "Okay so we got the spear..the arrows..I know what I need! Get me some white boots!");
+  rule    GotItems(382,1) goto BootsCollected
+}
+
+// Talk to Wife
+state BootsCollected
+{
+  desc   "Talk to the Juwellers wife"
+
+  action  ShowHint("You have collected White Boots, go and speak to the Juwellers wife");
+  action  PlaySound(18);
+
+  action  AddNpcText(77, "Oh I see you have those boots! Okay we just need 1 more thing!");
+  action  AddNpcInput(77, 1, "Fine! take the boots");
+  action  AddNpcInput(77, 2, "NO! I want to keep these");
+
+  rule  InputNpc(1) goto CheckBoots
+}
+
+// Check Boots
+state CheckBoots
+{
+  rule    GotItems(382,1) goto RemoveBoots
+  action  AddNpcText(77, "Oh, I thought you had collected those white boots, my mistake.");
+  rule    TalkedToNpc(77) goto CollectBoots
+}
+
+// Remove Boots
+state RemoveBoots
+{
+  action  RemoveItem(382,1);
+  action  ShowHint("A pair of White Boots has been given to the Juwellers wife");
+  rule    Always() goto CheckGender 
+}
+
+// Check Gender
+state CheckGender
+{
+    rule    IsGender(0) goto CollectFemUniform
+    rule    IsGender(1) goto CollectMaleArmor
+}
+
+
+// FEMALE QUEST START
+// Collect Uniform (Female Start)
+state CollectFemUniform
+{
+  desc   "Collect (black) School Uniform"
+  
+  action  AddNpcText(77, "Okay the last thing I need is hmm..the last thing is a black school uniform from ancient city!");
+  rule    GotItems(348,1) goto FemUniformCollected
+}
+
+// Talk to wife
+state FemUniformCollected
+{
+  desc   "Talk to the Juwellers wife"
+
+  action  ShowHint("You have collected a School Uniform, go and speak to the Juwellers wife");
+  action  PlaySound(18);
+
+  action  AddNpcText(77, "You have the final thing I need! Hand it over so I can make this gem!");
+  action  AddNpcInput(77, 1, "Finally! take it!");
+  action  AddNpcInput(77, 2, "I'm done with these games");
+  
+  rule    InputNpc(1) goto CheckFemUniform
+}
+
+// Check Fem Unform
+state CheckFemUniform
+{
+  rule    GotItems(348,1) goto RemoveFemUniform
+  action  AddNpcText(77, "Oh, I thought you had collected that school uniform, my mistake.");
+  rule    TalkedToNpc(77) goto CollectFemUniform
+}
+
+// Remove Fem Uniform -> goto reward
+state RemoveFemUniform
+{
+  action  RemoveItem(348,1);
+  action  ShowHint("A School Uniform has been given to the Juwellers wife");
+  rule    Always() goto QuestEnding
+}
+
+
+// START OF MALE ITEMS
+// Collect Galoy Armor (Male Start)
+state CollectMaleArmor
+{
+  desc   "Collet Galoy Armor"
+  
+  action  AddNpcText(77, "Okay the last thing I need is hmm..the last thing is a galoy from ancient city!");
+  rule    GotItems(344,1) goto MaleArmorCollected
+}
+
+// Talk to wife
+state MaleArmorCollected
+{
+  desc   "Talk to the Juwellers wife"
+
+  action  ShowHint("You have collected Galoy Armor, go and speak to the Juwellers wife");
+  action  PlaySound(18);
+
+  action  AddNpcText(77, "You have the final thing I need! Hand it over so I can make this gem!");
+  action  AddNpcInput(77, 1, "Finally! take it!");
+  action  AddNpcInput(77, 2, "I'm done with these games");
+  
+  rule    InputNpc(1) goto CheckMaleArmor
+}
+
+// Check male armor
+state CheckMaleArmor
+{
+  rule    GotItems(344,1) goto RemoveMaleArmor
+  action  AddNpcText(77, "Oh, I thought you had collected that galoy armor, my mistake.");
+  rule    TalkedToNpc(77) goto CollectMaleArmor
+}
+
+// Remove male armor -> goto reward
+state RemoveMaleArmor
+{
+  action  RemoveItem(344,1);
+  action  ShowHint("Galoy Armor has been given to the Juwellers wife");
+  rule    Always() goto QuestEnding
+}
+
+
+// END OF GENDER SPECIFIC STATES
+// Last dialogue (universal)
+state QuestEnding
+{
+  desc   "Talk to the Juwellers wife"
+
+  action  AddNpcText(77, "Thank you for your help, as promised here is your reward.");
+  rule    TalkedToNpc(77) goto Reward
+}
+
+// Reward (universal)
+state Reward
+{
+ action GiveExp(5000);
+ action GiveItem(675,1);
+
+ action ShowHint("[Quest Complete] You were rewarded the Glamor Gem and 5k exp");
+ action PlaySound(97);
+ action End();
+}
+
+// Dialogue state before reset
+state GoCancel
+{
+  desc  "Talk to Juwellers wife"
+
+  action  AddNpcText(77, "Oh that's a shame, well perhaps you can help later then..");
+  rule    TalkedToNpc(77) goto GoReset
+}
+
+// reset quest
+state GoReset
+{
+ action Reset()
+}
+ 

@@ -1,0 +1,36 @@
+Main
+{
+	questname 	"ID used in another quest"
+	version		1
+    hidden
+}
+
+state Begin
+{
+    action  Reset();
+}
+
+state DeclineQuest
+{
+    action  Reset();
+}
+
+state GiveUp
+{
+   action  Reset();
+}
+
+state StartQuest
+{
+    action  Reset();
+}
+
+state KilledGiants
+{
+    action  Reset();
+}
+
+state Reward
+{
+    action  Reset();
+}

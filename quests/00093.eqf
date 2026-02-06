@@ -1,0 +1,104 @@
+Main
+{
+	questname	"Factory Madness"
+	version 	1
+}
+State Begin
+{
+	desc		"Speak with Inventor"
+
+	action		AddNpcText (93, "Oh.. boy, am I in trouble.. this is so bad..");
+
+	action		AddNpcInput (93, 1, "Is everything ok?");
+	action		AddNpcInput (93, 2, "Well, that's unfortunate..");
+
+	rule		InputNpc (1) goto Talk2
+	rule		InputNpc (2) goto Reset
+}
+State Talk2
+{
+	desc		"Speak with Inventor"
+
+	action		AddNpcText (93, "Not really.. Me and my co-worker here were experimenting with parts from around the factory..");
+	action		AddNpcText (93, "We created something..");
+
+	action		AddNpcInput (93, 1, "Is that a good thing?");
+	action		AddNpcInput (93, 2, "Oh, no thanks.. I'm leaving.");
+
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Reset
+}
+State Talk3
+{
+	desc		"Speak with Inventor"
+
+	action		AddnpcText (93, "No, no it's not.. but what's done, is done. We need to find it and take care of it.");
+	action		AddnpcText (93, "Say... you look pretty tough, would you mind helping to find and get rid of it? It's somewhere in this factory..");
+
+	action		AddNpcInput (93, 1, "I can try!");
+	action		AddnpcInput (93, 2, "No, I've heard enough, sorry");
+
+	rule		InputNpc (1) goto Talk4
+	rule		InputNpc (2) goto Reset
+}
+State Talk4
+{
+	desc		"Speak with Inventor"
+
+	action		ShowHint ("Quest EXP: 25000 EXP and 5k gold!");
+	action		PlaySound (17);
+
+	action		AddNpcText (93, "Oh, thank goodness.. I thought you were going to say no. Now, there's a few small rooms hidden somewhere in the factory");
+	action		AddnpcText (93, "It's somewhere in one of those rooms. Please find it before it's too late!");
+
+	rule		TalkedToNpc (93) goto FindCreation
+}
+State FindCreation
+{
+	desc		"Find and destroy Alex Borg"
+
+	action		ShowHint ("Find and kill Alex Borg!");
+	action		PlaySound (17);
+
+	rule		KilledNpcs (233,1) goto GetReward
+}
+State GetReward
+{
+	desc		"Return to Inventor"
+
+	action		ShowHint ("You've successfully found and killed Alex Borg, return to Inventor!");
+	action		PlaySound (18);
+
+	action		AddnpcText (93, "You found it?!");
+	action		AddnpcText (93, "I am impressed! How far into the factory was it? Nevermind.. not important.");
+	action		AddnpcText (93, "Wait, what? He just respawns after you've killed him? Hmmm.. That's never good..");
+	action		AddnpcText (93, "We need to figure out how to fix this mess. Anyways, thank you for your efforts. Let me give you something, for your time.");
+
+	rule		TalkedToNpc (93) goto Reward
+}
+State Reward
+{
+	action		ShowHint ("[Quest Complete] You gained 25k EXP and 5000 gold!");
+	action		PlaySound (97)
+	action		GiveExp (25000)
+	action		GiveItem (1,5000)
+	action		End()
+}
+State Reset
+{
+	action		ShowHint ("Factory Madness quest aborted..");
+	action		PlaySound (98);
+	action		Reset();
+}
+
+
+
+
+
+
+
+
+
+
+
+ 

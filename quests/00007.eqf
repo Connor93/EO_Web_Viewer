@@ -1,0 +1,39 @@
+Main
+{
+	questname 	"ID used in another quest"
+	version		1
+}
+
+state Begin
+{
+    action  Reset();
+}
+
+state DeclineQuest
+{
+    action  Reset();
+}
+
+state StartQuest
+{
+   action  Reset();
+}
+state GotMeat
+{
+    action  Reset();
+}
+
+state CheckMeat
+{
+   action  Reset();
+}
+
+state TakeMeat
+{
+    action  Reset();
+}
+
+state Reward
+{
+    action  Reset();
+}

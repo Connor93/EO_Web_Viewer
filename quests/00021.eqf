@@ -1,0 +1,538 @@
+Main
+{
+	questname 	"Monkey Island"
+	version		2
+}
+
+state Begin
+{
+	desc  		"Talk to the young pirate"
+
+	action  	AddNpcText(21, "Arrr, I discovered a new issssland!");
+	action  	AddNpcChat(21, "Arrr, I discovered a new issssland!");
+
+	action		AddNpcInput(21, 1, "Not intrested");
+	action		AddNpcInput(21, 2, "Tell me more..");
+	action		AddNpcInput(21, 3, "Dont believe you");
+
+	rule 		InputNpc(1) goto Reset
+	rule 		InputNpc(2) goto BeginReset
+	rule 		InputNpc(3) goto Begin0
+}
+
+state BeginReset
+{
+	desc		"Talk to the young pirate"
+
+	action		AddNpcText(21, "Arrrr, no its pirate secret!")
+	rule		TalkedToNpc(21) goto Reset
+}
+
+state Begin0
+{
+	desc		"Talk to the young pirate"
+
+	action		ShowHint("Quest reward: 10800 EXP");
+
+	action		AddNpcText(21, "Arrr you think I making this up? Well I show you the island myself matey! But first you need to prove that you are a real arrr pirate");
+	action		AddNpcText(21, "Will ye take the pirate test?");
+
+	action		AddNpcInput(21, 1, "I will prove it");
+	action		AddNpcInput(21, 2, "No thanks");
+
+	rule 		InputNpc(1) goto Begin1
+	rule 		InputNpc(2) goto Reset
+
+}
+
+state Begin1
+{
+	desc		"Talk to the pirate captain"
+
+	action		AddNpcText(21, "Ha-ha-ha.. Dont make me laugh now, ye are no pirate, ye dont look like a true booty bandit..");
+	action		AddNpcText(21, "Yarrr need to talk to thee pirate captain, he will teach yarr how to become a real cut throat!");
+
+   	action      AddNpcText(6, "So, arhh pirate test?!.. Ye want to become a real booty bandit and take the pirate test, arhhhhhh har har har.. *gulp*"); 
+   	action      AddNpcText(6, "Tell yarr what, if you can defeat 3 of my elite cut throats, this honest merchant will consider yarrr"); 
+
+   	action      AddNpcInput(6, 1, "Maybe piracy is not for me."); 
+   	action      AddNpcInput(6, 2, "Fear me, crew members!");
+
+   	rule      	InputNpc(1) goto Lose 
+  	rule 		InputNpc(2) goto Killcrew
+}
+
+
+state Killcrew
+{ 
+   	desc      	"Kill 3 Drunken Pirates"
+
+   	action      ShowHint("Show them whos the boss! Kill 3 pirate crew members."); 
+	action		PlaySound(18);
+
+   	action      AddNpcText(6, "Okay what are you waiting for? get off my boat and defeat three elites of my crew."); 
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+	rule 		KilledNpcs(128, 3) goto Donecrew
+}
+
+state Donecrew
+{ 
+   	desc      	"Talk the Pirate Captain"
+
+   	action      ShowHint("You have killed 3 Drunken Pirates. Talk to Pirate Captain!"); 
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+   	action      AddNpcText(6, "Yarrr yarrr, my crew arrr weak anyways. But, that doesnt make you a cut throat, in fact"); 
+   	action      AddNpcChat(6, "Yarrr will never become one.. Har Har Har"); 
+
+   	action      AddNpcInput(6, 1, "I know about a treasure.."); 
+   	action      AddNpcInput(6, 2, "Ill report you for software piracy."); 
+   	action      AddNpcInput(6, 3, "Ok, I'll drink all this fairy soda myself."); 
+
+   	rule       	InputNpc(1) goto Anstreasure 
+   	rule       	InputNpc(2) goto Anssoft
+   	rule       	InputNpc(3) goto Anssoda
+
+} 
+
+state Anstreasure
+{ 
+   	desc      	"Talk the Pirate Captain" 
+
+   	action      ShowHint("We hope he doesnt find out you dont know about a treasure!"); 
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+   	action      AddNpcText(6, "Huh? err.. yarr mean the Legendary Monkey Island Booty?"); 
+
+   	action      AddNpcInput(6, 1, "Monkey Islad trea?"); 
+   	action      AddNpcInput(6, 2, "Ya, that treasure"); 
+
+   	rule       	InputNpc(1) goto Piratetest
+   	rule       	InputNpc(2) goto Piratetest
+
+} 
+
+state Anssoft
+{ 
+   	desc      	"Talk the Pirate Captain"
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+   	action      AddNpcText(6, "Yarrr! Er.. I was joking, cant yarrr take a joke?"); 
+   	action      AddNpcChat(6, "Of course me going to let you take yarrr brave cut throat test"); 
+
+   	action      AddNpcInput(6, 1, "Sure, pal"); 
+   	action      AddNpcInput(6, 2, "Im not good at math"); 
+
+   	rule 		InputNpc(1) goto Piratetest
+   	rule 		InputNpc(2) goto Piratetest
+} 
+
+state Anssoda
+{ 
+   	desc  		"Talk the Pirate Captain"
+
+   	action     	ShowHint("Cheers!");
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+   	action     	AddNpcText(6, "Huh? Yarrr said.. soda?"); 
+   	action      AddNpcChat(6, "Allright maybe yarrr a good booty bandit after all"); 
+
+   	action     	AddNpcInput(6, 1, "Lets drink matey!"); 
+   	action      AddNpcInput(6, 2, "Tell me about the test.."); 
+
+   	rule 		InputNpc(1) goto Piratetest
+   	rule 		InputNpc(2) goto Piratetest
+} 
+
+state Piratetest
+{ 
+   	desc  		"Talk with Pirate Captain" 
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+   	action      AddNpcText(6, "hmnm well, lets begin yarr test then.. this be easy then."); 
+   	action      AddNpcText(6, "At least for us, the real booty bandits, Har Har Har");
+
+   	action      AddNpcInput(6, 1, "I want to prove my fighting skills!");
+   	action      AddNpcInput(6, 2, "Lets go treasure hunting!");
+   	action      AddNpcInput(6, 2, "Im good at getting information");
+
+   	rule       	InputNpc(1) goto Fightquest
+   	rule       	InputNpc(2) goto Nottreasure
+   	rule       	InputNpc(3) goto Infoquest
+} 
+
+state Nottreasure
+{ 
+   	desc      	"Talk to Pirate Captain" 
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+   	action      AddNpcText(6, "Dont be silly, you cant go treasure hunting without proving your strenght and abilities.."); 
+
+   	action      AddNpcInput(6, 1, "Ill show you im strong!"); 
+   	action      AddNpcInput(6, 2, "Im the smartest pirate in the world!"); 
+
+   	rule       	InputNpc(1) goto Fightquest
+   	rule       	InputNpc(2) goto Infoquest
+} 
+
+state Fightquest 
+{ 
+   	desc      	"Kill the Inspection Guard"
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+	action      AddNpcText(6, "Yarrr.. Kill that annoying inspection guard standing before me boat. He is making me nervous like arrrr hooker.");
+   	action      AddNpcText(6, "Good luck killing that rookie guard, har har");
+
+	action      AddNpcInput(6, 1, "Okay, I got it.");
+
+	action		ShowHint("Kill the Inspection Guard");
+	action		PlaySound(18);
+
+	rule       	KilledNpcs(285, 1) goto NextTest
+}
+
+state Infoquest 
+{ 
+   	desc      	"Go to Atlantis and find its secret" 
+	
+	action		AddNpcText(21, "Nawh, i will only share this pirate secret with REAL BOOTY BANDITS.");
+
+   	action      AddNpcText(6, "Listen, the legend about the monkey island claims that a long time ago, when villagers from Atlantis became aware..");
+   	action      AddNpcText(6, "that their city was going to sink, and they burried some of their major treasures at monkey island.");
+   	action      AddNpcText(6, "Maybe they wrote something about it somewhere.");
+   	action      AddNpcText(6, "Good luck finding the secret of atlantis.");
+	
+   	action      AddNpcInput(6, 1, "Isnt there another way to prove it?"); 
+	action      AddNpcInput(6, 2, "Okay, i got it.");
+
+   	rule       	EnterCoord(251, 8, 33) goto NextTest
+   	rule       	InputNpc(1) goto Fightquest
+} 
+
+
+state NextTest
+{ 
+   	desc      	"Talk to pirate captain" 
+
+	action		ShowHint("You have slaughtered an innocent guard, his family mourns [-100 karma].");
+	action		ShowHint("Talk to the Pirate Captain!");
+	action		RemoveKarma(100);
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+   	action      AddNpcText(6, "Looks like yarr have some skills matey! Bad luck yarr not a real booty bandit yet..");
+   	action      AddNpcText(6, "These rats over therrr in port are really arrr problem. At night they make arrr terrible noise and I just cant sleep, uhrr");
+
+	rule		TalkedToNpc(6) goto RatTest
+}
+
+state RatTest
+{ 
+   	desc      	"Kill 30 rats" 
+
+	action		ShowHint("Kill 30 rats in Aeven's Port!");
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Nawh, I will only share this pirate secret with REAL BOOTY BANDITS.");
+
+   	action      AddNpcText(6, "Go kill 30 rats, and you will be a real cut throat.. yarrrr");
+
+	rule       	KilledNpcs(2, 30) goto RatTest2
+}
+
+state RatTest2
+{
+   	desc      	"Talk to the young pirate" 
+
+	action		PlaySound(18);
+	action		ShowHint("You've successfully killed 30 rats! Talk to the young pirate.");
+
+   	action      AddNpcText(6, "Hmm.. ow its you, yaya your a real booty bandit now, now leave me be!");
+
+	action		AddNpcText(21, "Hmm so the captain has declared you a real booty bandit, Yarr fine then..");
+	action		AddNpcText(21, "If yarr can answer this simple PIRATE test, I'll believe yee.");
+
+	rule		TalkedToNpc(21) goto Quiz1
+}
+
+state Quiz1
+{
+   	desc      	"Talk to the young pirate"
+
+	action		AddNpcText(21, "Whats the special 'nickname' of our skull & bone flag?");
+
+   	action      AddNpcInput(21, 1, "Jolly Roger");
+   	action      AddNpcInput(21, 2, "Dodger Deadly");
+   	action      AddNpcInput(21, 3, "Cut Throat Steve");
+
+   	rule       	InputNpc(1) goto Quiz2
+   	rule       	InputNpc(2) goto QuizLose1
+   	rule       	InputNpc(3) goto QuizLose1
+
+}
+
+state Quiz2
+{
+   	desc      	"Talk to the young pirate" 
+
+	action		ShowHint("Correct!");
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Pirates always share their looted booty equally, except for ye captain, the pilot, the carpenter and the cook.");
+	action		AddNpcText(21, "How much more do they receive?");
+
+   	action      AddNpcInput(21, 1, "half of the entire booty"); 
+   	action      AddNpcInput(21, 2, "a double share"); 
+   	action      AddNpcInput(21, 3, "a tripple share"); 
+
+   	rule       	InputNpc(1) goto QuizLose2
+   	rule       	InputNpc(2) goto Quiz3
+   	rule       	InputNpc(3) goto QuizLose2
+
+}
+
+state Quiz3
+{
+   	desc      	"Talk to the young pirate" 
+
+	action		ShowHint("Correct!");
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Is the captains cabin always open for anyone to use?");
+
+   	action      AddNpcInput(21, 1, "Yes, always open"); 
+   	action      AddNpcInput(21, 2, "No, its private"); 
+
+   	rule       	InputNpc(1) goto ReadyToGo
+   	rule       	InputNpc(2) goto QuizLose3
+
+}
+
+state ReadyToGo
+{
+   	desc      	"Talk to the young pirate" 
+
+	action		ShowHint("Correct!");
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Hmm.. okay yarr proved to be a real booty bandit, maybe not.. Lets just sail to that island now. The captain doesnt beleive me and I've been wanting to tell anyone ever since..");
+	action		AddNpcText(21, "Do you want to sail to monkey island?");
+
+   	action      AddNpcInput(21, 1, "Yes, let go!"); 
+   	action     	AddNpcInput(21, 2, "No, maybe later"); 
+
+   	rule       	InputNpc(1) goto GoIsland
+}
+
+state GoIsland
+{
+   	desc      	"Find the shipwreck hut" 
+	action		SetMap(271,25, 54);
+
+	// escape sequence
+
+	action		AddNpcText(21, "Do you want to sail to monkey island?");
+
+   	action      AddNpcInput(21, 1, "Yes, let go"); 
+   	action      AddNpcInput(21, 2, "No, maybe later"); 
+
+	// lost pirate
+
+	action		AddNpcText(22, "A treasure huh?.. Ya, I been looking for it for years..");
+	rule		TalkedToNpc(22) goto SolveRiddle
+
+	// continue quest part
+	
+   	rule       	InputNpc(1) goto GoIsland
+}
+
+state SolveRiddle
+{
+   	desc      	"Find 10 baby turtle meat." 
+
+	// escape sequence
+
+	action		AddNpcText(21, "Do you want to sail to monkey island?");
+   	action      AddNpcInput(21, 1, "Yes, let go"); 
+   	action      AddNpcInput(21, 2, "No, maybe later")
+
+	// lost pirate
+
+	action		AddNpcText(22, "Sorry I can't tell you more about the treasure, you see.. I havent ate anything in weeks..");
+	action		AddNpcText(22, "Now if you could bring me some baby turtle meat, it would help loosen my tongue..");
+
+	action		ShowHint("Collect 10 baby turtle meat");
+
+	// continue quest part
+	rule		GotItems(489, 10) goto GotTheFish
+   	rule       	InputNpc(1) goto GoIsland
+	
+}
+
+state GotTheFish
+{
+   	desc      	"Talk to the Lost Pirate" 
+
+	action		ShowHint("You have collected 10 baby turtle meat. Talk to the Lost Pirate");
+	action		PlaySound(18);
+
+	// escape sequence
+
+	action		AddNpcText(21, "Do you want to sail to monkey island?");
+   	action      AddNpcInput(21, 1, "Yes, let go"); 
+   	action      AddNpcInput(21, 2, "No, maybe later")
+
+	action		AddNpcText(22, "I can see you have the 10 baby turtle meat i asked for, would you be willing to give them to me?");
+	action		AddNpcInput(22, 3, "Ok, here you are.");
+
+	// continue quest part
+	
+   	rule       	InputNpc(1) goto GoIsland
+	rule 		InputNpc(3) goto SolveRiddle2
+	rule		LostItems(489,10) goto SolveRiddle
+}
+
+state SolveRiddle2
+{
+   	desc      	"Locate the Lost Treasure" 
+
+	action		RemoveItem(489, 10);
+	action		ShowHint("You gave 10 Baby Turtle Meat to the Lost Pirate");
+
+	// escape sequence
+
+	action		AddNpcText(21, "Do you want to sail to monkey island?");
+   	action      AddNpcInput(21, 1, "Yes, let go"); 
+   	action      AddNpcInput(21, 2, "No, maybe later")
+
+	// lost pirate
+
+	action		AddNpcText(22, "Ok, the riddle is..");
+	action		AddNpcText(22, "Stand right of the unique pair that carried the roof of the temple..");
+	action		AddNpcText(22, "..The view on the temple is much better 15 steps east from this spot..");
+	action		AddNpcText(22, "..From this point make 12 steps south, then twice as much to the west..");
+	action		AddNpcText(22, "..You should be able to walk 24 steps into a direction other where you came from.");
+	action		AddNpcText(22, "Then walk 14 steps to the west for my treasure.");
+
+	action		ShowHint("Search the island for the lost treasure.");
+
+	// continue quest part
+	
+   	rule       	InputNpc(1) goto Warp_SolveRiddle2
+	rule		EnterCoord(271,10,20) goto TreasureMap
+}
+
+state Warp_SolveRiddle2
+{
+	action		SetMap(271,25,54);
+	rule		Always() goto SolveRiddle2
+}
+
+state TreasureMap
+{
+   	desc      	"Inspect the treasure chest" 
+
+	action		SetMap(276,4,7);
+	rule		EnterCoord(276,6,3) goto TreasureMap2
+}
+
+
+state TreasureMap2
+{
+
+   	desc      	"Leave the treasure map" 
+
+	action		GiveItem(1,1600);
+	action		GiveItem(452,1);
+	action		ShowHint("You found 1600 gold pieces and a pirate cap inside the treasure!!");
+
+	rule		EnterCoord(276, 3, 8) goto TreasureMap3
+	rule		EnterCoord(276, 4, 8) goto TreasureMap3
+	rule		EnterCoord(276, 5, 8) goto TreasureMap3
+}
+
+state TreasureMap3
+{
+   	desc      	"Go back to the pirate captain" 
+
+	action		SetMap(271,20, 10);
+	action		ShowHint("Head back to the boat & travel to port to announce your discovery.");
+	action		PlaySound(18);
+
+	action		AddNpcText(21, "Arrr, You found the treasure. Go to the captain I believe he wants to speak with yarrr..");
+
+   	action      AddNpcText(6, "Arr, so yarr be a real booty bandit after all!"); 
+   	action      AddNpcText(6, "This whole treasure hunt will be the talk of the dockyard for years, welcome aboard yarr cut throat!"); 
+	
+	rule		TalkedToNpc(6) goto RewardQuest
+	rule		EnterCoord(276, 6, 3) goto FailSafe
+}
+
+state FailSafe
+{
+   	desc      	"Leave the treasure map" 
+
+	action		ShowHint("You can now leave this map..");
+
+	rule		EnterCoord(276, 3, 8) goto TreasureMap3
+	rule		EnterCoord(276, 4, 8) goto TreasureMap3
+	rule		EnterCoord(276, 5, 8) goto TreasureMap3
+}
+
+state QuizLose1
+{ 
+	action      AddNpcText(21, "Awhaa! yarr a fake booty bandit!! A real cut throat would had told me that 'jolly roger' is the nickname of our flag!");
+	action		PlaySound(17);
+
+	rule		TalkedToNpc(21) goto Reset
+
+}
+
+state QuizLose2
+{ 
+	action     	AddNpcText(21, "Awhaa! yarr a fake booty bandit!! A real cut throat would had told me that our captain, pilot, carpenter and cook receive a double share!");
+	action		PlaySound(17);
+
+	rule		TalkedToNpc(21) goto Reset
+}
+
+state QuizLose3
+{ 
+	action      AddNpcText(21, "Awhaa! yarr a fake booty bandit!! A real cut throat would had told me that our captains cabin is always open!");
+	action		PlaySound(17);
+
+	rule		TalkedToNpc(21) goto Reset
+}
+
+state RewardQuest
+{ 
+	action		GiveItem(684,1);
+	action		GiveExp(10800);
+	action		ShowHint("[Quest Complete] You gained 10800 EXP and 1 Plantain Charm!")
+	action		PlaySound(97);
+	action		StartQuest(100, "begin");
+	action  	End();
+}
+
+state Lose
+{ 
+	action      AddNpcChat(6, "Arrr get off me boat");
+	action		ShowHint("Maybe you should become a merchant.");
+	action		Reset(); 
+
+}
+
+state Reset
+{
+	action		ShowHint("The pirate lost his interest in you..");
+	action		Reset();
+}	

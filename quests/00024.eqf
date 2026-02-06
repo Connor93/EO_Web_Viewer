@@ -1,0 +1,103 @@
+Main
+{
+   	questname "Bacon Business(Daily)"
+   	version 1
+}
+state Begin
+{
+   	desc		"Speak with the Pig Farmer"
+   
+   	rule   		StatGreater("level", 9) goto StartQuest
+
+  	action 		AddNpcText (24, "Oh, hello. I've gotten all the help I've neeed today, thank you!");
+	action		AddNpcText (24, "[You must be level 10 or greater to start this quest]");
+
+   	rule   		TalkedToNpc (24) goto RestartQuest
+}
+state RestartQuest
+{
+	action		ShowHint ("Return when you're at least lvl 10 or greater!");
+	action		PlaySound (6);
+   	action 		Reset();
+}
+state StartQuest
+{
+   	desc     	"Speak with the Pig Farmer"
+
+  	action   	Addnpctext (24, "Stranger! help me! these wingos have been attacking my pig farm!");
+   	action   	Addnpctext (24, "I supply all the bacon to Aeven! these beasts have been disrupting my business for ages!");
+   	action   	Addnpctext (24, "Can you help me protect my pigs? My business is everything to me!");
+   
+   	action   	Addnpcinput(24 , 1 , "I'll protect your pigs!");
+   	action   	Addnpcinput(24 , 2 , "Sounds scary, maybe another time");
+   
+   	rule    	InputNpc (1) goto begin1
+   	rule    	InputNpc (2) goto reset
+}
+state begin1
+{
+   	desc     	"Find the wingo"
+
+   	action   	Showhint ("Quest reward: 5000 EXP, 1000 Gold (DAILY)");
+   
+   	action   	Addnpctext(24 , "You'll find their den next to the pig farm");
+
+   	action   	Addnpcinput(24 , 1 , "I'm on it");
+   	action   	Addnpcinput(24 , 2 , "Nevermind");
+   
+   	rule		DoneDaily( 1 ) goto EndWithoutReset // once a day ( 1 ) 
+   	rule     	InputNpc (2) goto reset
+   	rule     	EnterCoord (7, 46, 0) goto Begin2
+}
+
+state begin2
+{
+   	desc     	"kill the wingo" 
+ 
+   	action   	SetCoord (302, 11, 23)
+   
+   	action   	Addnpctext(24 , "You saw the beast but didn't kill it?");
+   
+   	action   	Addnpcinput(24 , 1 , "Yes Im going back now");
+   	action   	Addnpcinput(24 , 2 , "I give up");
+   
+   	rule     	InputNpc (2) goto reset
+   	rule     	Killednpcs (363, 1 ) goto begin3
+}
+
+state begin3
+{
+   	desc    	"Return to the farmer"
+
+	action		SetMap (7, 46, 1)
+   	action  	Addnpctext(24 , "What? It's safe now? Thank you, that should scare them off for awhile.");
+   	action  	Addnpctext(24 , "Can you come check on me tomorrow? If they are hungry enough they will come back, it's cheaper to pay you then to lose money to these wingos.");
+
+   	rule    	Talkedtonpc (24) goto reward
+}
+
+state reward
+{
+   	action  	Showhint("[Quest Complete] You gained 5000 EXP and 1000 gold!");
+   	action  	PlaySound(97);
+   	action  	GiveEXP(5000);
+   	action  	Giveitem(1, 1000);
+   	action  	ResetDaily();
+}
+
+state reset
+{
+  	action   	Showhint("Bacon Business quest aborted..");
+	action		PlaySound (6);
+  	action   	Reset();
+}
+
+state EndWithoutReset
+{
+  	desc     	"Speak with the Pig Farmer"
+
+  	action   	Showhint("You can only complete this quest once a day");
+  	action   	Addnpctext (24 , "You already killed the beast today, I'm sure more will return..");
+  
+  	rule     	Talkedtonpc (24) goto reset
+}  

@@ -1,0 +1,477 @@
+Main
+{
+	questname	"Login Reward (Daily)"
+	version		1
+}
+state Begin
+{
+	desc		"Speak with Charles"
+
+	action		AddNpcText (96, "Ahh... good ole' Aeven.. this place use to be full of life.. it was wonderful.");
+	action		AddNpcText (96, "With there only being so many players.. it's hard to collect some items people need.");
+	action		AddNpcText (96, "So, Creator has brought me here to trade some ings for Usage Coins. From Goat Horns to Dragon Eyes.");
+	action		AddNpcText (96, "I don't know how much longer I will be here, but if you're interested, lets make a deal?");
+
+	action		AddNpcInput (96, 1, "Pay 20 Usage Coins");
+	action		AddNpcInput (96, 2, "No thanks..");
+	
+	rule		DoneDaily(1) goto EndWithoutReset
+	rule		InputNpc (1) goto Talk1
+	rule		InputNpc (2) goto Restart
+}
+state Talk1
+{
+	desc		"Speak with Charles"
+
+	rule		GotItems (679,20) goto TakeCoin
+
+	action		AddNpcText (96, "Seems as though you don't have enough Usage Coins.. Come see me when you have more.");
+	rule		TalkedToNpc (96) goto Restart
+}
+state TakeCoin
+{
+	desc		"Speak with Charles"
+
+	action		RemoveItem (679,20);
+
+	action		AddNpcText (96, "Awesome! Here you go, I hope it's what you need.");
+	rule		TalkedToNpc (96) goto Roll
+}
+state Roll
+{
+	action		Roll (52)
+
+	rule		Rolled (1) goto Reward1
+	rule		Rolled (2) goto Reward2
+	rule		Rolled (3) goto Reward3
+	rule		Rolled (4) goto Reward4
+	rule		Rolled (5) goto Reward5
+	rule		Rolled (6) goto Reward6
+	rule		Rolled (7) goto Reward7
+	rule		Rolled (8) goto Reward8
+	rule		Rolled (9) goto Reward9
+	rule		Rolled (10) goto Reward10
+	rule		Rolled (11) goto Reward11
+	rule		Rolled (12) goto Reward12
+	rule		Rolled (13) goto Reward13
+	rule		Rolled (14) goto Reward14
+	rule		Rolled (15) goto Reward15
+	rule		Rolled (16) goto Reward16
+	rule		Rolled (17) goto Reward17
+	rule		Rolled (18) goto Reward18
+	rule		Rolled (19) goto Reward19
+	rule		Rolled (20) goto Reward20
+	rule		Rolled (21) goto Reward21
+	rule		Rolled (22) goto Reward22
+	rule		Rolled (23) goto Reward23
+	rule		Rolled (24) goto Reward24
+	rule		Rolled (25) goto Reward25
+	rule		Rolled (26) goto Reward26
+	rule		Rolled (27) goto Reward27
+	rule		Rolled (28) goto Reward28
+	rule		Rolled (29) goto Reward29
+	rule		Rolled (30) goto Reward30
+	rule		Rolled (31) goto Reward31
+	rule		Rolled (32) goto Reward32
+	rule		Rolled (33) goto Reward33
+	rule		Rolled (34) goto Reward34
+	rule		Rolled (35) goto Reward35
+	rule		Rolled (36) goto Reward36
+	rule		Rolled (37) goto Reward37
+	rule		Rolled (38) goto Reward38
+	rule		Rolled (39) goto Reward39
+	rule		Rolled (40) goto Reward40
+	rule		Rolled (41) goto Reward41
+	rule		Rolled (42) goto Reward42
+	rule		Rolled (43) goto Reward43
+	rule		Rolled (44) goto Reward44
+	rule		Rolled (45) goto Reward45
+	rule		Rolled (46) goto Reward46
+	rule		Rolled (47) goto Reward47
+	rule		Rolled (48) goto Reward48
+	rule		Rolled (49) goto Reward49
+	rule		Rolled (50) goto Reward50
+	rule		Rolled (51) goto Reward51
+	rule		Rolled (52) goto Reward52
+
+}
+state Reward1
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Orb of Light!");
+	action		GiveItem (11,5);
+	action  	ResetDaily();
+}
+state Reward2
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Skeleton Skull!");
+	action		GiveItem (14,5);
+	action  	ResetDaily();
+}
+state Reward3
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Orb of Light!");
+	action		GiveItem (11,5);
+	action  	ResetDaily();
+}
+state Reward4
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Blob Slime!");
+	action		GiveItem (250,5);
+	action  	ResetDaily();
+}
+state Reward5
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Mummy Bandage!");
+	action		GiveItem (251,5);
+	action  	ResetDaily();
+}
+state Reward6
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Fox Fur!");
+	action		GiveItem (252,5);
+	action  	ResetDaily();
+}
+state Reward7
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Snake Tooth!");
+	action		GiveItem (253,5);
+	action  	ResetDaily();
+}
+state Reward8
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Snake Rattle!");
+	action		GiveItem (254,5);
+	action  	ResetDaily();
+}
+state Reward9
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Centaur Hoof!");
+	action		GiveItem (255,5);
+	action  	ResetDaily();
+}
+state Reward10
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Spider Eye!");
+	action		GiveItem (256,5);
+	action  	ResetDaily();
+}
+state Reward11
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Spider Leg!");
+	action		GiveItem (257,5);
+	action  	ResetDaily();
+}
+state Reward12
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Goat Horn!");
+	action		GiveItem (258,5);
+	action  	ResetDaily();
+}
+state Reward13
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Penguin Meat!");
+	action		GiveItem (259,5);
+	action  	ResetDaily();
+}
+state Reward14
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Cyclopse Eye!");
+	action		GiveItem (260,5);
+	action  	ResetDaily();
+}
+state Reward15
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Skeleton Bone!");
+	action		GiveItem (261,5);
+	action  	ResetDaily();
+}
+state Reward16
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Skeleton Rib!");
+	action		GiveItem (262,5);
+	action  	ResetDaily();
+}
+state Reward17
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Barbarian Ear!");
+	action		GiveItem (263,5);
+	action  	ResetDaily();
+}
+state Reward18
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Beetle Fang!");
+	action		GiveItem (264,5);
+	action  	ResetDaily();
+}
+state Reward19
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Wingo Claw!");
+	action		GiveItem (265,5);
+	action  	ResetDaily();
+}
+state Reward20
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Vyercil Tentacles!");
+	action		GiveItem (277,5);
+	action  	ResetDaily();
+}
+state Reward21
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Dark Rag!");
+	action		GiveItem (278,5);
+	action  	ResetDaily();
+}
+state Reward22
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Stinger Eye!");
+	action		GiveItem (318,5);
+	action  	ResetDaily();
+}
+state Reward23
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Bat Wing!");
+	action		GiveItem (319,5);
+	action  	ResetDaily();
+}
+state Reward24
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Worm Segment!");
+	action		GiveItem (320,5);
+	action  	ResetDaily();
+}
+state Reward25
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Wurm Head!");
+	action		GiveItem (321,5);
+	action  	ResetDaily();
+}
+state Reward26
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Ant Leg!");
+	action		GiveItem (322,5);
+	action  	ResetDaily();
+}
+state Reward27
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Teawak Tentacle!");
+	action		GiveItem (323,5);
+	action  	ResetDaily();
+}
+state Reward28
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Needles!");
+	action		GiveItem (326,5);
+	action  	ResetDaily();
+}
+state Reward29
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Ice Gem!");
+	action		GiveItem (337,5);
+	action  	ResetDaily();
+}
+state Reward30
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Ice Cube!");
+	action		GiveItem (338,5);
+	action  	ResetDaily();
+}
+state Reward31
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Golom Stone!");
+	action		GiveItem (339,5);
+	action  	ResetDaily();
+}
+state Reward32
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Gnome Hat!");
+	action		GiveItem (340,5);
+	action  	ResetDaily();
+}
+state Reward33
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Ewak Leg!");
+	action		GiveItem (353,5);
+	action  	ResetDaily();
+}
+state Reward34
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Geggime Fur!");
+	action		GiveItem (354,5);
+	action  	ResetDaily();
+}
+state Reward35
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Taewcus Tentacle!");
+	action		GiveItem (355,5);
+	action  	ResetDaily();
+}
+state Reward36
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Snail House!");
+	action		GiveItem (356,5);
+	action  	ResetDaily();
+}
+state Reward37
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Snail Tie!");
+	action		GiveItem (357,5);
+	action  	ResetDaily();
+}
+state Reward38
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Mushroom!");
+	action		GiveItem (358,5);
+	action  	ResetDaily();
+}
+state Reward39
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Metal Part!");
+	action		GiveItem (397,5);
+	action  	ResetDaily();
+}
+state Reward40
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Crane!");
+	action		GiveItem (398,5);
+	action  	ResetDaily();
+}
+state Reward41
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Green Crystal!");
+	action		GiveItem (399,5);
+	action  	ResetDaily();
+}
+state Reward42
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Imp Sting!");
+	action		GiveItem (400,5);
+	action  	ResetDaily();
+}
+state Reward43
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Twin Horn!");
+	action		GiveItem (402,5);
+	action  	ResetDaily();
+}
+state Reward44
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Vine Tentacle!");
+	action		GiveItem (403,5);
+	action  	ResetDaily();
+}
+state Reward45
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 1 Robot Chain!");
+	action		GiveItem (404,1);
+	action  	ResetDaily();
+}
+state Reward46
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Monster Flesh!");
+	action		GiveItem (405,5);
+	action  	ResetDaily();
+}
+state Reward47
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 2 Dragon Claw!");
+	action		GiveItem (469,2);
+	action  	ResetDaily();
+}
+state Reward48
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 2 Orb of Light!");
+	action		GiveItem (470,2);
+	action  	ResetDaily();
+}
+state Reward49
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Tenba Bag!");
+	action		GiveItem (477,5);
+	action  	ResetDaily();
+}
+state Reward50
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Spring!");
+	action		GiveItem (478,5);
+	action  	ResetDaily();
+}
+state Reward51
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 5 Flowies!");
+	action		GiveItem (480,5);
+	action  	ResetDaily();
+}
+state Reward52
+{
+	action		PlaySound (97);
+	action		ShowHint ("[Quest Complete] You recieved 1 Dragon Eye!");
+	action		GiveItem (472,1);
+	action  	ResetDaily();
+}
+state EndWithoutReset
+{
+	desc		"Speak with Charles"
+
+	action		ShowHint ("You can only do this one time per day!");
+
+	action		AddNpcText (96, "I know the need is high right now, but I must trade items to other players aswell. Try again tomorrow.");
+	action		AddNpcText (96, " [You can only do this once per day, try again tomorrow]");
+
+	rule		TalkedToNpc (96) goto Restart
+}
+state Restart
+{
+	action		ShowHint ("Login Daily quest aborted");
+	action  	Reset();
+}

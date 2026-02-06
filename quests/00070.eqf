@@ -1,0 +1,74 @@
+Main
+{
+	questname 	"Adventurer - Piglet Trouble"
+	version		1.0
+}
+
+state Begin
+{
+	desc		"Talk to Adventurer"
+
+	action		AddNpcText( 70 , "Those piglets are a real plague, could you help me get rid of them?" );
+	action		AddNpcText( 70 , "Could you kill 5 normal piglets for me? Press on you [CTRL] to attack." );
+	
+	action		AddNpcInput( 70 , 1 , "No thanks.");
+	action		AddNpcInput( 70 , 2 , "Sound good.");
+
+	rule 		InputNpc( 1 ) goto Reset
+	rule 		InputNpc( 2 ) goto Talk1
+
+}
+
+state Talk1
+{
+	desc		"Talk to Adventurer"
+	
+	action		ShowHint("Quest reward: 100 EXP, 25 gold")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 70 , "Please kill 5 piglets");
+
+	action		AddNpcInput( 70 , 1 , "Actually I don't want to.");
+	action		AddNpcInput( 70 , 2 , "Sure thing!");
+
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto KillPiglets
+}
+
+state KillPiglets
+{
+	desc		"Kill 5 Piglets"
+	
+	action		ShowHint ("Find and kill 5 Piglets");
+	action		PlaySound (18)
+	
+	rule 		KilledNpcs( 230, 5) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Talk to Adventurer"
+	
+	action		ShowHint("Go talk to Adventurer!")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 70 , "Thank you so much thats better, please accept this gold for your great work" );
+
+	rule 		TalkedToNpc( 70 ) goto GetReward
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 100 EXP, 25 gold");
+	action		PlaySound(97);
+	action		GiveExp(100);
+    action      GiveItem( 1, 25);
+	action		End();
+}
+
+state Reset
+{
+	action		ShowHint("No one ever helps me..")
+	action		Reset();
+}

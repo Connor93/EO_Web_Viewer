@@ -1,0 +1,180 @@
+// Copyright (c) Vult-r
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://opensource.org/licenses/MIT.
+
+Main
+{
+	questname 	"Ayla's Spell (rep)"
+	version		6
+}
+
+state Begin
+{
+	desc		"Walk to Ayla"
+
+	action		ShowHint("Quest reward: 1200 EXP (REP)");
+
+	action		AddNpcChat(2, "Oh my, I have yet to finish my magic spell, my Witch tutor will be mad");
+	action		AddNpcText(2, "Could you do me a favor and kill 20 rats so I can cast the spell");
+	
+	action		AddNpcInput(2, 1, "Sure");
+	action		AddNpcInput(2, 2, "Do it yourself");
+
+	rule 		InputNpc(1) goto KillRats
+	rule 		InputNpc(2) goto Restart
+	
+}
+
+state KillRats
+{
+	desc	"Kill 20 Rats"
+
+	action		AddNpcText(2, "Oh thankyou, you're a big help");
+	action		AddNpcChat(2, "Come and speak with me again once you have killed those 20 rats.");
+
+	rule 		KilledNpcs(2, 20) goto Talk1
+}
+
+state Talk1
+{
+	desc		"Talk to Ayla, Aeven"
+	
+	action		ShowHint("You have killed 20 rats, speak with Ayla");
+	action		PlaySound(18);
+
+	action		AddNpcText(2, "Thank you for killing those 20 rats for me, my tutor will be so pleased");
+	action		AddNpcText(2, "Could you also kill 20 sheeps for me and return when you are done? ");
+
+	action		AddNpcInput(2, 1, "Sure thing");
+	action		AddNpcInput(2, 2, "Do it yourself");
+
+	rule		InputNpc(1) goto KillSheeps
+	rule		InputNpc(2) goto Restart
+}
+
+state KillSheeps
+{
+	desc		"Kill 20 sheep"
+
+	action		ShowHint("Ayla has asked you to kill 20 sheep. Once you have killed all 20 go and speak with her again.");
+	
+	action		AddNpcText(2, "Come and speak with me again once you have killed those 20 sheep.");
+	action		AddNpcChat(2, "Be sure to make a mess, the more blood the better.");
+
+	rule 		KilledNpcs(170, 20) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Talk to Ayla, Aeven"
+
+	action		ShowHint("You have killed 20 sheep, speak with Ayla");
+	action		PlaySound(18);
+
+	action		AddNpcText(2, "Thank you for slaughtering those sheep! However there is one last thing i need..");
+	action		AddNpcText(2, "I need a Terror potion to finish my spell. Make sure you don't give me a love potion, it will ruin it!");
+
+	action		AddNpcInput(2, 1, "Sure thing");
+	action		AddNpcInput(2, 2, "Do it yourself");
+
+	rule		InputNpc(1) goto CollectPotion
+	rule		InputNpc(2) goto Restart
+
+}
+
+state CollectPotion
+{
+	desc		"Collect 1 Terror or Love Potion"
+
+	action		ShowHint("Collect 1 Terror or Love potion for Ayla to either help or hurt her spell.");
+
+	action		AddNpcText(2, "I need a Terror potion to finish my spell.");
+	action		AddNpcChat(2, "Make sure you don't give me a love potion, it will ruin it!");
+
+	rule		GotItems(296,1) goto GiveTeror
+	rule		GotItems(292,1) goto GiveLove
+}
+
+state GiveTeror
+{
+	desc		"Give a teror potion"
+
+	action		ShowHint("You have collected 1 Terror Potion, speak with Ayla");
+	action		PlaySound(18);
+
+	action		AddNpcText(2, "Did you get the potion?");
+
+	action		AddNpcInput(2, 1, "Here, take it");
+	action		AddNpcInput(2, 2, "No, its mine");
+
+	rule		LostItems(296,1) goto CollectPotion
+	rule		InputNpc(1) goto GoodEnd
+}
+
+
+state GiveLove
+{
+	desc		"Give a love potion"
+
+	action		ShowHint("You have collected 1 Love Potion, speak with Ayla");
+	action		PlaySound(18);
+
+	action		AddNpcText(2, "Did you get the potion?");
+
+	action		AddNpcInput(2, 1, "Here, take it");
+	action		AddNpcInput(2, 2, "No, its mine");
+
+	rule		LostItems(292,1) goto CollectPotion
+	rule		InputNpc(1) goto BadEnd
+}
+
+state GoodEnd
+{
+	desc		"Talk to Ayla for a reward"
+
+	action		RemoveItem(296);
+	action		PlaySound(68);
+
+	action		AddNpcText(2, "You did it, thank you now i can finish my magic spell. Here is your reward..");
+	rule 		TalkedToNpc(2) goto GetReward
+}
+
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 1200 EXP (REP)");
+	action		PlaySound(97);
+
+	action		GiveExp(1200);
+	action		GiveKarma(100);
+	action		Reset();
+}
+
+state BadEnd
+{
+	desc		"Talk to Ayla for a reward"
+
+	action		RemoveItem(292);
+	action		ShowHint("Ayla looks very angry!");
+
+	action		AddNpcText(2, "Whattttttt ! you ruined my magic spell, for this you shall be cursed for the rest of your life");
+	rule 		TalkedToNpc(2) goto GetReward2
+}
+
+state GetReward2
+{
+	action		ShowHint("[Quest Failed] You gained 500 EXP (REP)");
+	action		PlaySound(98);
+
+	action		RemoveKarma(100);
+	action		GiveExp(500);
+	action		Reset();
+}
+
+state Restart
+{
+	action		ShowHint("Witch quest quest aborted..");
+	action		Reset();
+}	

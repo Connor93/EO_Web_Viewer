@@ -1,0 +1,56 @@
+main
+{
+	questname 	"Corrupt Bunny Hunt"
+	version		1
+}
+
+state Begin
+{
+	desc		"Speak with Emma"
+
+	action		AddNpcText (106, "There's a grave problem, these bunnies.. they're corrupted!");
+	action		AddNpcText (106, "But worse yet, they're dropping Corrupt Eggs..");
+	action		AddNpcText (106, "I need you to kill the Corrupt Bunnies, and get rid of as many Corrupt Eggs as possible!");
+	action		AddNpcText (106, "Please be careful... not all of them bunnies are Corrupted.");
+
+	action		AddNpcInput (106, 1, "Okay, not a problem!" );
+	action		AddNpcInput (106, 2, "Oh, that's too bad.." );
+
+	rule 		InputNpc (1) goto KillBunnies
+	rule 		InputNpc (2) goto Reset
+}
+state KillBunnies
+{
+	desc		"Kill 10 Corrupt Eggs"
+
+	action		ShowHint ("Slaughter 10 Corrupt Eggs and return to Emma to let her know!");
+	action		PlaySound (17);
+
+	rule		KilledNpcs (388,10) goto Talk1
+}
+state Talk1
+{
+	desc		"Speak with Emma"
+
+	action		ShowHint ("You've killed 10 Corrupt Eggs, return to Emma!");
+	action		PlaySound (18);
+
+	action		AddNpcText (106, "They're hideous, aren't they. I don't know what's gotten into these Bunnies, but it can't be good..");
+	action		AddNpcText (106, "I do appreciate you helping out. Be mindful of them, some people have said to have seen items drop from them!");
+	action		AddNpcText (106, "Thanks again, here's a small reward for your time.");
+
+	rule		TalkedToNpc (106) goto Reward
+}
+state Reward
+{
+	action		ShowHint ("[Quest Complete] You recieved 2500 EXP and an Easter Egg!");
+	action		PlaySound (97);
+	action		GiveItem (745,1)
+	action		GiveEXP (2500)
+	action		Reset();
+}
+state Reset
+{
+	action		Reset();
+}
+

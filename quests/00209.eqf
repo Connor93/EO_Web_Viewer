@@ -1,0 +1,191 @@
+Main
+{
+	questname 	"Kyles Fortune(Rep)"
+	version		1
+}
+
+state Begin
+{
+    desc    "Talk to Kyle"
+
+    action  AddNpcText(209, "Hey you, want to earn some easy gold? I have a buyer for Ice Crystals who want them in bulk");
+    action  AddNpcText(209, "If you can get 100 of them, I'll pay you for your efforts.. What do you say?");
+
+    action  AddNpcInput(209, 1, "Accept Quest");
+    action  AddNpcInput(209, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto StartQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state GiveUp
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state StartQuest
+{
+    desc    "Talk to Kyle"
+
+    action	PlaySound (17);
+	action	ShowHint ("Quest reward: 5k exp, 10k exp, or 25k exp!");
+
+    action  AddNpcText(209, "Excellent excellent. How many Gems did you want to try and gather?");
+
+    action	AddNpcInput(209, 1, "I can collect 50");
+	action	AddNpcInput(209, 2, "I can collect 75");
+	action	AddNpcInput(209, 3, "I can collect 100");
+
+	rule	InputNpc(1) goto Collect50
+	rule	InputNpc(2) goto Collect75
+	rule	InputNpc(3) goto Collect100
+}
+
+state Collect50
+{
+	desc	"Collect 50 Ice Gems"
+
+	action	ShowHint("Find and collect 50 Ice Gems from the Ice Cave!");
+	action	PlaySound(18);
+
+    action  AddNpcText(209, "Great! Come and see me once you have collected all 50 Ice Gems!");
+    action  AddNpcInput(209, 1, "I'm working on it.");
+    action  AddNpcInput(209, 2, "I give up..");
+
+	rule	GotItems(337, 50) goto GotGems1
+    rule    InputNpc(2) goto GiveUp
+}
+state Collect75
+{
+	desc	"Collect 75 Ice Gems"
+
+	action	ShowHint("Find and collect 75 Ice Gems from the Ice Cave!");
+	action	PlaySound(18);
+
+    action  AddNpcText(209, "Great! Come and see me once you have collected all 75 Ice Gems!");
+    action  AddNpcInput(209, 1, "I'm working on it.");
+    action  AddNpcInput(209, 2, "I give up..");
+
+	rule	GotItems(337, 75) goto GotGems2
+    rule    InputNpc(2) goto GiveUp
+}
+state Collect100
+{
+	desc	"Collect 100 Ice Gems"
+
+	action	ShowHint("Find and collect 100 Ice Gems from the Ice Cave!");
+	action	PlaySound(18);
+
+    action  AddNpcText(209, "Great! Come and see me once you have collected all 100 Ice Gems!");
+    action  AddNpcInput(209, 1, "I'm working on it.");
+    action  AddNpcInput(209, 2, "I give up..");
+
+	rule	GotItems(337, 100) goto GotGems3
+    rule    InputNpc(2) goto GiveUp
+}
+
+state GotGems1
+{
+	desc	"Speak with Kyle"
+
+	action	ShowHint("You've collected enough Ice Gems, return to Kyle!");
+	action	PlaySound(18);
+
+    action  AddNpcText(209, "You're back, how did you go?");
+    action  AddNpcInput(209, 1, "Give Ice Gems");
+
+    rule    InputNpc(1) goto CheckGems1
+}
+
+state GotGems2
+{
+	desc	"Speak with Kyle"
+
+	action	ShowHint("You've collected enough Ice Gems, return to Kyle!");
+	action	PlaySound(18);
+
+    action  AddNpcText(209, "You're back, how did you go?");
+    action  AddNpcInput(209, 1, "Give Ice Gems");
+
+    rule    InputNpc(1) goto CheckGems2
+}
+
+state GotGems3
+{
+	desc	"Speak with Kyle"
+
+	action	ShowHint("You've collected enough Ice Gems, return to Kyle!");
+	action	PlaySound(18);
+
+    action  AddNpcText(209, "You're back, how did you go?");
+    action  AddNpcInput(209, 1, "Give Ice Gems");
+
+    rule    InputNpc(1) goto CheckGems3
+}
+
+state CheckGems1
+{
+    desc    "Speak with Kyle"
+
+    rule    GotItems(337,50) goto Reward1
+
+    action  AddNpcText(209, "I thought you had all 50 Ice Gems? Where are they?");
+    action  AddNpcInput(209, 1, "I'll go get more..");
+    rule    InputNpc(1) goto StartQuest
+}
+
+state CheckGems2
+{
+    desc    "Speak with Kyle"
+
+    rule    GotItems(337,75) goto Reward2
+
+    action  AddNpcText(209, "I thought you had all 75 Ice Gems? Where are they?");
+    action  AddNpcInput(209, 1, "I'll go get more..");
+    rule    InputNpc(1) goto StartQuest
+}
+
+state CheckGems3
+{
+    desc    "Speak with Kyle"
+
+    rule    GotItems(337,100) goto Reward3
+
+    action  AddNpcText(209, "I thought you had all 100 Ice Gems? Where are they?");
+    action  AddNpcInput(209, 1, "I'll go get more..");
+    rule    InputNpc(1) goto StartQuest
+}
+
+state Reward1
+{
+    action  RemoveItem(337,50);
+    action  GiveExp(5000);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have received 5000exp");
+    action  Reset();
+}
+
+state Reward2
+{
+    action  RemoveItem(337,75);
+    action  GiveExp(10000);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have received 10000exp");
+    action  Reset();
+}
+
+state Reward3
+{
+    action  RemoveItem(337,100);
+    action  GiveExp(15000);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have received 15000exp");
+    action  Reset();
+}

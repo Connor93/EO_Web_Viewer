@@ -1,0 +1,130 @@
+Main
+{
+	questname	"Rise Evil One"
+	version		1
+    // NPC ID 419
+}
+
+state Begin
+{
+    desc	"Talk to Darth Ruin"
+
+    action  AddNpcText(207, "Halt! Does thy side with good or evil?");
+    action  AddNpcInput(207, 1, "Good of course!");
+    action  AddNpcInput(207, 2, "Evil for life");
+
+    rule    InputNpc(1) goto Rejected
+    rule    InputNpc(2) goto CheckGender
+}
+
+state Rejected
+{
+    desc    "Talk to Darth Ruin"
+
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state CheckGender
+{
+    rule    IsGender(0) goto FemQuestGiven
+    rule    IsGender(1) goto MaleQuestGiven
+}
+
+state MaleQuestGiven
+{
+	desc	"Talk to Darth Ruin"
+
+    action  AddNpcText(207, "Yes! Embrace the darkness!");
+    action  AddNpcText(207, "Our lord requests sacrifice. Bring to the alter the Cursed Crystal and bathe in darkness brother!");
+    action  AddNpcText(207, "[Quest Reward: 8,400 exp]");
+
+    action  AddNpcInput(207, 1, "Accept Quest");
+    action  AddNpcInput(207, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto AcceptQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state FemQuestGiven
+{
+	desc	"Talk to Darth Ruin"
+
+    action  AddNpcText(207, "Yes! Embrace the darkness!");
+    action  AddNpcText(207, "Our lord requests sacrifice. Bring to the alter the Cursed Crystal and bathe in darkness sister!");
+    action  AddNpcText(207, "[Quest Reward: 8,400 exp]");
+
+    action  AddNpcInput(207, 1, "Accept Quest");
+    action  AddNpcInput(207, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto AcceptQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state Reward
+{
+    action  RemoveItem(815,20);
+    action  GiveExp(8400);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have gained 8,400 exp!");
+    action  Reset();
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state AcceptQuest
+{
+    desc    "Collect 20 Cursed Crystal"
+
+    action  AddNpcText(207, "Bring to the alter the cursed crystal, then embrace his will and swallow his essence!");
+
+    rule    GotItems(815,20) goto GotCursedCrystal
+}
+
+state GotCursedCrystal
+{
+    rule    IsGender(0) goto FemGotCursedCrystal
+    rule    IsGender(1) goto MaleGotCursedCrystal
+}
+
+state MaleGotCursedCrystal
+{
+    desc    "Talk to Darth Ruin"
+
+    action  ShowHint("You have collected 20 Cursed Crystal! Return to Darth Ruin");
+    action  PlaySound(37);
+
+    action  AddNpcText(207, "That's it dear brother, surrender your will to our Lord!");
+    action  AddNpcInput(207, 1, "Give Cursed Crystal");
+
+    rule    InputNpc(1) goto CheckCursedCrystal
+}
+
+state FemGotCursedCrystal
+{
+    desc    "Talk to Darth Ruin"
+
+    action  ShowHint("You have collected 20 Cursed Crystal! Return to Darth Ruin");
+    action  PlaySound(37);
+
+    action  AddNpcText(207, "That's it dear sister, surrender your body to our Lord!");
+    action  AddNpcInput(207, 1, "Give Cursed Crystal");
+
+    rule    InputNpc(1) goto CheckCursedCrystal
+}
+
+
+state CheckCursedCrystal
+{
+    desc    "Talk to Darth Ruin"
+
+    rule    GotItems(815,20) goto Reward
+
+    action  AddNpcText(207, "Where is your pride? Where is the darkness? Do not dissapoint our Lord!");
+    action  AddNpcInput(207, 1, "I'll get it.");
+    rule    InputNpc(1) goto AcceptQuest
+}

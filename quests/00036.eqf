@@ -1,0 +1,60 @@
+Main
+{
+	questname 	"Sheep Protector (rep)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Speak with Jerzy"
+
+	action		ShowHint("Quest reward: 210 EXP! (REP)")
+	action		PlaySound (17);
+
+	action		AddNpcText (36, "Its terrible, those ugly snakes are killing all my cattle.." );
+	action		AddNpcText (36, "Im too old to fight. I wish someone could help me killing those snakes!" );
+
+	action		AddNpcInput( 36 , 1 , "Sorry, I'm too weak");
+	action		AddNpcInput( 36 , 2 , "I can help you!");
+
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto KillSnake
+}
+
+state KillSnake
+{
+	desc		"Kill 5 Snakes"
+
+	action		ShowHint ("Kill 5 Snakes and then return to Jerzy!");
+	action		PlaySound (17);
+
+	rule 		KilledNpcs (6, 5) goto Talk1
+}
+
+state Talk1
+{
+	desc		"Speak with Jerzy"
+
+	action		ShowHint("You have successfully killed 5 snakes!")
+	action		PlaySound (18);
+
+	action		AddNpcChat( 36 , "Thank you!" );
+	action		AddNpcText( 36 , "Thank you! I hope my sheeps are safe for now.." );
+
+	rule		TalkedToNpc( 36 ) goto GetReward
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 210 EXP (REP)");
+	action		PlaySound(97);
+	action		GiveExp(210)
+	action		Reset()
+}
+
+state Reset
+{
+	action		ShowHint("Sheep protector quest aborted..")
+	action		PlaySound (98);
+	action		Reset()
+}	

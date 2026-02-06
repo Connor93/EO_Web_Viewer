@@ -1,0 +1,270 @@
+Main
+{
+	questname	"Dorp Dorp"
+	version		1
+    // NPC ID 420
+}
+
+state Begin
+{
+	desc	"Talk to Dorp"
+
+    action  AddNpcText(206, "Dorp like fancy rock. Dorp think they pretty. You find fancy rock for dorp, dorp make you friend?");
+    action  AddNpcText(206, "[Quest Reward: 6,800 exp]");
+
+    action  AddNpcInput(206, 1, "Accept Quest");
+    action  AddNpcInput(206, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto AcceptQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state Reward
+{
+    action  GiveExp(6800);
+    action  ShowHint("[Quest Complete] You have received 6,800exp!");
+    action  PlaySound(97);
+    action  Reset();
+}
+
+state AcceptQuest
+{
+    action  Roll(5);
+
+    rule    Rolled(1) goto BlueCrystalline
+    rule    Rolled(2) goto GreenCrystalline
+    rule    Rolled(3) goto PurpleCrystalline
+    rule    Rolled(4) goto YellowCrystalline
+    rule    Rolled(5) goto RedCrystalline
+}
+
+// Blue Crystalline
+state BlueCrystalline
+{
+    desc    "Collect 25 Blue Crystalline"
+
+    action  AddNpcText(206, "You bring Dorp shiny blue rock. Dorp smile.");
+    action  ShowHint("Collect 25 blue crystalline for Dorp.");
+
+    rule    GotItems(818,25) goto CollectedBlueCrystalline
+}
+
+state CollectedBlueCrystalline
+{
+    desc    "Return to Dorp"
+
+    action  ShowHint("You have collected 25 blue crystalline, return to Dorp");
+    action  PlaySound(37);
+
+    action  AddNpcText(206, "You have fancy rock?");
+    action  AddNpcInput(206, 1, "Give Crystalline");
+
+    rule    InputNpc(1) goto CheckBlueCrystalline
+}
+
+state CheckBlueCrystalline
+{
+    desc    "Talk to Dorp"
+
+    rule    GotItems(818,25) goto TakeBlueCrystalline
+
+    action  AddNpcText(206, "Dorp no stupid, you stupid! Bring rock, Dorp want!");
+    action  AddNpcInput(206, 1, "I will get it");
+    rule    InputNpc(1) goto BlueCrystalline
+}
+
+state TakeBlueCrystalline
+{
+    action  RemoveItem(818,25);
+
+    action  AddNpcText(206, "Yay pretty blue rock! Dorp happy! You Dorp friend!");
+    action  AddNpcInput(206, 1, "Accept Reward");
+
+    rule    InputNpc(1) goto Reward
+}
+
+// Green Crystalline
+state GreenCrystalline
+{
+    desc    "Collect 25 Green Crystalline"
+
+    action  AddNpcText(206, "You bring Dorp shiny green rock. Dorp smile.");
+    action  ShowHint("Collect 25 green crystalline for Dorp.");
+
+    rule    GotItems(831,25) goto CollectedGreenCrystalline
+}
+
+state CollectedGreenCrystalline
+{
+    desc    "Return to Dorp"
+
+    action  ShowHint("You have collected 25 green crystalline, return to Dorp");
+    action  PlaySound(37);
+
+    action  AddNpcText(206, "You have fancy rock?");
+    action  AddNpcInput(206, 1, "Give Crystalline");
+
+    rule    InputNpc(1) goto CheckGreenCrystalline
+}
+
+state CheckGreenCrystalline
+{
+    desc    "Talk to Dorp"
+
+    rule    GotItems(831,25) goto TakeGreenCrystalline
+
+    action  AddNpcText(206, "Dorp no stupid, you stupid! Bring rock, Dorp want!");
+    action  AddNpcInput(206, 1, "I will get it");
+    rule    InputNpc(1) goto GreenCrystalline
+}
+
+state TakeGreenCrystalline
+{
+    action  RemoveItem(831,25);
+
+    action  AddNpcText(206, "Yay pretty green rock! Dorp happy! You Dorp friend!");
+    action  AddNpcInput(206, 1, "Accept Reward");
+
+    rule    InputNpc(1) goto Reward
+}
+
+// Purple Crystalline
+state PurpleCrystalline
+{
+    desc    "Collect 25 Purple Crystalline"
+
+    action  AddNpcText(206, "You bring Dorp shiny purple rock. Dorp smile.");
+    action  ShowHint("Collect 25 purple crystalline for Dorp.");
+
+    rule    GotItems(832,25) goto CollectedPurpleCrystalline
+}
+
+state CollectedPurpleCrystalline
+{
+    desc    "Return to Dorp"
+
+    action  ShowHint("You have collected 25 purple crystalline, return to Dorp");
+    action  PlaySound(37);
+
+    action  AddNpcText(206, "You have fancy rock?");
+    action  AddNpcInput(206, 1, "Give Crystalline");
+
+    rule    InputNpc(1) goto CheckPurpleCrystalline
+}
+
+state CheckPurpleCrystalline
+{
+    desc    "Talk to Dorp"
+
+    rule    GotItems(832,25) goto TakePurpleCrystalline
+
+    action  AddNpcText(206, "Dorp no stupid, you stupid! Bring rock, Dorp want!");
+    action  AddNpcInput(206, 1, "I will get it");
+    rule    InputNpc(1) goto PurpleCrystalline
+}
+
+state TakePurpleCrystalline
+{
+    action  RemoveItem(832,25);
+
+    action  AddNpcText(206, "Yay pretty purple rock! Dorp happy! You Dorp friend!");
+    action  AddNpcInput(206, 1, "Accept Reward");
+
+    rule    InputNpc(1) goto Reward
+}
+
+// Yellow Crystalline
+state YellowCrystalline
+{
+    desc    "Collect 25 Yellow Crystalline"
+
+    action  AddNpcText(206, "You bring Dorp shiny yellow rock. Dorp smile.");
+    action  ShowHint("Collect 25 yellow crystalline for Dorp.");
+
+    rule    GotItems(833,25) goto CollectedYellowCrystalline
+}
+
+state CollectedYellowCrystalline
+{
+    desc    "Return to Dorp"
+
+    action  ShowHint("You have collected 25 yellow crystalline, return to Dorp");
+    action  PlaySound(37);
+
+    action  AddNpcText(206, "You have fancy rock?");
+    action  AddNpcInput(206, 1, "Give Crystalline");
+
+    rule    InputNpc(1) goto CheckYellowCrystalline
+}
+
+state CheckYellowCrystalline
+{
+    desc    "Talk to Dorp"
+
+    rule    GotItems(833,25) goto TakeYellowCrystalline
+
+    action  AddNpcText(206, "Dorp no stupid, you stupid! Bring rock, Dorp want!");
+    action  AddNpcInput(206, 1, "I will get it");
+    rule    InputNpc(1) goto YellowCrystalline
+}
+
+state TakeYellowCrystalline
+{
+    action  RemoveItem(833,25);
+
+    action  AddNpcText(206, "Yay pretty yellow rock! Dorp happy! You Dorp friend!");
+    action  AddNpcInput(206, 1, "Accept Reward");
+
+    rule    InputNpc(1) goto Reward
+}
+
+// Red Crystalline
+state RedCrystalline
+{
+    desc    "Collect 25 Red Crystalline"
+
+    action  AddNpcText(206, "You bring Dorp shiny red rock. Dorp smile.");
+    action  ShowHint("Collect 25 red crystalline for Dorp.");
+
+    rule    GotItems(834,25) goto CollectedRedCrystalline
+}
+
+state CollectedRedCrystalline
+{
+    desc    "Return to Dorp"
+
+    action  ShowHint("You have collected 25 red crystalline, return to Dorp");
+    action  PlaySound(37);
+
+    action  AddNpcText(206, "You have fancy rock?");
+    action  AddNpcInput(206, 1, "Give Crystalline");
+
+    rule    InputNpc(1) goto CheckRedCrystalline
+}
+
+state CheckRedCrystalline
+{
+    desc    "Talk to Dorp"
+
+    rule    GotItems(834,25) goto TakeRedCrystalline
+
+    action  AddNpcText(206, "Dorp no stupid, you stupid! Bring rock, Dorp want!");
+    action  AddNpcInput(206, 1, "I will get it");
+    rule    InputNpc(1) goto RedCrystalline
+}
+
+state TakeRedCrystalline
+{
+    action  RemoveItem(834,25);
+
+    action  AddNpcText(206, "Yay pretty red rock! Dorp happy! You Dorp friend!");
+    action  AddNpcInput(206, 1, "Accept Reward");
+
+    rule    InputNpc(1) goto Reward
+}

@@ -1,0 +1,62 @@
+Main
+{
+	questname 	"Ron's Grudge (Rep)"
+	version		1
+}
+
+state Begin
+{
+    desc    "Talk to Ron"
+
+    action  AddNpcText(212, "Those damn Ice Giants! They killed my brother Jon! I don't care that they are mindless monsters, I will never forgive them!");
+    action  AddNpcText(212, "Hey you! I'll reward you if you go and slaughter those horrible monsters. What do you say?");
+    action  AddNpcText(212, "[Quest Reward: 7250EXP and 105 gold (REP)");
+
+    action  AddNpcInput(212, 1, "Accept Quest");
+    action  AddNpcInput(212, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto StartQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state GiveUp
+{
+    action  AddNpcChat(212, "Oh.. what!? You're a dissapointment to warriors!");
+    action  Reset();
+}
+
+state StartQuest
+{
+    desc    "Kill 100 Ice Giants"
+
+    action  AddNpcText(212, "Good! Now go make those Ice Giants pay!");
+    action  AddNpcInput(212, 1, "I'm working on it");
+    action  AddNpcInput(212, 2, "I give up..");
+
+    rule    KilledNpcs(91,100) goto KilledGiants
+    rule    InputNpc(2) goto GiveUp
+}
+
+state KilledGiants
+{
+    desc    "Talk to Ron"
+
+    action  AddNpcText(212, "Ha! I'd love to see the look on the faces of the Ice Giant's you slayed! Here is your reward, come and see me again if you want to kill more of em..");
+    action  AddNpcInput(212, 1, "Collect Reward");
+    rule    InputNpc(1) goto Reward
+}
+
+state Reward
+{
+    action  GiveItem(1,105);
+    action  GiveExp(7250);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have received 7250exp & 105g");
+    action  Reset();
+}

@@ -1,0 +1,99 @@
+Main
+{
+	questname 	"PK Guard(rep)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to PK Guard"
+
+	action		AddNpcText( 85 , "This place has been over run with corruption.." );
+	action		AddNpcText( 85 , "The king asked the dwarfs to come and tackle the hell flyers but something about this place turned them evil.. " );
+	action		AddNpcText( 85 , "This world is slowing turning to darkness, nothing is how it was.." );
+	action		AddNpcText( 85 , "There is no hope for the dwarfs anymore, can you take care of both the dwarfs and the hell flyers?" );
+
+	action		AddNpcInput( 85 , 1 , "Not intrested");
+	action		AddNpcInput( 85 , 2 , "I will help you");
+
+	rule 		InputNpc( 1 ) goto Reset
+	rule 		InputNpc( 2 ) goto Talk1
+
+}
+
+state Talk1
+{
+	desc		"Talk to the PK Guard"
+	
+	action		ShowHint("Quest reward: 8000 EXP (rep)")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 85 , "Please kill 20 hell flyers");
+
+	action		AddNpcInput( 85 , 1 , "Sorry, i give up.");
+	action		AddNpcInput( 85 , 2 , "Im working on it!");
+
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto Kill1
+}
+
+state Kill1
+{
+	desc		"Kill 20 hell flyers"
+	
+	action		ShowHint ("Find and kill 20 Hell flyers");
+	action		PlaySound (18)
+	
+	rule 		KilledNpcs (184, 20) goto kill2
+}
+
+state kill2
+{
+	desc		"Talk to the PK Guard"
+	
+	action		ShowHint("Go find the guard!")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 85 , "Thanks but we need to cut down the dwarfs now, kill 20 dwarfs for me" );
+
+	rule 		TalkedToNpc( 85 ) goto kill3
+
+}
+
+state Kill3
+{
+	desc		"Kill 20 Dwarfs"
+	
+	action		ShowHint ("Find and kill 20 Dwarfs");
+	action		PlaySound (18)
+	
+	rule 		KilledNpcs( 141, 20) goto GetReward1
+}
+
+state GetReward1
+{
+	desc		"Talk to the PK Guard"
+	
+	action		ShowHint("Go find the guard!")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 85 , "Thanks, there is still so many, come back and help anytime!" );
+
+	rule 		TalkedToNpc( 85 ) goto GetReward
+
+}
+
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 8000 EXP!");
+	action		PlaySound(97);
+	action		GiveExp(8000);
+	action		Reset();
+}
+
+state Reset
+{
+	action		ShowHint("Someone will come along..")
+	action		Reset();
+}

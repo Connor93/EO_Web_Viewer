@@ -1,0 +1,46 @@
+Main
+{
+	questname 	"ID used in another quest"
+	version		1
+    hidden
+}
+
+state Begin
+{
+    action  Reset();
+}
+
+state DeclineQuest
+{
+    action  Reset();
+}
+
+state GiveUp
+{
+    action  Reset();
+}
+
+state StartQuest
+{
+    action  Reset();
+}
+
+state GotGems
+{
+    action  Reset();
+}
+
+state CheckGems
+{
+    action  Reset();
+}
+
+state TakeGems
+{
+    action  Reset();
+}
+
+state Reward
+{
+    action  Reset();
+}

@@ -1,0 +1,44 @@
+Main
+{
+	questname	"Golden Isle Warp"
+	version		1
+    hidden
+    // NPC ID 425
+}
+
+state Begin
+{
+    desc    "Talk to Garrick"
+
+    action  AddNpcText(200, "Hey there! Looking for a ride outta here?");
+    action  AddNpcInput(200, 1, "Yes, let's go");
+    action  AddNpcInput(200, 2, "Hold on");
+
+    rule    InputNpc(1) goto CheckLocation
+}
+
+state CheckLocation
+{
+    rule    EnterMap(350) goto WarpToBeach
+    rule    EnterMap(52) goto WarpToIsle
+}
+
+state WarpToBeach
+{
+    desc    "Warp to beach"
+
+    action  SetCoord(52,9,37);
+    action  ShowHint("When you wish to go back, return to Garrick.");
+    action  PlaySound(17);
+    rule    Always() goto Begin
+}
+
+state WarpToIsle
+{
+    desc    "Warp to beach"
+
+    action  SetCoord(350,33,72);
+    action  ShowHint("When you wish to go back, return to Garrick.");
+    action  PlaySound(17);
+    rule    Always() goto Begin
+}

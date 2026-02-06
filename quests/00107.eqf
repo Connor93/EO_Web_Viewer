@@ -1,0 +1,43 @@
+Main
+{
+    questname     "Bunny Sounds"
+    version       1
+    hidden
+}
+
+state Begin
+{
+    action  AddNpcText(107, "thump.. thump..");
+
+    rule    TalkedToNpc (107) goto Roll1
+}
+
+state Roll1
+{
+	action		Roll(10)
+
+
+	rule		Rolled (1) goto Reward1
+	rule		Rolled (2) goto Reward1
+	rule		Rolled (3) goto Reward1
+	rule		Rolled (4) goto Reward1
+	rule		Rolled (5) goto Reward1
+	rule		Rolled (6) goto Reward1
+	rule		Rolled (7) goto Reward1
+	rule		Rolled (8) goto Reward1
+	rule		Rolled (9) goto Reward1
+	rule		Rolled (10) goto Reward2
+}
+
+state Reward1
+{
+	action		reset();
+}
+
+state Reward2
+{
+	action		ShowHint ("You've recieved 1 Easter Egg!");
+	action		PlaySound (97);
+	action		GiveItem (745,1)
+	action		Reset();
+}

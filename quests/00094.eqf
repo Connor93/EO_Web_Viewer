@@ -1,0 +1,297 @@
+Main
+{
+	questname	"Lost Souls"
+	version		1
+}
+State Begin
+{
+	desc		"Speak with Hazel, the witch"
+
+	action		AddNpcText (94, "hellooww.. Don't be afraid.. I'm not that type of witch..");
+	action		AddNpcText (94, "I've come here to free the Lost Souls of the people who've gone into that horrible house and didn't make it out..");
+	action		AddNpcText (94, "In order to do so, I need to collect as many Lost Souls as I can to create a spell to free them.");
+
+	action		AddNpcInput (94, 1, "Do you need help collecting?");
+	action		AddNpcInput (94, 2, "I'd help if I wasn't busy..");
+
+	rule		InputNpc (1) goto Talk2
+	rule		InputNpc (2) goto Reset
+}
+State Talk2
+{
+	desc		"Speak with Hazel, the witch"
+
+	action		PlaySound (17);
+	action		ShowHint ("Quest reward: 5k exp, 10k exp, or 25k exp!");
+
+	action		AddNpcText (94, "I sure could use the help, collecting them myself takes forever.");
+	action		AddNpcText (94, "Now, I don't want you to wear yourself out.. How many do you think you can collect for me?");
+
+	action		AddNpcInput (94, 1, "I can collect 50");
+	action		AddNpcInput (94, 2, "I can collect 75");
+	action		AddNpcInput (94, 3, "I can collect 100");
+
+	rule		InputNpc (1) goto Collect50
+	rule		InputNpc (2) goto Collect75
+	rule		InputNpc (3) goto Collect100
+}
+State Collect50
+{
+	desc		"Collect 50 Lost Soulds from HH"
+
+	action		ShowHint ("Find and collect 50 Lost Soulds from the Haunted House!");
+	action		PlaySound (18);
+
+	rule		GotItems (716, 50) goto GetReward1
+}
+State Collect75
+{
+	desc		"Collect 75 Lost Soulds from HH"
+
+	action		ShowHint ("Find and collect 75 Lost Soulds from the Haunted House!");
+	action		PlaySound (18);
+
+	rule		GotItems (716, 75) goto GetReward2
+}
+State Collect100
+{
+	desc		"Collect 100 Lost Soulds from HH"
+
+	action		ShowHint ("Find and collect 100 Lost Soulds from the Haunted House!");
+	action		PlaySound (18);
+
+	rule		GotItems (716, 100) goto GetReward3
+}
+State GetReward1
+{
+	desc		"Speak with Hazel"
+
+	action		ShowHint ("You've collected enough Lost Souls, return to Hazel!");
+	action		PlaySound (18);
+
+	action		AddNpcText (94, "Great! Thank you for helping me with this, I'd lose my mind doing it myself.");
+	action		AddNpcText (94, "Please, take this.. I hope it's enough for your troubles..");
+
+	action		AddNpcInput (94, 1, "No worries!");
+
+	rule		InputNpc (1) goto Roll1
+}
+State Roll1
+{
+	action		Roll(5)
+
+	rule		Rolled (1) goto Reward1
+	rule		Rolled (2) goto Reward2
+	rule		Rolled (3) goto Reward3
+	rule		Rolled (4) goto Reward4
+	rule		Rolled (5) goto Reward5
+}
+State Reward1
+{
+	action		ShowHint ("[Quest Complete] You gained 5k EXP!");
+	action		RemoveItem (716, 50);
+	action		PlaySound (97);
+	action		GiveExp (5000);
+	action		Reset();
+}	
+State Reward2
+{
+	action		ShowHint ("[Quest Complete] You gained 5k EXP!");
+	action		RemoveItem (716, 50);
+	action		PlaySound (97);
+	action		GiveExp (5000);
+	action		Reset();
+}
+State Reward3
+{
+	action		ShowHint ("[Quest Complete] You gained 5k EXP!");
+	action		RemoveItem (716, 50);
+	action		PlaySound (97);
+	action		GiveExp (5000);
+	action		Reset();
+}
+State Reward4
+{
+	action		ShowHint ("[Quest Complete] You gained 5k EXP!");
+	action		RemoveItem (716, 50);
+	action		PlaySound (97);
+	action		GiveExp (5000);
+	action		Reset();
+}
+State Reward5
+{
+	action		ShowHint ("[Quest Complete] You gained 5k EXP!");
+	action		RemoveItem (716, 50);
+	action		PlaySound (97);
+	action		GiveExp (5000);
+	action		Reset();
+}				
+State GetReward2
+{
+	desc		"Speak with Hazel"
+
+	action		ShowHint ("You've collected enough Lost Souls, return to Hazel!");
+	action		PlaySound (18);
+
+	action		AddNpcText (94, "Great! Thank you for helping me with this, I'd lose my mind doing it myself.");
+	action		AddNpcText (94, "Please, take this.. I hope it's enough for your troubles..");
+
+	action		AddNpcInput (94, 1, "No worries!");
+
+	rule		InputNpc (1) goto Roll2
+}
+State Roll2
+{
+	action		Roll(5)
+
+	rule		Rolled (1) goto Reward6
+	rule		Rolled (2) goto Reward7
+	rule		Rolled (3) goto Reward8
+	rule		Rolled (4) goto Reward9
+	rule		Rolled (5) goto Reward10
+}
+State Reward6
+{
+	action		ShowHint ("[Quest Complete] You gained 10k EXP!");
+	action		RemoveItem (716, 75);
+	action		PlaySound (97);
+	action		GiveExp (10000);
+	action		Reset();
+}	
+State Reward7
+{
+	action		ShowHint ("[Quest Complete] You gained 10k EXP!");
+	action		RemoveItem (716, 75);
+	action		PlaySound (97);
+	action		GiveExp (10000);
+	action		Reset();
+}
+State Reward8
+{
+	action		ShowHint ("[Quest Complete] You gained 10k EXP!");
+	action		RemoveItem (716, 75);
+	action		PlaySound (97);
+	action		GiveExp (10000);
+	action		Reset();
+}
+State Reward9
+{
+	action		ShowHint ("[Quest Complete] You gained 10k EXP!");
+	action		RemoveItem (716, 75);
+	action		PlaySound (97);
+	action		GiveExp (10000);
+	action		Reset();
+}
+State Reward10
+{
+	action		ShowHint ("[Quest Complete] You gained 10k EXP!");
+	action		RemoveItem (716, 75);
+	action		PlaySound (97);
+	action		GiveExp (10000);
+	action		Reset();
+}				
+State GetReward3
+{
+	desc		"Speak with Hazel"
+
+	action		ShowHint ("You've collected enough Lost Souls, return to Hazel!");
+	action		PlaySound (18);
+
+	action		AddNpcText (94, "Great! Thank you for helping me with this, I'd lose my mind doing it myself.");
+	action		AddNpcText (94, "Please, take this.. I hope it's enough for your troubles..");
+
+	action		AddNpcInput (94, 1, "No worries!");
+
+	rule		InputNpc (1) goto Roll3
+}
+State Roll3
+{
+	action		Roll(5)
+
+	rule		Rolled (1) goto Reward11
+	rule		Rolled (2) goto Reward12
+	rule		Rolled (3) goto Reward13
+	rule		Rolled (4) goto Reward14
+	rule		Rolled (5) goto Reward15
+}
+State Reward11
+{
+	action		ShowHint ("[Quest Complete] You gained 25k EXP!");
+	action		RemoveItem (716, 100);
+	action		PlaySound (97);
+	action		GiveExp (25000);
+	action		Reset();
+}	
+State Reward12
+{
+	action		ShowHint ("[Quest Complete] You gained 25k EXP!");
+	action		RemoveItem (716, 100);
+	action		PlaySound (97);
+	action		GiveExp (25000);
+	action		Reset();
+}
+State Reward13
+{
+	action		ShowHint ("[Quest Complete] You gained 25k EXP!");
+	action		RemoveItem (716, 100);
+	action		PlaySound (97);
+	action		GiveExp (25000);
+	action		Reset();
+}
+State Reward14
+{
+	action		ShowHint ("[Quest Complete] You gained 25k EXP and a Black Magical Hat!");
+	action		RemoveItem (716, 100);
+	action		PlaySound (35);
+	action		GiveItem (174,1);
+	action		GiveExp (25000);
+	action		Reset();
+}
+State Reward15
+{
+	action		ShowHint ("[Quest Complete] You gained 25k EXP!");
+	action		RemoveItem (716, 100);
+	action		PlaySound (97);
+	action		GiveExp (25000);
+	action		Reset();
+}	
+State Reset
+{
+	action		ShowHint ("Well.. that's okay, thanks anyways..");
+	action		PlaySound (6);
+	action		Reset();			
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+

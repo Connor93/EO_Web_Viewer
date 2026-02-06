@@ -1,0 +1,494 @@
+Main
+{
+	questname	"Queen's offering"
+	version		1.0
+}
+State Begin
+{
+	desc		"Speak with the Queen"
+
+	action		AddNpcText (90, "Thank you for helping keep aeven safe! The witch here in Aeven, asked me to collect as many extenguished skulls as we possibly could.. Did you save any by chance?");
+	action		AddNpcText (90, "I know it sounds silly.. but we must do whatever we can to ensure this doesn't happen again!");
+
+	action		AddNpcInput (90, 1, "Yes, I have some");
+	action		AddNpcInput (90, 2, "No, I didnt think to..");
+
+	rule		InputNpc (1) goto SkullCheck
+	rule		InputNpc (2) goto Reset
+}
+State SkullCheck
+{
+	desc		"Item Check"
+	
+	rule		GotItems (694,1) goto Roll
+	
+	action		AddNpcText (90, "You must have ran out..");
+	rule		TalkedToNpc (90) goto Begin
+}
+
+State Roll
+{
+	desc		"Random"
+
+	action		Roll (50)
+	
+	rule		Rolled(1) goto item1
+	rule		Rolled(2) goto item2
+	rule		Rolled(3) goto item3
+	rule		Rolled(4) goto item4
+	rule		Rolled(5) goto item5
+	rule		Rolled(6) goto item6
+	rule		Rolled(7) goto item7
+	rule		Rolled(8) goto item8
+	rule		Rolled(9) goto item9
+	rule		Rolled(10) goto item10
+	rule		Rolled(11) goto item11
+	rule		Rolled(12) goto item12
+	rule		Rolled(13) goto item13
+	rule		Rolled(14) goto item14
+	rule		Rolled(15) goto item15
+	rule		Rolled(16) goto item16
+	rule		Rolled(17) goto item17
+	rule		Rolled(18) goto item18
+	rule		Rolled(19) goto item19
+	rule		Rolled(20) goto item20
+	rule		Rolled(21) goto item21
+	rule		Rolled(22) goto item22
+	rule		Rolled(23) goto item23
+	rule		Rolled(24) goto item24
+	rule		Rolled(25) goto item25
+	rule		Rolled(26) goto item26
+	rule		Rolled(27) goto item27
+	rule		Rolled(28) goto item28
+	rule		Rolled(29) goto item29
+	rule		Rolled(30) goto item30
+	rule		Rolled(31) goto item31
+	rule		Rolled(32) goto item32
+	rule		Rolled(33) goto item33
+	rule		Rolled(34) goto item34
+	rule		Rolled(35) goto item35
+	rule		Rolled(36) goto item36
+	rule		Rolled(37) goto item37
+	rule		Rolled(38) goto item38
+	rule		Rolled(39) goto item39
+	rule		Rolled(40) goto item40
+	rule		Rolled(41) goto item41
+	rule		Rolled(42) goto item42
+	rule		Rolled(43) goto item43
+	rule		Rolled(44) goto item44
+	rule		Rolled(45) goto item45
+	rule		Rolled(46) goto item46
+	rule		Rolled(47) goto item47
+	rule		Rolled(48) goto item48
+	rule		Rolled(49) goto item49
+	rule		Rolled(50) goto item50
+	
+
+}
+State item1
+{
+
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000)
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item2
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item3
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item4
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item5
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item6
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item7
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item8
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item9
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item10
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item11
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,10000);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item12
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,1000);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item13
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item14
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,500);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item15
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,250);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item16
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item17
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item18
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item19
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100);
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item20
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item21
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item22
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item23
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item24
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item25
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item26
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item27
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item28
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item29
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item30
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a Top Prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item31
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item32
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item33
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item34
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a Top Prize!");
+	action		GiveExp (1000);
+	action		GiveItem (619,1)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item35
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item36
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item37
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item38
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,1000)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item39
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item40
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item41
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item42
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item43
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item44
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item45
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item46
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item47
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item48
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item49
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a Top Prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+State item50
+{
+        action		ShowHint ("[Quest Complete] You gained 1k EXP and a random prize!");
+	action		GiveExp (1000);
+	action		GiveItem (1,100)
+	action		RemoveItem (694,1);
+	action		Reset();
+}
+
+State Reset
+{
+	action		ShowHint ("Well.. that is unfortunate.. I still thank you for your efforts!");
+	action		Reset();
+}

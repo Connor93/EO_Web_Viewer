@@ -1,0 +1,153 @@
+Main
+{
+	questname	"Wedding Attire"
+	version		1.0
+}
+
+state Begin
+{
+	desc		"Speak with Evangelina"
+
+	action		AddNpcText (102, "Hello.. welcome to Aeven Church. Are you looking to get married? Or just need a moment for yourself?");
+
+	action		AddNpcInput (102, 1, "Yes, I'm getting married");
+	action		AddNpcInput (102, 2, "No, I would just like a moment..");
+
+	rule		InputNpc (1) goto Talk1
+	rule		InputNpc (2) goto Reset
+}
+
+state Talk1
+{
+	desc		"Speak with Evangelina"
+
+	action		ShowHint ("Congratulations! make sure you both start and accept this quest!");
+
+	action		AddNpcText (102, "Congratulations! Today is such a good day to get married. Now, there are some requirements from the Priest before we can get started.");
+	action		AddNpcText (102, "There's a cave, near the reaper cave.. that houses a man named David. You must both find him, and he will provide the attire required to start this ceremony.");
+	action		AddnpcText (102, "Safe travels, and the best of luck to you both.");
+
+	rule		TalkedToNpc (102) goto SpeakToDavid
+}
+
+state SpeakToDavid
+{
+	desc		"Search for David near Reaper Cave"
+
+	action		ShowHint ("Search for David near the Reaper Cave entrance!");
+	action		PlaySound (17);
+
+	action		AddNpcText (103, ".. what brings you here?");
+
+	action		AddNpcInput (103, 1, "Evangelina sent me here..");
+	
+	rule		InputNpc (1) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Speak with David"
+
+	action		AddNpcText (103, "Ahhh.. you must be looking to get married. Marriages are taken very seriously in Aeven and surrounding areas.. So, the King himself put ME in charge of wedding attire.");
+	action		AddNpcText (103, "Me.. a man with crafting skills and better things to do. Anyways.. enough with all of that, lets get this started.");
+	action		AddNpcText (103, "I'm going to need some Dark Rags. Those evil little bastards outside drop them. Collect 15 of them and come back to me.");
+
+	action		AddNpcInput (103, 1, "Okay, no problem");
+	action		AddNpcInput (103, 2, "Nevermind, I quit");
+
+	rule		InputNpc (1) goto CollectRags
+	rule		InputNpc (2) goto Reset
+}
+
+state CollectRags
+{
+	desc		"Collect 15 Dark Rags"
+
+	action		ShowHint ("Find and collect 15 Dark Rags and return to David!");
+	action		Playsound (17);
+
+	rule		GotItems (278,10) goto Talk3
+}
+
+state Talk3
+{
+	desc		"Return to David"
+
+	action		ShowHint ("You've collected 15 Dark Rags, return to David!");
+	action		PlaySound (18);
+
+	action		AddNpcText (103, "That was quick.. Okay, give me a moment to make these for you.");
+
+	rule		TalkedToNpc (103) goto Talk4
+}
+
+state Talk4
+{
+	desc		"Speak with David"
+
+	action		ShowHint ("*Crafty sounds*");
+
+	action		AddNpcText (103, "......");
+
+	rule		TalkedToNpc (103) goto GetReward
+}
+
+State GetReward
+{
+	desc		"Speak with David"
+
+	action		PlaySound (27);
+	
+	action		AddNpcChat (103, "I think this will fit you good.. Come see me again if you ever need another one.");
+
+	rule		IsGender (0) goto Reward1
+	rule		IsGender (1) goto Reward2
+}
+
+state Reward1
+{
+	action		RemoveItem (278,10);
+	action		PlaySound (97);
+	action		ShowHint("[Quest Complete] You gained 1 Wedding Dress.");
+	action		GiveItem (163, 1);
+	action		Reset();
+}
+
+state Reward2
+{
+	action		RemoveItem (278,10);
+	action		PlaySound (97);
+	action		ShowHint("[Quest Complete] You gained 1 Tuxido.")
+	action		GiveItem (133, 1);
+	action		Reset();
+}
+
+state Reset
+{
+
+	action		ShowHint ("Wedding Attire quest aborted..");
+	action		Playsound (6);
+	action		Reset();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

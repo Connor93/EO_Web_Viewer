@@ -1,0 +1,298 @@
+Main
+{
+   questname "Menu"
+   version 1
+   hidden
+}
+
+state begin
+{      
+   action   AddNpcText(91, "Welcome! We await for such fighters as you to test your combat in the worst dungeons!");
+
+   action   addNpcInput(91, 1, "Tell me more!");
+
+   rule     InputNpc (1) goto Intro
+}
+
+state Intro
+{      
+   action   AddNpcText(91, "Dungeons are the deepest layers of Endless Online and a whole challenge for a fighter, such as yourself.");
+
+   action   addNpcInput(91, 1, "What is the challenge?");
+
+   rule     InputNpc (1) goto Intro2
+}
+
+state Intro2
+{      
+   action   AddNpcText(91, "Many challenges await inside these places. From dark forces stealing your health, to spiky roads surrounded by advanced combat situations.");
+
+   action   addNpcInput(91, 1, "How do I enter a Dungeon?");
+
+   rule     InputNpc (1) goto Intro3
+}
+
+state Intro3
+{      
+   action   AddNpcText(91, "Dungeons can be entered if they are started by any fellow warrior or you can take the challenge by starting your own dungeon using a specific key.");
+
+   action   addNpcInput(91, 1, "How do I obtain keys to Dungeons?");
+
+   rule     InputNpc (1) goto Intro4
+}
+
+state Intro4
+{      
+   action   AddNpcText(91, "You can obtain different dungeon keys by fighting different monsters, completing tasks for other citizens or in some cases, buying from me.");
+
+   action   addNpcInput(91, 1, "I am Ready! Let's Start.");
+   action   addNpcInput(91, 2, "Let's go through the information once more");
+
+   rule     InputNpc (1) goto Menu
+   rule     InputNpc (2) goto Reset
+}
+
+state Menu
+{      
+   action   AddNpcText(91, "Select an option to continue.");
+
+   action   addNpcInput(91, 1, "Start/Join a Dungeon");
+   action   addNpcInput(91, 2, "Dungeon Shop");
+
+   rule     InputNpc (1) goto DungeonManager
+   rule     InputNpc (2) goto Shop
+   
+   rule     TalkedToNpc(91) goto ResetMenu 
+}
+
+state DungeonManager
+{
+   action   AddNpcText(91, "Select a dungeon to continue.");
+
+   action   addNpcInput(91, 1, "Go Back");
+   action   addNpcInput(91, 2, "Underwater Temple [L.15+]");
+   action   addNpcInput(91, 3, "Spider Tomb [L.20+]");
+   action   addNpcInput(91, 4, "Secret Library [L.30+]");
+
+   rule     InputNpc (1) goto ResetMenu
+   rule     InputNpc (2) goto CheckStart2
+   rule     InputNpc (3) goto CheckStart3
+   rule     InputNpc (4) goto CheckStart1
+}
+
+state CheckLevel1
+{
+   if IsLevel(20) SetState("CheckStart1");
+   else SetState("NeedLevel1");
+}
+
+state NeedLevel1
+{      
+   action   AddNpcText(91, "You need to be atleast level 20 to join this Dungeon");
+
+   rule     TalkedToNpc(91) goto ResetMenu 
+}
+
+state Active
+{      
+   action   AddNpcText(91, "This Dungeon is already active. Come back later..");
+
+   rule     TalkedToNpc(91) goto ResetMenu 
+}
+
+state Registered1
+{      
+   action   AddNpcText(91, "You are already registered in a Dungeon waiting room.");
+
+   action   addNpcInput(91, 1, "Go to Dungeon Menu");
+   action   addNpcInput(91, 2, "Leave waiting room");
+
+   rule     InputNpc (1) goto ResetMenu
+   rule     InputNpc (2) goto Leave
+   rule     TalkedToNpc(91) goto ResetMenu 
+}
+
+state CheckStart1
+{
+   if IsRegistered() SetState("Registered1");
+   elseif IsDungeonActive(1) SetState("CheckWaiting1");
+   else SetState("GotKey1");   
+}
+
+state CheckWaiting1
+{
+   if IsDungeonWaiting(1) SetState("WaitingJoined1");
+   else SetState("Active");
+}
+
+state WaitingJoined1
+{
+   action   AddNpcText(91, "You have joined a waiting room for this Dungeon.");
+   action   JoinDungeon(1);
+   rule     TalkedToNpc(91) goto ResetMenu 
+}
+
+state GotKey1
+{      
+   action      AddNpcText (91, "To start this dungeon you need Secret Library Key.");
+
+   action      AddNpcInput (91, 1, "Give Key");
+   action      AddNpcInput (91, 2, "Go Back");
+
+   rule     InputNpc( 1 ) goto CheckKey1
+   rule     InputNpc( 2 ) goto ResetMenu
+
+}
+
+state CheckKey1
+{
+   if GotItems(719,1) SetState("Start1");
+   else SetState("GotKey1");
+}
+
+state Start1
+{
+   action RemoveItem(719, 1);
+   action StartDungeon("Secret Library Dungeon", 1);
+   action AddNpcChat(91, "Secret Library Dungeon will start shortly. Please wait..");
+   action SetQuestState(91, "ResetMenu");  
+}
+
+state Registered2
+{      
+   action   AddNpcText(91, "You are already registered in a Dungeon waiting room.");
+
+   action   addNpcInput(91, 1, "Go to Dungeon Menu");
+   action   addNpcInput(91, 2, "Leave waiting room");
+
+   rule     InputNpc (1) goto ResetMenu
+   rule     InputNpc (2) goto Leave
+   rule     TalkedToNpc(91) goto ResetMenu 
+}
+
+state CheckStart2
+{
+   if IsRegistered() SetState("Registered2");
+   elseif IsDungeonActive(3) SetState("CheckWaiting2");
+   else SetState("GotKey2");   
+}
+
+state CheckWaiting2
+{
+   if IsDungeonWaiting(3) SetState("WaitingJoined2");
+   else SetState("Active");
+}
+
+state WaitingJoined2
+{
+   action   AddNpcText(91, "You have joined a waiting room for this Dungeon.");
+   action   JoinDungeon(3);
+   rule     TalkedToNpc(91) goto ResetMenu  
+}
+
+state GotKey2
+{      
+   action      AddNpcText (91, "To start this dungeon you need Underwater Temple Key.");
+
+   action      AddNpcInput (91, 1, "Give Key");
+   action      AddNpcInput (91, 2, "Go Back");
+
+   rule     InputNpc( 1 ) goto CheckKey2
+   rule     InputNpc( 2 ) goto ResetMenu
+
+}
+
+state CheckKey2
+{
+   if GotItems(725,1) SetState("Start2");
+   else SetState("GotKey2");
+}
+
+state Start2
+{
+   action RemoveItem(725, 1);
+   action StartDungeon("Underwater Temple Dungeon", 3);
+   action AddNpcChat(91, "Underwater Temple Dungeon will start shortly. Please wait..");
+   action SetQuestState(91, "ResetMenu");  
+}
+
+state Registered3
+{      
+   action   AddNpcText(91, "You are already registered in a Dungeon waiting room.");
+
+   action   addNpcInput(91, 1, "Go to Dungeon Menu");
+   action   addNpcInput(91, 2, "Leave waiting room");
+
+   rule     InputNpc (1) goto ResetMenu
+   rule     InputNpc (2) goto Leave
+   rule     TalkedToNpc(91) goto ResetMenu 
+}
+
+state CheckStart3
+{
+   if IsRegistered() SetState("Registered3");
+   elseif IsDungeonActive(4) SetState("CheckWaiting3");
+   else SetState("GotKey3");   
+}
+
+state CheckWaiting3
+{
+   if IsDungeonWaiting(4) SetState("WaitingJoined3");
+   else SetState("Active");
+}
+
+state WaitingJoined3
+{
+   action   AddNpcText(91, "You have joined a waiting room for this Dungeon.");
+   action   JoinDungeon(4);
+   rule     TalkedToNpc(91) goto ResetMenu  
+}
+
+state GotKey3
+{      
+   action      AddNpcText (91, "To start this dungeon you need Spider Tomb Key.");
+
+   action      AddNpcInput (91, 1, "Give Key");
+   action      AddNpcInput (91, 2, "Go Back");
+
+   rule     InputNpc( 1 ) goto CheckKey3
+   rule     InputNpc( 2 ) goto ResetMenu
+
+}
+
+state CheckKey3
+{
+   if GotItems(736,1) SetState("Start3");
+   else SetState("GotKey3");
+}
+
+state Start3
+{
+   action RemoveItem(736, 1);
+   action StartDungeon("Spider Tomb Dungeon", 4);
+   action AddNpcChat(91, "Spider Tomb Dungeon will start shortly. Please wait..");
+   action SetQuestState(91, "ResetMenu");  
+}
+
+state Leave
+{
+   action LeaveDungeon();
+   action SetQuestState(91, "Menu"); 
+}
+
+state Shop
+{
+   action OpenShop(477);
+   action SetQuestState(91, "Menu"); 
+}
+
+
+state Reset
+{
+   action Reset();
+}
+
+state ResetMenu
+{
+   action SetQuestState(91, "Menu");
+}

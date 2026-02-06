@@ -1,0 +1,77 @@
+Main
+{
+	questname 	"Goat Business"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to the village collector"
+
+	action		AddNpcText (29, "Its hard collecting new goat horns now that cyndi, inside the village shop, is crafting daggers out of 2 goat horns." );
+
+	rule 		TalkedToNpc (29) goto Begin2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+
+state Begin2
+{
+	desc		"Collect 4 goat horns"
+
+	action		ShowHint ("Quest reward: 600 exp!")
+	action		PlaySound (18);
+
+	action		AddNpcText (29, "I need 4 shiny goat horns to complete my collection. Can you help me?" );
+
+	action		AddNpcInput (29, 1, "Sure!");
+	action		AddNpcInput (29, 2, "Sorry, I'm too weak..");
+
+	rule 		InputNpc (1) goto CollectHorns
+	rule		InputNpc (2) goto Reset
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state CollectHorns
+{
+ 	desc		"Collect 4 Goat Horns!"
+
+	action		ShowHint ("Collect 4 Goat Horns and return to Collector!");
+	action		PlaySound (17);
+
+	rule 		GotItems (258,4) goto Talk2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state Talk2
+{
+	desc		"Talk to the village collector."
+
+	action		ShowHint("You succesfully collected 4 goat horns, return to Collector!")
+	action		PlaySound (18);
+
+	action		AddNpcText (29, "Thanks for bringing me the goat horns. As promised, please accept my reward." );
+
+	rule 		TalkedToNpc (29) goto GetReward
+	rule		EnterMap( 1 ) goto Reset
+	rule		EnterMap( 5 ) goto Reset
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 500 EXP and 6 Bottles of Water!");
+	action		PlaySound(97);
+
+	action		RemoveItem (258,4)
+	action		GiveItem (686,6)
+	action		GiveExp (600)
+	action		End();
+}
+
+state Reset
+{
+	action		ShowHint("Goat collector quest aborted..")
+	action		PlaySound (6);
+	action		Reset()
+}	

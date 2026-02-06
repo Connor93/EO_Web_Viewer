@@ -1,0 +1,381 @@
+Main
+{
+	questname	"Special Title"
+	version		1
+	hidden
+}
+state Begin
+{
+	desc		"Title Selection"
+
+	action		AddNpcText (104, "Ah, welcome, traveler! Seeking a title to suit your deeds? I have plenty to offer.");
+	action		AddNpcText (104, "These titles can be yours for a fair price in Usage Coins. Care to see what I have?");
+
+	action		AddNpcInput (104, 1, "Lets see what's available");
+	action		AddNpcInput (104, 2, "No thanks, I'll keep my title");
+
+	rule		InputNpc (1) goto GiveHint
+	rule		InputNpc (2) goto Reset
+}
+
+state GiveHint
+{
+	action		ShowHint ("Title Selection opened - Titles cost Usage Coins, play EM to earn more Usage Coins.");
+	action		PlaySound (18);
+	rule		Always() goto List1
+}
+
+state List1
+{
+	desc		"Title Selection"
+
+	action		AddNpcText (104, "Which title would you like?");
+
+	action		AddNpcInput (104, 1, "5.uc Looking to help players");
+	action		AddNpcInput (104, 2, "5.uc Looking for a Guild");
+	action		AddNpcInput (104, 3, "5.uc Looking for a Party");
+	action		AddNpcInput (104, 4, "5.uc Looking for Boss Party");
+	action		AddNpcInput (104, 5, "10.uc Selling Items");
+	action		AddNpcInput (104, 6, "10.uc Trading Items");
+	action		AddNpcInput (104, 7, "10.uc Gatherer for Hire");
+
+	action		AddNpcInput (104, 8, "30.uc Remove my title please");
+	action		AddNpcInput (104, 9, "Next Page >");
+	action		AddNpcInput (104, 10, "Leave Store");
+
+	rule		InputNpc (1) goto CostCheckHelpPlayers
+	rule		InputNpc (2) goto CostCheckGuild
+	rule		InputNpc (3) goto CostCheckParty
+	rule		InputNpc (4) goto CostCheckBossParty
+	rule		InputNpc (5) goto CostCheckSellItems
+	rule		InputNpc (6) goto CostCheckTradingItems
+	rule		InputNpc (7) goto CostCheckGatherer
+	rule		InputNpc (8) goto CostCheckRemoveTitle
+	rule		InputNpc (9) goto List2
+	rule		InputNpc (10) goto Reset
+}
+
+state List2
+{
+	desc		"Title Selection"
+
+	action		AddNpcText (104, "Which title would you like?");
+
+	action		AddNpcInput (104, 1, "50.uc Lover of Creator");
+	action		AddNpcInput (104, 2, "50.uc Lover of Vexx");
+	action		AddNpcInput (104, 3, "50.uc Lover of Calamity");
+	action		AddNpcInput (104, 4, "100.uc Badass Hunter");
+	action		AddNpcInput (104, 5, "500.uc Slayer of Pussy");
+	action		AddNpcInput (104, 6, "1000.uc $$ Baller $$");
+	action		AddNpcInput (104, 7, "1000.uc =^._.^=");
+	action		AddNpcInput (104, 8, "1000.uc (._.?)");
+
+	action		AddNpcInput (104, 9, "< Back");
+	action		AddNpcInput (104, 10, "Leave Store");
+
+	rule		InputNpc (1) goto CostCheckTrippieLover
+	rule		InputNpc (2) goto CostCheckVexxLover
+	rule		InputNpc (3) goto CostCheckCalamityLover
+	rule		InputNpc (4) goto CostCheckBadassHunter
+	rule		InputNpc (5) goto CostCheckPussySlayer
+	rule		InputNpc (6) goto CostCheckBaller
+	rule		InputNpc (7) goto CostCheckKitty
+	rule		InputNpc (8) goto CostCheckConfused
+	rule		InputNpc (9) goto List1
+	rule		InputNpc (10) goto Reset
+}
+
+state CostCheckHelpPlayers
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,5) goto HelpPlayers
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state HelpPlayers
+{
+	action		RemoveItem(679,5);
+	action		SetTitle ("PM me for help!");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckGuild
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,5) goto Guild
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state Guild
+{
+	action		RemoveItem(679,5);
+	action		SetTitle ("Looking for a Guild!");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckParty
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,5) goto Party
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state Party
+{
+	action		RemoveItem(679,5);
+	action		SetTitle ("Looking for a Party!");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckBossParty
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,5) goto BossParty
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state BossParty
+{
+	action		RemoveItem(679,5);
+	action		SetTitle ("Looking for a Boss Party!");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckSellItems
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,10) goto SellItems
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state SellItems
+{
+	action		RemoveItem(679,10);
+	action		SetTitle ("Selling Items pm me!");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckTradingItems
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,10) goto TradingItems
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state TradingItems
+{
+	action		RemoveItem(679,10);
+	action		SetTitle ("Trading Items pm me!");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckGatherer
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,10) goto Gatherer
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state Gatherer
+{
+	action		RemoveItem(679,10);
+	action		SetTitle ("Gatherer for hire pm me!");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckRemoveTitle
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,30) goto RemoveTitle
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state RemoveTitle
+{
+	action		RemoveItem(679,30);
+	action		SetTitle ("- ");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckTrippieLover
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,50) goto TrippieLover
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state TrippieLover
+{
+	action		RemoveItem(679,50);
+	action		SetTitle ("Lover of Creator");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckVexxLover
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,50) goto VexxLover
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state VexxLover
+{
+	action		RemoveItem(679,50);
+	action		SetTitle ("Lover of Vexx");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckCalamityLover
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,50) goto CalamityLover
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state CalamityLover
+{
+	action		RemoveItem(679,50);
+	action		SetTitle ("Lover of Calamity");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckBadassHunter
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,100) goto BadassHunter
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state BadassHunter
+{
+	action		RemoveItem(679,100);
+	action		SetTitle ("Badass Hunter");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckPussySlayer
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,500) goto PussySlayer
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state PussySlayer
+{
+	action		RemoveItem(679,500);
+	action		SetTitle ("Slayer of Pussy");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckBaller
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,1000) goto Baller
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state Baller
+{
+	action		RemoveItem(679,1000);
+	action		SetTitle ("$$ Baller $$");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckKitty
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,1000) goto Kitty
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state Kitty
+{
+	action		RemoveItem(679,1000);
+	action		SetTitle ("=^._.^=");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+state CostCheckConfused
+{
+	desc		"Title Selection"
+
+	rule		GotItems(679,1000) goto Confused
+
+	action		AddNpcText(104, "You don't have enough Usage Coints to purchase this title..");
+	rule		TalkedToNpc(104) goto List1
+}
+state Confused
+{
+	action		RemoveItem(679,1000);
+	action		SetTitle ("(._.?)");
+	action		ShowHint ("Your title has been set. Return to me if you need to make any changes.");
+	action		PlaySound (5);
+	action		Reset();
+}
+
+
+state Reset
+{
+	action		Reset();
+}
+	

@@ -1,0 +1,476 @@
+// Made by Vexx
+Main
+{
+	questname	"Tick or Treat"
+	version		1
+    hidden
+    // NPC ID 
+}
+
+state Begin
+{
+    desc    "Visit the residants of Aeven"
+
+    action  AddNpcText(160, "You are not close enough to the door to knock.");
+
+    // Shoe Shop
+    rule    EnterCoord(503,20,13) goto DoorKnock
+
+    // Scarf Shop
+    rule    EnterCoord(503,20,22) goto DoorKnock
+
+    // Staff Shop
+    rule    EnterCoord(503,20,31) goto DoorKnock
+
+    // Guild House
+    rule    EnterCoord(503,20,40) goto DoorKnock
+
+    // Bank 2
+    rule    EnterCoord(503,37,16) goto DoorKnock
+
+    // Bank 1
+    rule    EnterCoord(503,37,25) goto DoorKnock
+
+    // Church
+    rule    EnterCoord(503,37,35) goto DoorKnock
+
+    // Hairdresser
+    rule    EnterCoord(503,64,23) goto DoorKnock
+
+    // Witch Shop
+    rule    EnterCoord(503,74,57) goto DoorKnock
+
+    // Ring Shop
+    rule    EnterCoord(503,72,75) goto DoorKnock
+
+    // House next to Ring Shop
+    rule    EnterCoord(503,67,75) goto DoorKnock
+
+    // Disco Club
+    rule    EnterCoord(503,55,61) goto DoorKnock
+
+    // Dream House
+    rule    EnterCoord(503,55,69) goto DoorKnock
+    rule    EnterCoord(503,51,74) goto DoorKnock
+
+    // Aeven Pub
+    rule    EnterCoord(503,37,56) goto DoorKnock
+
+    // Law Bob
+    rule    EnterCoord(503,25,58) goto DoorKnock
+
+    // Art House
+    rule    EnterCoord(503,18,58) goto DoorKnock
+
+    // Skill Shop
+    rule    EnterCoord(503,11,58) goto DoorKnock
+
+    // Male Armor Shop
+    rule    EnterCoord(503,11,73) goto DoorKnock
+
+    // Female Armor Shop
+    rule    EnterCoord(503,18,73) goto DoorKnock
+
+    // House Next To Female Armor Shop
+    rule    EnterCoord(503,25,73) goto DoorKnock
+
+    // Aeven Grocer
+    rule    EnterCoord(503,32,73) goto DoorKnock
+}
+
+state DoorKnock
+{
+    desc    "Knock Knock"
+
+    action  AddNpcText(160, "Who's there?");
+    action  AddNpcInput(160, 1, "Trick or Treat");
+    rule    InputNpc(1) goto EventOver // Change to disable quest
+
+    // Shoe Shop
+    rule    EnterCoord(503,20,14) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,13) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,12) goto Begin // Next to door coords
+
+    // Scarf Shop
+    rule    EnterCoord(503,20,23) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,22) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,21) goto Begin // Next to door coords
+
+    // Staff Shop
+    rule    EnterCoord(503,20,32) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,31) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,30) goto Begin // Next to door coords
+
+    // Guild House
+    rule    EnterCoord(503,20,41) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,40) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,39) goto Begin // Next to door coords
+
+    // Bank 2
+    rule    EnterCoord(503,37,17) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,16) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,15) goto Begin // Next to door coords
+
+    // Bank 1
+    rule    EnterCoord(503,37,26) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,25) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,24) goto Begin // Next to door coords
+
+    // Church
+    rule    EnterCoord(503,37,36) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,35) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,34) goto Begin // Next to door coords
+
+    // Hair Dresser
+    rule    EnterCoord(503,64,24) goto Begin // Next to door coords
+    rule    EnterCoord(503,65,23) goto Begin // Next to door coords
+    rule    EnterCoord(503,64,22) goto Begin // Next to door coords
+
+    // Witch Shop
+    rule    EnterCoord(503,74,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,75,57) goto Begin // Next to door coords
+    rule    EnterCoord(503,74,56) goto Begin // Next to door coords
+
+    // Ring Shop
+    rule    EnterCoord(503,71,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,72,76) goto Begin // Next to door coords
+    rule    EnterCoord(503,73,75) goto Begin // Next to door coords
+
+    // House Next To Ring Shop
+    rule    EnterCoord(503,66,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,67,76) goto Begin // Next to door coords
+    rule    EnterCoord(503,68,75) goto Begin // Next to door coords
+
+    // Disco Club
+    rule    EnterCoord(503,55,62) goto Begin // Next to door coords
+    rule    EnterCoord(503,56,61) goto Begin // Next to door coords
+    rule    EnterCoord(503,55,60) goto Begin // Next to door coords
+
+    // Dream House Door 1
+    rule    EnterCoord(503,55,70) goto Begin // Next to door coords
+    rule    EnterCoord(503,56,69) goto Begin // Next to door coords
+    rule    EnterCoord(503,55,68) goto Begin // Next to door coords
+
+    // Dream House Door 1
+    rule    EnterCoord(503,50,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,51,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,52,74) goto Begin // Next to door coords
+
+    // Aeven Pub
+    rule    EnterCoord(503,37,57) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,56) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,55) goto Begin // Next to door coords
+
+    // Law Bob
+    rule    EnterCoord(503,24,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,25,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,26,58) goto Begin // Next to door coords
+
+    // Art House
+    rule    EnterCoord(503,17,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,18,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,19,58) goto Begin // Next to door coords
+
+    // Skill Shop
+    rule    EnterCoord(503,10,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,11,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,12,58) goto Begin // Next to door coords
+
+    // Male Armor Shop
+    rule    EnterCoord(503,10,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,11,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,12,73) goto Begin // Next to door coords
+
+    // Female Armor Shop
+    rule    EnterCoord(503,17,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,18,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,19,73) goto Begin // Next to door coords
+
+    // House next to Female Armor Shop
+    rule    EnterCoord(503,24,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,25,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,26,73) goto Begin // Next to door coords
+
+    // Aeven Grocer
+    rule    EnterCoord(503,31,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,32,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,33,73) goto Begin // Next to door coords
+}
+
+state TOT_Roll
+{
+    action  Roll(10);
+
+    rule    Rolled(1) goto Trick
+    rule    Rolled(2) goto Trick
+    rule    Rolled(3) goto Trick
+    rule    Rolled(4) goto Treat
+    rule    Rolled(5) goto Trick
+    rule    Rolled(6) goto Treat
+    rule    Rolled(7) goto Trick
+    rule    Rolled(8) goto Treat
+    rule    Rolled(9) goto Trick
+    rule    Rolled(10) goto Treat
+
+    // Shoe Shop
+    rule    EnterCoord(503,20,14) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,13) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,12) goto Begin // Next to door coords
+
+    // Scarf Shop
+    rule    EnterCoord(503,20,23) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,22) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,21) goto Begin // Next to door coords
+
+    // Staff Shop
+    rule    EnterCoord(503,20,32) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,31) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,30) goto Begin // Next to door coords
+
+    // Guild House
+    rule    EnterCoord(503,20,41) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,40) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,39) goto Begin // Next to door coords
+
+    // Bank 2
+    rule    EnterCoord(503,37,17) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,16) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,15) goto Begin // Next to door coords
+
+    // Bank 1
+    rule    EnterCoord(503,37,26) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,25) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,24) goto Begin // Next to door coords
+
+    // Church
+    rule    EnterCoord(503,37,36) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,35) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,34) goto Begin // Next to door coords
+
+    // Hair Dresser
+    rule    EnterCoord(503,64,24) goto Begin // Next to door coords
+    rule    EnterCoord(503,65,23) goto Begin // Next to door coords
+    rule    EnterCoord(503,64,22) goto Begin // Next to door coords
+
+    // Witch Shop
+    rule    EnterCoord(503,74,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,75,57) goto Begin // Next to door coords
+    rule    EnterCoord(503,74,56) goto Begin // Next to door coords
+
+    // Ring Shop
+    rule    EnterCoord(503,71,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,72,76) goto Begin // Next to door coords
+    rule    EnterCoord(503,73,75) goto Begin // Next to door coords
+
+    // House Next To Ring Shop
+    rule    EnterCoord(503,66,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,67,76) goto Begin // Next to door coords
+    rule    EnterCoord(503,68,75) goto Begin // Next to door coords
+
+    // Disco Club
+    rule    EnterCoord(503,55,62) goto Begin // Next to door coords
+    rule    EnterCoord(503,56,61) goto Begin // Next to door coords
+    rule    EnterCoord(503,55,60) goto Begin // Next to door coords
+
+    // Dream House Door 1
+    rule    EnterCoord(503,55,70) goto Begin // Next to door coords
+    rule    EnterCoord(503,56,69) goto Begin // Next to door coords
+    rule    EnterCoord(503,55,68) goto Begin // Next to door coords
+
+    // Dream House Door 1
+    rule    EnterCoord(503,50,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,51,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,52,74) goto Begin // Next to door coords
+
+    // Aeven Pub
+    rule    EnterCoord(503,37,57) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,56) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,55) goto Begin // Next to door coords
+
+    // Law Bob
+    rule    EnterCoord(503,24,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,25,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,26,58) goto Begin // Next to door coords
+
+    // Art House
+    rule    EnterCoord(503,17,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,18,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,19,58) goto Begin // Next to door coords
+
+    // Skill Shop
+    rule    EnterCoord(503,10,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,11,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,12,58) goto Begin // Next to door coords
+
+    // Male Armor Shop
+    rule    EnterCoord(503,10,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,11,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,12,73) goto Begin // Next to door coords
+
+    // Female Armor Shop
+    rule    EnterCoord(503,17,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,18,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,19,73) goto Begin // Next to door coords
+
+    // House next to Female Armor Shop
+    rule    EnterCoord(503,24,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,25,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,26,73) goto Begin // Next to door coords
+
+    // Aeven Grocer
+    rule    EnterCoord(503,31,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,32,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,33,73) goto Begin // Next to door coords
+}
+
+state Treat
+{
+    desc    "You get a treat!"
+
+    action  GiveItem(858,1);
+    action  ShowHint("You have recieved a treat (1x Hallow Token)");
+    action  PlaySound(5);
+    rule    Always() goto LeftHomeCheck
+}
+
+state LeftHomeCheck
+{
+    desc    "Visit the residants of Aeven"
+
+    action  AddNpcText(160, "Enjoy your treat sweety hehehe..");
+
+    // Shoe Shop
+    rule    EnterCoord(503,20,14) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,13) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,12) goto Begin // Next to door coords
+
+    // Scarf Shop
+    rule    EnterCoord(503,20,23) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,22) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,21) goto Begin // Next to door coords
+
+    // Staff Shop
+    rule    EnterCoord(503,20,32) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,31) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,30) goto Begin // Next to door coords
+
+    // Guild House
+    rule    EnterCoord(503,20,41) goto Begin // Next to door coords
+    rule    EnterCoord(503,21,40) goto Begin // Next to door coords
+    rule    EnterCoord(503,20,39) goto Begin // Next to door coords
+
+    // Bank 2
+    rule    EnterCoord(503,37,17) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,16) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,15) goto Begin // Next to door coords
+
+    // Bank 1
+    rule    EnterCoord(503,37,26) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,25) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,24) goto Begin // Next to door coords
+
+    // Church
+    rule    EnterCoord(503,37,36) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,35) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,34) goto Begin // Next to door coords
+
+    // Hair Dresser
+    rule    EnterCoord(503,64,24) goto Begin // Next to door coords
+    rule    EnterCoord(503,65,23) goto Begin // Next to door coords
+    rule    EnterCoord(503,64,22) goto Begin // Next to door coords
+
+    // Witch Shop
+    rule    EnterCoord(503,74,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,75,57) goto Begin // Next to door coords
+    rule    EnterCoord(503,74,56) goto Begin // Next to door coords
+
+    // Ring Shop
+    rule    EnterCoord(503,71,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,72,76) goto Begin // Next to door coords
+    rule    EnterCoord(503,73,75) goto Begin // Next to door coords
+
+    // House Next To Ring Shop
+    rule    EnterCoord(503,66,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,67,76) goto Begin // Next to door coords
+    rule    EnterCoord(503,68,75) goto Begin // Next to door coords
+
+    // Disco Club
+    rule    EnterCoord(503,55,62) goto Begin // Next to door coords
+    rule    EnterCoord(503,56,61) goto Begin // Next to door coords
+    rule    EnterCoord(503,55,60) goto Begin // Next to door coords
+
+    // Dream House Door 1
+    rule    EnterCoord(503,55,70) goto Begin // Next to door coords
+    rule    EnterCoord(503,56,69) goto Begin // Next to door coords
+    rule    EnterCoord(503,55,68) goto Begin // Next to door coords
+
+    // Dream House Door 1
+    rule    EnterCoord(503,50,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,51,75) goto Begin // Next to door coords
+    rule    EnterCoord(503,52,74) goto Begin // Next to door coords
+
+    // Aeven Pub
+    rule    EnterCoord(503,37,57) goto Begin // Next to door coords
+    rule    EnterCoord(503,38,56) goto Begin // Next to door coords
+    rule    EnterCoord(503,37,55) goto Begin // Next to door coords
+
+    // Law Bob
+    rule    EnterCoord(503,24,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,25,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,26,58) goto Begin // Next to door coords
+
+    // Art House
+    rule    EnterCoord(503,17,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,18,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,19,58) goto Begin // Next to door coords
+
+    // Skill Shop
+    rule    EnterCoord(503,10,58) goto Begin // Next to door coords
+    rule    EnterCoord(503,11,59) goto Begin // Next to door coords
+    rule    EnterCoord(503,12,58) goto Begin // Next to door coords
+
+    // Male Armor Shop
+    rule    EnterCoord(503,10,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,11,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,12,73) goto Begin // Next to door coords
+
+    // Female Armor Shop
+    rule    EnterCoord(503,17,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,18,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,19,73) goto Begin // Next to door coords
+
+    // House next to Female Armor Shop
+    rule    EnterCoord(503,24,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,25,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,26,73) goto Begin // Next to door coords
+
+    // Aeven Grocer
+    rule    EnterCoord(503,31,73) goto Begin // Next to door coords
+    rule    EnterCoord(503,32,74) goto Begin // Next to door coords
+    rule    EnterCoord(503,33,73) goto Begin // Next to door coords
+}
+
+state Trick
+{
+    desc    "Uh Oh! You have been tricked!"
+
+    action  SetCoord(504,44,7);
+    action  ShowHint("Oh no! You have been tricked! Find your way out to continue the event.");
+    action  PlaySound(5);
+    rule    Always() goto Escape
+}
+
+state EventOver
+{
+    action  SetCoord(5,41,48);
+    action  ShowHint("The Halloween event is now over, thank you for participating!");
+    action  PlaySound(5);
+    action  Reset();
+}
+
+state Escape
+{
+    desc    "Leave The Hallows"
+
+    rule    EnterMap(503) goto Begin
+}

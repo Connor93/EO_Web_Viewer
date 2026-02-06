@@ -1,0 +1,98 @@
+.quest-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(35, 35, 55, 0.9) 0%, rgba(25, 25, 45, 0.95) 100%);
+    border: 1px solid rgba(100, 120, 180, 0.2);
+    border-left: 3px solid #9775fa;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quest-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(151, 117, 250, 0.4);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, rgba(40, 40, 60, 0.95) 0%, rgba(30, 30, 50, 0.98) 100%);
+}
+
+.quest-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(151, 117, 250, 0.2);
+    flex-shrink: 0;
+}
+
+.quest-npc-sprite {
+    max-width: 48px;
+    max-height: 48px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.quest-icon-placeholder {
+    font-size: 28px;
+}
+
+.quest-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.quest-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #e0e6f0;
+}
+
+.quest-meta {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+    font-size: 13px;
+}
+
+.quest-id {
+    color: rgba(160, 180, 220, 0.5);
+}
+
+.quest-giver {
+    color: rgba(151, 117, 250, 0.9);
+}
+
+.quest-requirements {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.req-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.req-badge.kill {
+    color: #ff8787;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.req-badge.item {
+    color: #74c0fc;
+    border: 1px solid rgba(116, 192, 252, 0.3);
+}
+
+.req-badge.exp {
+    color: #ffd43b;
+    border: 1px solid rgba(255, 212, 59, 0.3);
+}

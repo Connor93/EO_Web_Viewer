@@ -1,0 +1,134 @@
+Main
+{
+	questname	"Golden Isle Treasure"
+	version		1
+    // NPC ID 425
+}
+
+state Begin
+{
+    desc    "Talk to Garrick"
+
+    rule    StatGreater("level", 24) goto DialogueOne
+    action  AddNpcText(200, "This heat is getting to me, I hope it rains!");
+    action  AddNpcInput(200, 1, "Goodbye");
+    rule    InputNpc(1) goto Restart
+}
+
+state Restart
+{
+    action  Reset();
+}
+
+state YourLoss
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state Reward
+{
+    action  GiveExp(12000);
+    action  ShowHint("[Quest Complete] You have received 12,000 exp!");
+    action  PlaySound(97);
+    action  End();
+}
+
+state DialogueOne
+{
+    desc    "Talk to Garrick"
+
+    action  AddNpcText(200, "Hey you there! You look strong and capable, I bet you can find the hidden treasure..");
+    action  AddNpcText(200, "Well, have I peaked your interest?");
+    action  AddNpcInput(200, 1, "Go on..");
+    action  AddNpcInput(200, 2, "No thanks..");
+
+    rule    InputNpc(1) goto DialogueTwo
+    rule    InputNpc(2) goto YourLoss
+}
+
+state DialogueTwo
+{
+    desc    "Talk to Garrick"
+
+    action  AddNpcText(200, "Well, there's a small chain of islands not far from here called the Golden Isles. Have you heard of it?");
+    action  AddNpcInput(200, 1, "I'm not");
+    action  AddNpcInput(200, 2, "Sure am");
+
+    rule    InputNpc(1) goto DialogueTwoA
+    rule    InputNpc(2) goto DialogueTwoB
+}
+
+state DialogueTwoA
+{
+    desc    "Talk to Garrick"
+    
+    action  AddNpcText(200, "Well that's not surprising, but you want to know what is?");
+    action  AddNpcText(200, "Rumor has it that this old drunken pirate by the name of Kali left a wealth of treasure there.. I'll take ya across to the island but it will be up to you to find the treasure. What do ya say?");
+    action  AddNpcText(200, "[Quest Reward: 12,000exp]");
+
+    action  AddNpcInput(200, 1, "Let's go!");
+    action  AddNpcInput(200, 2, "Another time..");
+
+    rule    InputNpc(1) goto TravelToIsle
+    rule    InputNpc(2) goto YourLoss
+}
+
+state DialogueTwoB
+{
+    desc    "Talk to Garrick"
+
+    action  AddNpcText(200, "Sure you do.. it's not like it was only recently created or anything.");
+    action  AddNpcText(200, "Rumor has it that this old drunken pirate by the name of Kali left a wealth of treasure there.. I'll take ya across to the island but it will be up to you to find the treasure. What do ya say?");
+    action  AddNpcText(200, "[Quest Reward: 12,000exp]");
+
+    action  AddNpcInput(200, 1, "Let's go!");
+    action  AddNpcInput(200, 2, "Another time..");
+
+    rule    InputNpc(1) goto TravelToIsle
+    rule    InputNpc(2) goto YourLoss
+
+}
+
+state TravelToIsle
+{
+    action  SetCoord(350,33,72);
+    action  StartQuest(201, "begin");
+    rule    Always() goto FindTreasure
+}
+
+state FindTreasure
+{
+    desc    "Locate the Treasure"
+
+    rule    EnterCoord(359,9,47) goto FoundTreasure
+    rule    EnterCoord(359,10,46) goto FoundTreasure
+    rule    EnterCoord(359,8,46) goto FoundTreasure
+}
+
+state FoundTreasure
+{
+    desc    "Talk to Garrick"
+
+    action  ShowHint("You have found the Golden Isle Treasure! Return to Garrick!");
+    action  ShowHint("You picked up 200g");
+    action  PlaySound(37);
+    action  GiveItem(1,200);
+
+    action  AddNpcText(200, "You're back! Did you locate the treasure?");
+    action  AddNpcInput(200, 1, "Show Treasure");
+    
+    rule    InputNpc(1) goto GiveTreasure
+
+}
+
+state GiveTreasure
+{
+    desc    "Talk to Garrick"
+
+    action  AddNpcText(200, "Wait, is this it? That's.. dissapointing.. Guess Kali was a broke ass pirate..");
+    action  AddNpcText(200, "Oh well, I guess I wont be quitting my fishing job anytime soon.");
+    action  AddNpcInput(200, 1, "Get Reward");
+
+    rule    InputNpc(1) goto Reward
+}

@@ -1,0 +1,300 @@
+Main
+{
+	questname 	"Ominous Orc Onslaught"
+	version		1
+}
+
+state Begin
+{
+	desc	"Talk to Faelan"
+
+	action	AddNpcText(81, "These blastered orcs! I piss on their graves!");
+	action	AddNpcText(81, "Poison doesn't effect them, blades hardly damage them, and no matter how many we manage to kill, there are always more to replace them.");
+	action	AddNpcText(81, "Say, you look pretty strong.. tell you what, I'll pay you a pretty penny if you can manage to cull their herd.");
+	action	AddNpcText(81, "What do you say?");
+	action	AddNpcInput(81, 1, "I'm in");
+	action	AddNpcInput(81, 2, "Maybe later");
+
+	rule	InputNpc(1) goto QuestStart
+	rule	InputNpc(2) goto Later
+}
+
+state Later
+{
+	desc	"Talk to Faelan"
+
+	action	AddNpcText(81, "Yeh yeh.. I can see you're shaking in your little boots from fear.");
+	rule	TalkedToNpc(81) goto Restart
+}
+
+state Restart
+{
+	action	Reset();
+}
+
+state QuestStart
+{
+	desc	"Kill 20 Orcs"
+
+	action	ShowHint("[Quest Part 1/3 Started] Reward: 250g")
+
+	action	AddNpcText(81, "That's the spirit, tonight we will bath in the blood of orc!");
+	rule	KilledNpcs(117,20) goto KilledOrcs
+}
+
+state KilledOrcs
+{
+	desc	"Talk to Faelan"
+
+	action	ShowHint("You have defeated 20 Crcs, go back and talk to Faelan.");
+	action	PlaySound(5);
+
+	action	AddNpcText(81, "You're back! That was fast, I'm impressed.");
+	action	AddNpcText(81, "Let's see the proof of your kills!");
+	action	AddNpcInput(81, 1, "Proof?");
+	action	AddNpcInput(81, 2, "I have none");
+
+	rule	InputNpc(1) goto NeedProof
+}
+
+state NeedProof
+{
+	desc	"Talk to Faelan"
+
+	action	AddNpcText(81, "Well yes.. How else can I tell that you have actually done the deed..");
+	action	AddNpcText(81, "sigh... Alright well, how bout you go bring me 10 orc ears and call it even..");
+	action	AddNpcInput(81, 1, "I'm on it");
+	action	AddNpcInput(81, 2, "In a sec");
+
+	rule	InputNpc(1) goto GatherEars
+}
+
+state GatherEars
+{
+	desc	"Collect 10 Orc Ears"
+
+	action	AddNpcText(81, "Off with you then, tear those bloody ears of the bastards.");
+
+	rule	GotItems(396,10) goto GotEars
+}
+
+state GotEars
+{
+	desc	"Talk to Faelan"
+
+	action	ShowHint("You have collected 10 orc ears, go back and talk to Faelan");
+	action	PlaySound(5);
+
+	action	AddNpcText(81, "Right, let's see the proof of your kills..");
+	rule	TalkedToNpc(81) goto CheckEars
+}
+
+state CheckEars
+{
+	rule	GotItems(396,10) goto TakeEars
+	action	AddNpcText(81, "I thought you were done.. You're not scared are you? They're just lowley orcs.");
+	rule	TalkedToNpc(81) goto GatherEars
+}
+
+state TakeEars
+{
+	desc	"Talk to Faelan"
+	action	RemoveItem(396,10);
+	action	AddNpcText(81, "These ears are a little small.. What did you kill all the children or something? You brutal bastard..");
+	action	AddNpcText(81, "Here is that reward I promised you..");
+	rule	TalkedToNpc(81) goto PartOneReward
+}
+
+state PartOneReward
+{
+	desc	"Talk to Faelan"
+
+	action	GiveItem(1,250);
+	action	ShowHint("[Quest Part 1/3 Completed] You have received 250g");
+	action	PlaySound(18);
+	rule	Always() goto OrcRumor
+
+}
+
+state OrcRumor
+{
+	desc	"Find the Stronghold Explorer"
+
+	action	ShowHint("[Quest Part 2/3 Started] Quest Reward: 200g-500g") 
+	
+	action	AddNpcText(81, "I hear rumors that the orcs main camp is located in a cave in the forest. ");
+	action	AddNpcText(81, "An explorer near stronghold gave me the information, perhaps he can give you more information.");
+	action	AddNpcText(81, "Tell happen upon the location of their camp, I will pay you for the information.");
+
+	// Explorer
+	action	AddNpcText(82, "That blasted forest, I'm never going back in there again!");
+	action	AddNpcInput(82, 1, "What happened?");
+	action	AddNpcInput(82, 2, "Oh no!");
+
+	rule	InputNpc(1) goto TalkExplorer1
+	rule	InputNpc(2) goto TalkExplorer1
+
+}
+
+state TalkExplorer1
+{
+	desc	"Talk to the Explorer"
+
+	action	AddNpcText(82, "There's something wrong with that forest, I swear I heard laughing echoing through the tree's all night.");
+	action	AddNpcText(82, "Barely got a wink of sleep and it took 2 days to find my way.");
+	action	AddNpcText(82, "I was following an unexplored path when it led me to those voices.. There's not enough gold in aeven to temp me back there.");
+
+	rule	TalkedToNpc(82) goto ExplorePath
+}
+
+state ExplorePath
+{
+	desc	"Explore the mentioned path"
+
+	action	ShowHint("Explore the path mentioned by the Explorer");
+	action	PlaySound(5);
+
+	rule	EnterCoord(178,0,22) goto FoundPath
+}
+
+state FoundPath
+{
+	desc	"Locate the Orc main camp"
+
+	action	ShowHint("You have found the path the Explorer mentioned. Locate the Orc main camp");
+	action	PlaySound(5);
+
+	rule	EnterMap(180) goto FoundCamp
+}
+
+state FoundCamp
+{
+	desc	"Talk to Faelan"
+
+	action	ShowHint("You have located the Orc main camp. Head back to Faelan to sell the location.");
+	action	PlaySound(5);
+
+	action	AddNpcText(81, "You're back, did you manage to find their main camp?");
+	action	AddNpcInput(81, 1, "Sell info");
+	action	AddNpcInput(81, 2, "Give info freely");
+
+	rule	InputNpc(1) goto SellInfo
+	rule	InputNpc(2) goto FreeInfo
+}
+
+state SellInfo
+{
+	desc	"Talk to Faelan"
+
+	action	AddNpcText(81, "You drive a hard bargin, but you have a deal. I want nothing more than to make a soup with their bones..");
+	rule	TalkedToNpc(81) goto SellInfoGiveGold
+}
+
+state SellInfoGiveGold
+{
+	action	GiveItem(1, 200);
+	action	ShowHint("[Quest Part 2/3 Completed] You have received 200g");
+	action	PlaySound(18);
+	rule	Always() goto PartThree
+}
+
+state FreeInfo
+{
+	desc	"Talk to Faelan"
+
+	action	AddNpcText(81, "Well now, I didn't expect you to be so generous.");
+	action	AddNpcText(81, "Here, take this as a gift then..");
+	rule	TalkedToNpc(81) goto FreeInfoGiveGold
+}
+
+state FreeInfoGiveGold
+{
+	action	GiveItem(1,500);
+	action	ShowHint("[Quest Part 2/3 Completed] You have received 500g");
+	action	PlaySound(18);
+	rule	Always() goto PartThree
+}
+
+state PartThree
+{
+	desc	"Talk to Faelan"
+
+	action	AddNpcText(81, "While you've been gone, I have heard rumors that the Orcs are building a secret weapon in the hallowdale cave.");
+	action	AddNpcText(81, "We could use your help finding and destroying this weapon, for a fee of course.");
+	rule	TalkedToNpc(81) goto FindWeapon
+}
+
+state FindWeapon
+{
+	desc	"Locate the Orc Weapon"
+
+	action	ShowHint("[Quest Part 3/3 Started] Quest Reward: 8500exp & a Mysterious Key"); 
+	action	AddNpcText(81, "Locate and destroy that orc weapon or we'll all be in for some serious pain!");
+
+	rule	EnterCoord(242,19,25) goto KillGnoll
+}
+
+state KillGnoll
+{
+	desc	"Kill the Gnoll"
+
+	action	ShowHint("The Orc weapon is actually the monster named Gnoll. Kill the Gnoll before it's too late.");
+	action	PlaySound(5);
+
+	rule	KilledNpcs(182,1) goto GnollKilled
+}
+
+state GnollKilled
+{
+	desc	"Talk to Faelan"
+
+	action	ShowHint("You have killed the Gnoll, go back and speak to Faelan");
+
+	action	AddNpcText(81, "Do you have news?");
+	action	AddNpcInput(81, 1, "Explain");
+	action	AddNpcInput(81, 2, "No");
+
+	rule	InputNpc(1) goto ExplainGnoll
+}
+
+state ExplainGnoll
+{
+	desc	"Talk To Faelan"
+
+	action	AddNpcText(81, "I see, they were going to use that monster to destroy Hallowdale.. Good thing you put a stop to that plan!");
+	action	AddNpcText(81, "You have done this town a great service! Please, take this as a reward");
+	rule	TalkedToNpc(81) goto GiveRewardThree
+}
+
+state GiveRewardThree
+{
+	action	GiveItem(670,1);
+	action	GiveExp(8500);
+
+	action	ShowHint("[Quest Part 3/3 Completed] You have received 8500exp & a Mysterious Key");
+	action	PlaySound(18);
+
+	rule	Always() goto ExplainKey
+}
+
+state ExplainKey
+{
+	desc	"Talk to Faelan"
+
+	action	AddNpcText(81, "My brother's merchant license was taken by the crown for crafting.. dangerous goods..");
+	action	AddNpcText(81, "This key will grant you access to his shop which officially is closed.");
+	action	AddNpcText(81, "With this key, his shop is now open to you. Consider this a gift as thanks for your work.");
+	rule	TalkedToNpc(81) goto QuestEnd
+}
+
+state QuestEnd
+{
+	action	ShowHint("[Quest Complete] This Mysterious Key opens a previously hidden shop in Hallowdale!");
+	action	PlaySound(97);
+	rule	Always() goto Finish
+}
+
+state Finish
+{
+	action	End();
+}

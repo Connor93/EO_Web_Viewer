@@ -1,0 +1,57 @@
+Main
+{
+	questname	"Mothers Day 2025!"
+	version		1
+}
+State Begin
+{
+	desc		"Speak with Mother"
+
+	rule		StatGreater ("level", 9) goto StartQuest
+
+	action		AddNpcText (97, "This quest is for MAIN CHARACTERS only. This is to avoid anyone trying to make alts for the EXP.");
+	action		AddNpcText (97, "[You must be lvl 10 or greater to start this quest]");
+
+	rule		TalkedToNpc (97) goto RestartQuest
+}
+State RestartQuest
+{
+	action		ShowHint ("Return when you're at least lvl 10 or greater!");
+	action		PlaySound (6);
+	action		Reset();
+}
+State StartQuest
+{
+	desc		"Speak with Mother"
+
+	action		AddNpcText (97, "Today is mother day! Be sure to tell your mom Happy Mothers Day! remind her of how special she is. Or if you're a mom yourself, HAPPY MOTHERS DAY! <3");
+
+	rule		TalkedToNpc (97) goto Gender
+}
+State Gender
+{
+	rule		IsGender (0) goto Reward1
+	rule		IsGender (1) goto Reward2
+}
+State Reward1
+{
+	action		ShowHint ("HAPPY MOTHERS DAY!");
+	action		PlaySound (97);
+	action		GiveItem (756)
+	action		GiveExp (10000)
+	action		End();
+}
+State Reward2
+{
+	action		ShowHint ("HAPPY MOTHERS DAY!");
+	action		PlaySound (97);
+	action		GiveItem (755)
+	action		GiveExp (10000)
+	action		End();
+}
+State Reset
+{
+	action		PlaySound (6);
+	action		Reset();
+}
+	

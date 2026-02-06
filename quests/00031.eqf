@@ -1,0 +1,79 @@
+Main
+{
+	questname 	"Funky Hair"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to Funky Hair Dude"
+
+	action		AddNpcChat (31, "Hey, you like my hair?");
+	action		AddNpcText (31, "I know, I know.. You are probably wondering why my hair looks so good. To be honest it was always troublesome to get it in shape, but im willing to share my secret.." );
+	action		AddNpcText (31, "I'm rubbing my hair twice a day with this wonderful green stuff.. But unfortunately i don't know where to find it. Could you look around to find it for me?" );
+
+	rule 		TalkedToNpc (31) goto Begin2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+
+state Begin2
+{
+	desc		"Talk to Funky Hair Dude"
+
+	action		ShowHint("Quest reward: 800 EXP")
+	action		PlaySound (17);
+
+	action		AddNpcText (31, "I'd pay ANYTHING for a 3 days supply of that green stuff. What do you say, can you help me?" );
+
+	action		AddNpcInput (31, 1, "I can look around for it!");
+	action		AddNpcInput (31, 2, "No thanks..");
+
+	rule 		InputNpc (1) goto FindSlime
+	rule		InputNpc (2) goto Reset
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+state FindSlime
+{
+	desc		"Find and collect 5 Blob slime"
+
+	action		ShowHint ("Find and collect 5 Blob Slime!");
+	action		PlaySound (17);
+
+	rule 		GotItems (250, 5) goto Talk2
+}
+state Talk2
+{
+	desc		"Return to Funky Hair Dude"
+
+	action		ShowHint("You succesfully collected 5 blob slime! Return to Funky Hair Dude!")
+	action		PlaySound (18);
+
+	action		AddNpcText (31, "You found a 3 day supply of green hair stuff! Please take this reward for your efforts." );
+
+	rule 		TalkedToNpc(31) goto GetReward
+	rule		LostItems (250, 3) goto Begin2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 800 EXP and 7 Bottles of Water!");
+	action		PlaySound(97);
+
+	action		RemoveItem (250, 5)
+	action		GiveExp (800)
+	action		GiveItem (686,7)
+	action		End();
+}
+
+state Reset
+{
+	action		ShowHint("Goat collector quest aborted..")
+	action		PlaySound (98);
+	action		AddNpcChat (31, "I guess ill ask someone else, thanks for nothin'.");
+	action		Reset()
+}	

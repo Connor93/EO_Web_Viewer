@@ -1,0 +1,71 @@
+Main
+{
+	questname	"Fresh Fish"
+	version		1
+    // NPC ID 422
+}
+
+state Begin
+{
+	desc	"Talk to Ryzon"
+
+    action  AddNpcText(204, "Hey you, you want a job? The salmon found in the caverns waters are the freshest by far!");
+    action  AddNpcText(204, "If you gather up some, I'll pay you. What do you say?");
+    action  AddNpcText(204, "[Quest Reward: 8,000 exp & 250g]");
+
+    action  AddNpcInput(204, 1, "Accept Quest");
+    action  AddNpcInput(204, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto AcceptQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state RewardTime
+{
+    action  RemoveItem(830,30);
+    action  GiveExp(8000);
+    action  GiveItem(1,250);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have gained 8,000 exp & 250g!");
+    action  Reset();
+}
+
+state AcceptQuest
+{
+    desc    "Collect 30 Salmon"
+
+    action  AddNpcText(204, "Oh that's great, I can't wait to make some delicious susimi!");
+    action  AddNpcText(204, "Come and speak with me again once you have 30 Salmon!");
+
+    rule    GotItems(830,30) goto GotSalmon
+}
+
+state GotSalmon
+{
+    desc    "Talk to Ryzon"
+
+    action  ShowHint("You have collected 30 Salmon! Return to Ryzon");
+    action  PlaySound(37);
+
+    action  AddNpcText(204, "You're back, did you get the Salmon?");
+    action  AddNpcInput(204, 1, "Give Salmon");
+
+    rule    InputNpc(1) goto CheckSalmon
+}
+
+state CheckSalmon
+{
+    desc    "Talk to Ryzon"
+
+    rule    GotItems(830,30) goto RewardTime
+
+    action  AddNpcText(204, "Oh I thought you had the Salmon?");
+    action  AddNpcInput(204, 1, "I'll get it.");
+    rule    InputNpc(1) goto AcceptQuest
+}

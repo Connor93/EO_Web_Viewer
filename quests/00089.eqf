@@ -1,0 +1,197 @@
+Main
+{
+questname "Boss slayer(daily)"
+version 1
+}
+
+state begin
+{
+   desc    "Talk to the slayer master"
+   
+   
+   action   addnpctext(89, "Hey traveller, there is some strong monsters around this world, I need you to go out and defeat them for me");
+   
+   action   addnpcinput(89, 1, "Sure, I can handle anything!");
+   action   addnpcinput(89, 2, "another time..");
+   
+   rule     DoneDaily(1) goto Endwithoutreset
+   
+   rule     Inputnpc(1) goto bossroll
+   rule     Inputnpc(2) goto reset
+}
+
+state bossroll
+{
+ 
+	action  Roll(5)
+		
+	rule    Rolled(1) goto Apozen
+	rule    Rolled(2) goto Reaper
+	rule    Rolled(3) goto Octo
+	rule    Rolled(4) goto Anundo
+	rule	Rolled(5) goto Bonespider
+}
+
+state Apozen
+{
+	desc   "Kill Apozen, lord of hell."
+
+	action	AddNpcText(89, "Now this is a challenge! go and kill the lord of hell! Apozen!");
+
+	action	AddNpcInput (89, 1, "Okay!");
+	action	AddNpcInput (89, 2, "I give up(ENDS DAILY QUEST)");
+
+	rule	InputNpc (1) goto KillApozen
+	rule	InputNpc(2) goto Failure
+}
+
+state KillApozen
+{
+	desc	"Kill Apozen"
+
+	action	PlaySound (17);
+	action	ShowHint ("Kill Apozen and return to Slayer Master!");
+
+	rule   	KilledNpcs(142,1) goto EasyQuestComplete
+}
+
+state Reaper
+{
+	desc   "Kill 10 Reapers"
+
+	action	AddNpcText(89, "Kill 10 Reapers! I heard they come in pairs..");
+
+	action	AddNpcInput (89, 1, "Okay!");
+	action	AddNpcInput (89, 2, "I give up(ENDS DAILY QUEST)");
+
+	rule	InputNpc (1) goto KillReapers
+	rule	InputNpc (2) goto Failure
+}
+
+state KillReapers
+{
+	desc	"Kill 10 Reapers"
+
+	action	PlaySound (17);
+	action	ShowHint ("Kill 10 reapers and return to Slayer Master!");
+
+	rule   	KilledNpcs(9,10) goto EasyQuestComplete
+}
+
+state octo
+{
+	desc   "Kill 5 Octopus!"
+
+	action	AddNpcText(89, "Kill 5 Octopus! Aim for the head!");
+
+	action	AddNpcInput (89, 1, "Okay!");
+	action	AddNpcInput (89, 2, "I give up(ENDS DAILY QUEST)");
+
+	rule	InputNpc (1) goto KillOctos
+	rule	InputNpc (2) goto Failure
+}
+
+state KillOctos
+{
+	desc	"Kill 5 Octopus!"
+
+	action	PlaySound (17);
+	action	ShowHint ("Kill 5 Octopus and return to Slayer Master!");
+
+	rule   	KilledNpcs(118,5) goto EasyQuestComplete
+}
+
+state Anundo
+{
+	desc   "Kill 5 Anundo Leaders!"
+
+	action	AddNpcText(89, "Kill 5 Anundo leaders!");
+
+	action	AddNpcInput (89, 1, "Okay!");
+	action	AddNpcInput (89, 2, "I give up(ENDS DAILY QUEST)");
+
+	rule	InputNpc (1) goto KillAnundoLeader
+	rule	InputNpc (2) goto Failure
+}
+
+state KillAnundoLeader
+{
+	desc	"Kill 5 Anundo Leaders!"
+
+	action	PlaySound (17);
+	action	ShowHint ("Kill 5 Anundo Leader and return to Slayer Master!");
+
+	rule   	KilledNpcs(120,5) goto EasyQuestComplete
+}
+
+state Bonespider
+{
+	desc   "Kill 5 Bonespiders"
+
+	action	AddNpcText(89, "Kill 5 Bonespiders, I almost forgot this beast existed...");
+
+	action	AddNpcInput (89, 1, "Okay!");
+	action	AddNpcInput (89, 2, "I give up(ENDS DAILY QUEST)");
+	
+	rule	InputNpc (1) goto KillBoneSpider
+	rule	InputNpc (2) goto Failure
+}
+
+state KillBoneSpider
+{
+	desc	"Kill 5 Bonespiders"
+
+	action	PlaySound (17);
+	action	ShowHint ("Kill 5 Bonespiders and return to Slayer Master!");
+
+	rule   	KilledNpcs(183,5) goto EasyQuestComplete
+}
+
+state EasyQuestComplete
+{
+	desc	"Return to Slayer Master"
+	
+	action	ShowHint ("You've completed your task! Return to Slayer Master!");
+	action	PlaySound (18);
+
+	action	AddNpcText(89, "Well done, there are still stronger foes out there but for now...");
+	action	AddNpcText(89, "Here's the reward promised.");
+
+	rule	TalkedToNpc(89) goto Reward
+}
+
+state Reward
+{
+	action  GiveExp(20000);
+	action  ShowHint("[Quest Complete] You gained 20000 EXP");
+	action	PlaySound(97);
+	action  ResetDaily();
+}
+
+state reset
+{
+	action	ShowHint("Slayer Master quest aborted");
+	action	ResetDaily();
+}
+
+state Failure
+{
+	desc	"Talk to the Slayer Master"
+
+	action	AddNpcText(89, "Hmm, thought you were better than that. Come see me again tomorrow if you want to try again.");
+	rule	TalkedToNpc(89) goto FailReset
+}
+
+state FailReset
+{
+	action	ShowHint("Slayer Master quest aborted");
+	action  ResetDaily();
+}
+
+state Endwithoutreset
+{
+	desc	"Talk to the Slayer Master"
+	action	ShowHint("You can only complete this quest once a day.");
+	action	AddNpcText(89, "You slayed all the monsters I needed you to today, come back tomorrow.");
+	rule	TalkedToNpc(89) goto Reset
+}

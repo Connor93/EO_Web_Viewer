@@ -1,0 +1,25 @@
+main
+{
+	questname 	"Mystery Bunny"
+	version		1
+}
+
+state Begin
+{
+	action		AddNpcText (95, "eeep! ..");
+
+	action		AddNpcInput (95, 1, "I should follow that bunny..");
+	action		AddNpcInput (95, 2, "Get away from me!");
+
+	rule		InputNpc (1) goto Warp
+	rule		InputNpc (2) goto Reset
+}
+state Warp
+{
+	action		Setcoord (319,13,18)
+	action		Reset();
+}
+state Reset
+{
+	action		Reset();
+}

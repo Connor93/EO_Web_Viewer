@@ -1,0 +1,80 @@
+Main
+{
+	questname 	"Frostbite Foods (Rep)"
+	version		1
+}
+
+state Begin
+{
+    desc    "Talk to Irene"
+
+    action  AddNpcText(210, "Looking for a hot meal? Well sorry to tell you but I'm all out of ingrediants..");
+    action  AddNpcText(210, "Wait I know, I'll pay you to you bring me some Penguin Meat. Well, are you interested?");
+    action  AddNpcText(210, "[Quest Reward: 3840exp & 90g]");
+    action  AddNpcInput(210, 1, "Accept Quest");
+    action  AddNpcInput(210, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto StartQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state StartQuest
+{
+    desc    "Collect 100 Penguin Meat"
+
+    action  AddNpcText(210, "Come and see me once you have collected all 100 Penguin Meat.");
+    action  AddNpcInput(210, 1, "I'm working on it");
+    action  AddNpcInput(210, 2, "I give up..");
+
+    rule    GotItems(259,100) goto GotMeat
+    rule    InputNpc(2) goto DeclineQuest
+}
+state GotMeat
+{
+    desc    "Talk to Irene"
+
+    action  PlaySound(17);
+    action  ShowHint("You have collected 100 Penguin Meat, return to Irene");
+    
+    action  AddNpcText(210, "You're back, how did you go?");
+    action  AddNpcInput(210, 1, "Give Meat");
+
+    rule    InputNpc(1) goto CheckMeat
+}
+
+state CheckMeat
+{
+    desc    "Talk to Irene"
+
+    rule    GotItems(259,100) goto TakeMeat
+
+    action  AddNpcText(210, "I thought you had all 100 Penguin Meat? Come and speak with me once you have it.");
+    action  AddNpcInput(210, 1, "I'll get them now");
+    rule    InputNpc(1) goto StartQuest
+}
+
+state TakeMeat
+{
+    desc    "Talk to Irene"
+
+    action  RemoveItem(259,100);
+    
+    action  AddNpcText(210, "Oh simply perfect! Thank you for your help! As promised, here is your reward.");
+    action  AddNpcInput(210, 1, "Collect Reward");
+    rule    InputNpc(1) goto Reward
+}
+
+state Reward
+{
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have received 3840exp & 90g");
+    action  GiveExp(3840);
+    action  GiveItem(1,90);
+    action  Reset();
+}

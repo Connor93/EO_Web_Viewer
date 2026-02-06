@@ -1,0 +1,83 @@
+Main
+{
+	questname 	"Candy's Potion (daily)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Speak to Candy"
+
+	action		AddNpcText (45, "Hi i'm Candy, the new apprentice of Aeven's mighty witch." );
+
+	rule 		TalkedToNpc( 45 ) goto Begin2
+}
+
+state Begin2
+{
+	desc		"Collect 5 snake tooth"
+
+	action		ShowHint("Quest reward: 1100 EXP")
+	action		PlaySound (17);
+
+	action		AddNpcText (45, "I can't complete my magic potion because im short of snake tooth, I'm just not powerfull enough to hunt them myself. If you can hunt 5 snake tooth, I will teach you some tricks I learned (1100 exp)" );
+
+	action		AddNpcInput (45, 1, "No time!");
+	action		AddNpcInput (45, 2, "Okay, no problem!");
+
+	rule		DoneDaily (1) goto EndWithoutReset // once a day ( 1 )
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto CollectSnakeTooth
+}
+
+state CollectSnakeTooth
+{
+	desc		"Collect 5 Snake Tooth"
+
+	action		ShowHint ("Find and collect 5 Snake tooth!");
+	action		PlaySound (18);
+
+	rule 		GotItems (253, 5) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Speak to Candy"
+
+	action		ShowHint ("You succesfully collected 5 Snake Tooth, return to Candy!")
+	action		PlaySound (18);
+
+	action		AddNpcChat (45, "New supplies!" );
+	action		AddNpcText (45, "Ah! you found the 5 snake tooth for me already, thanks! Now I can complete the magic potion.");
+
+	rule 		TalkedToNpc (45) goto GetReward
+	rule		LostItems (253, 5) goto Begin2
+
+}
+
+state GetReward
+{
+	action		ShowHint ("[Quest Complete] You gained 1100 EXP (DAILY)");
+	action		PlaySound(97);
+	action		RemoveItem (253, 5)
+	action		GiveExp (1100)
+	action		ResetDaily();
+}
+
+state EndWithoutReset
+{
+	desc		"Speak to Candy"
+
+	action		ShowHint("You can only complete this quest once a day.");
+	action		AddNpcText (45, "Thank you so much for collecting those final ingredients for my potion. I dont need more snake tooth at the moment!" );
+	action		AddNpcText (45, "Maybe you should go see my sister Ayla, she is always looking for some rat tails! You can find her inside the witch mansion, located east of Aeven." );
+	action		AddNpcText (45, "[ you cannot complete this quest today , please come back tomorrow ]" );
+	rule 		TalkedToNpc (45) goto Reset
+}
+
+state Reset
+{
+	action		ShowHint("Snake Antidote quest aborted..")
+	action		PlaySound (98);
+	action		Reset();
+}	

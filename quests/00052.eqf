@@ -1,0 +1,57 @@
+Main
+{
+	questname     "King's Appreciation"
+    version        1.0
+}
+
+state Begin
+{
+	desc		"Speak with the King"
+
+	action		PlaySound (18);
+
+    action  	AddNpcText (52, "I just wanted to say Thank You, personally. Without people like you, we would struggle to get rid of evil monsters like Big Throat.");
+	action		AddNpcText (52, "As a token of my gratitude, please... take this.");
+	action		AddNpcText (52, "If you collect enough of these parts, you too.. shall wear the crown one day.");
+
+	action		AddNpcInput (52, 1, "Thank you!");
+
+	rule		InputNpc (1) goto Reward
+	rule		DoneDaily (1) goto EndWithoutReset
+}
+
+state Reward
+{
+	action		ShowHint ("[Quest Complete] You've recieved a Golden Piece!");
+	action		PlaySound (97);
+    action  	GiveItem (683,1);
+	action		SetCoord(8,8,4);
+    action		ResetDaily ();
+}
+
+state EndWithoutReset
+{
+	desc		"Speak with the King"
+	action		ShowHint ("You can only complete this task once a day.");
+	action		AddNpcText (52, "What is the meaning of this? Please, I am busy.. come back another day.");
+	
+	rule		TalkedToNpc (52) goto Reset
+}
+
+state Reset
+{
+	action		ShowHint ("King's Appreciation quest aborted..");
+	action		AddNpcChat (52, "Well then..");
+	action		Reset ();
+}
+
+// Some users may be in either of these 2 states
+state Reward1
+{
+	action		Reset();
+}
+
+state End2
+{
+	action		Reset();
+}

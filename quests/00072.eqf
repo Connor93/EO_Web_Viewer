@@ -1,0 +1,151 @@
+Main
+{                       
+   questname "Flower Fever (Rep)"
+   version 1
+}
+
+state begin
+{
+   desc        "Speak to Botanist"
+
+   action      AddNpcText (72, "Too much orders! I can't handle this alone...");
+   action      AddNpcInput (72, 1, "What is wrong?");
+   action      AddNpcInput (72, 2, "Try picking another profession..");
+
+   rule     InputNpc (1) goto FlowyHunt
+   rule     InputNpc (2) goto Reset
+}
+
+state FlowyHunt
+{
+   desc        "Speak to Botanist"
+
+   action      ShowHint("Quest reward: 10000 EXP")
+
+   action      AddNpcText (72, "The Flowy garden is too big for me to pick alone, let alone I have to make the bouquets!");
+
+   action      AddNpcInput (72, 1, "Ah! I feel your pain. How can I help?");
+   action      AddNpcInput (72, 2, "Try picking another profession..");
+
+   rule     InputNpc (1) goto Flowy
+   rule     InputNpc (2) goto Reset
+}
+
+state Flowy
+{
+   desc        "Speak to Botanist"
+
+   action      AddNpcText (72, "Could you clear the garden for me? 50 Flowies would help alot!");
+
+   action      AddNpcInput (72, 1, "Easy!");
+   action      AddNpcInput (72, 2, "I'm too busy, sorry.");
+
+   rule     InputNpc (1) goto KillFlowy
+   rule     InputNpc (2) goto Reset
+}
+
+state KillFlowy
+
+{
+   desc     "Kill 50 Flowies"
+   
+   action      PlaySound (17);
+   action      ShowHint("Kill 50 Flowies");
+
+   rule     KilledNpcs(223,50) goto KilledFlowies
+   
+}
+
+state KilledFlowies
+{
+   desc     "Return to Botanist"
+   
+   action      PlaySound (18);
+   action      ShowHint ("You've killed 50 Flowies! Return to Botanist!");
+   
+   action      AddNpcText( 72 , "Wow! You can count really well! But appearantly I CANT!...");
+   
+   action      AddNpcInput (72, 1, "What do you mean?");
+
+   rule     InputNpc (1) goto MissCount
+}
+
+state MissCount
+{
+   desc        "Speak to Botanist"
+
+   action      AddNpcText (72, "I am 3 flower bouquets short! This is a disaster..");
+
+   action      AddNpcInput (72, 1, "Let me pick them from the grocery store. No problem.");
+   action      AddNpcInput (72, 2, "WOW! You should really think about picking another profession..");
+
+   rule     InputNpc (1) goto General
+   rule     InputNpc (2) goto HalfReward
+}
+
+state General
+{
+   desc        "Get 3 Flower Bouquets"
+
+   action      AddNpcText (72, "You truly are incredible! I will be waiting for you.");
+
+   rule     GotItems (6,3) goto GotProof
+}
+
+state GotProof
+{
+   desc     "Return to Botanist"
+   
+   action      PlaySound (18);
+   action      ShowHint ("You've collected 3 Flower Bouquets! Return to Botanist!");
+   
+   action      AddNpcText (72, "Back already? Did you get them? Will this day be saved?");
+
+   action      AddNpcInput (72, 1, "Yes, here you go");
+   action      AddNpcInput (72, 2, "No.. I won't be doing your silly tasks anymore.");
+
+   rule     InputNpc( 1 ) goto CheckFlowers
+   rule     InputNpc( 2 ) goto HalfReward
+
+}
+
+state CheckFlowers
+{
+   if GotItems(6,3) SetState("GiveFlowers");
+   else SetState("GotProof");
+}
+
+state GiveFlowers
+{
+   desc     "Talk to Botanist"
+   
+   action      RemoveItem (6,3);
+   action      AddNpcText (72, "I can't believe it. My business will live another day! Thanks to you. Come back to me anytime, I truly need more help..");
+   
+   rule     TalkedToNpc (72) goto Reward
+}
+
+state Reward
+{
+   action      GiveExp (10000);
+   action      PlaySound(97);
+
+   action      ShowHint ("[Quest Complete] You gained 10000 EXP!");
+   action      Reset();
+}
+
+state HalfReward
+{
+   action      GiveExp (3000);
+   action      PlaySound(97);
+   action      ShowHint ("Botanist looks devastated...");
+   action      ShowHint ("[Quest Complete] You gained 2000 EXP for a partial completion");
+   action      Reset();
+}
+
+state Reset
+{
+   action      PlaySound (7);
+   action      ShowHint ("Botanist looks away..");
+   action      Reset();
+}

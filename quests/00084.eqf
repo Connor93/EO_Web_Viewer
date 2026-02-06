@@ -1,0 +1,75 @@
+Main
+{
+	questname 	"Swamp guard(rep)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to the swamp guard"
+
+	action		AddNpcText( 84 , "How on earth is one man meant to guard this whole land.." );
+	action		AddNpcText( 84 , "Oh, sorry, I didn't see you there, the swamp has been over ran with goblins.." );
+	action		AddNpcText( 84 , "The king sent me to tackle the problem but there is so many of them, not to mention the swamp monsters.." );
+	action		AddNpcText( 84 , "You look like you can handle yourself, mind killing a few of these goblins for me?" );
+
+	action		AddNpcInput( 84 , 1 , "Not intrested");
+	action		AddNpcInput( 84 , 2 , "I will help you");
+
+	rule 		InputNpc( 1 ) goto Reset
+	rule 		InputNpc( 2 ) goto Talk1
+
+}
+
+state Talk1
+{
+	desc		"Talk to the swamp guard"
+	
+	action		ShowHint("Quest reward: 4500 EXP (rep)")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 84 , "Please kill 60 swamp goblins for me!");
+
+	action		AddNpcInput( 84 , 1 , "Sorry, i give up.");
+	action		AddNpcInput( 84 , 2 , "Im working on it!");
+
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto Killgoblin
+}
+
+state Killgoblin
+{
+	desc		"Kill 60 Swamp Goblins"
+	
+	action		ShowHint ("Find and kill 60 Swamp Goblins");
+	action		PlaySound (18)
+	
+	rule 		KilledNpcs( 130, 60) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Talk to the swamp guard"
+	
+	action		ShowHint("Go find the guard!")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 84 , "Thanks but there is still work to be done here." );
+
+	rule 		TalkedToNpc( 84 ) goto GetReward
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 4500 EXP!");
+	action		PlaySound(97);
+	action		GiveExp(4500);
+	action		Reset();
+}
+
+state Reset
+{
+	action		ShowHint("Noone ever wants to help the guards..")
+	action		Reset();
+}

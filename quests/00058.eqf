@@ -1,0 +1,38 @@
+Main
+{
+		questname		"Snowland"
+		version			1.0
+}
+State Begin
+{
+		desc			"Snowland"
+		
+		action			PlaySound (18);
+		
+		action			AddNpcText (58, "The Holidays approaching! Would you like to be teleported to Snowland?");
+	
+		action			AddNpcInput (58, 1, "No thanks")
+		action			AddNpcInput	(58, 2, "Yes!");
+		
+		rule			InputNpc (1) goto Reset
+		rule			InputNpc (2) goto Snowland
+}
+State Snowland
+{
+		desc			"Snowland Warp"
+		
+		action			AddNpcText (58, "Okay! Lets go!");
+		
+		rule			TalkedToNpc (58) goto WarpSnowland
+}
+State WarpSnowland
+{
+		action			SetCoord (285,20,20);
+		action			PlaySound (35);
+		action			Reset();
+}
+State Reset
+{
+		action			Reset();
+}
+		

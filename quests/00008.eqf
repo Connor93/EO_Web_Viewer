@@ -1,0 +1,35 @@
+Main
+{
+	questname 	"ID used in another quest"
+	version		1
+}
+
+state Begin
+{
+    action  Reset();
+}
+
+state DeclineQuest
+{
+    action  Reset();
+}
+
+state QuestFailed
+{
+    action  Reset();
+}
+
+state StartQuest
+{
+    action  Reset();
+}
+
+state KilledYeti
+{
+    action  Reset();
+}
+
+state Reward
+{
+    action  Reset();
+}

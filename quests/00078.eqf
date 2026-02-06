@@ -1,0 +1,311 @@
+Main
+{
+questname "Slayer task(Daily)"
+version 1
+}
+
+state Begin
+{
+	desc    "Talk to the Slayer Master"
+		
+	action  AddNpcText(78, "Hey there travller, I'm the famous monster slayer in Aeven city! Known far and wide across this world!");
+	action  AddNpcText(78, "What do you mean you've never heard of me?! Anyway...I have a challenge for you, pick wisely..");
+		
+	action  AddNpcInput(78, 1, "Easy Challenge!");
+	action  AddNpcInput(78, 2, "Medium Challenge!");
+	action  AddNpcInput(78, 3, "Hardest Challenge!");
+
+	rule    DoneDaily(1) goto Endwithoutreset
+		
+	rule    InputNpc(1) goto EasyRoll
+	rule    InputNpc(2) goto MediumRoll
+	rule    InputNpc(3) goto HardRoll
+	
+}
+
+// Daily reset give up
+state Failure
+{
+	desc	"Talk to the Slayer Master"
+
+	action	AddNpcText(78, "Hmm, thought you were better than that. Come see me again tomorrow if you want to try again.");
+	rule	TalkedToNpc(78) goto FailReset
+}
+
+state FailReset
+{
+	action	ShowHint("Slayer Master quest aborted");
+	action  ResetDaily();
+}
+
+// Easy roll
+state EasyRoll
+{
+	action  Roll(5)
+		
+	rule    Rolled(1) goto Sheep
+	rule    Rolled(2) goto Goat
+	rule    Rolled(3) goto Rat
+	rule    Rolled(4) goto Snake
+	rule	Rolled(5) goto Pig
+}
+
+state Sheep
+{
+	desc   "Kill 100 Sheep"
+
+	action	AddNpcText(78, "Kill 100 sheep and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule   	KilledNpcs(170,100) goto EasyQuestComplete
+	rule	InputNpc(1) goto Failure
+
+	}
+
+state Goat
+{
+	desc    "Kill 100 Goats"
+
+	action  AddNpcText(78, "Kill 100 goats and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule   	KilledNpcs(7,100) goto EasyQuestComplete
+	rule	InputNpc(1) goto Failure
+}
+
+state Rat
+{
+	desc    "Kill 100 Rats"
+
+	action  AddNpcText(78, "Kill 100 rats and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule   	KilledNpcs(2,100) goto EasyQuestComplete
+	rule	InputNpc(1) goto Failure	
+}
+
+state Snake
+{           		   
+	desc    "Kill 100 Snakes"
+
+	action  AddNpcText(78, "Kill 100 snakes and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule   	KilledNpcs(6,100) goto EasyQuestComplete
+	rule	InputNpc(1) goto Failure
+}
+
+state Pig
+{
+	desc    "Kill 100 Pigss"
+
+	action  AddNpcText(78, "Kill 100 pigs and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule   	KilledNpcs(230,100) goto EasyQuestComplete
+	rule	InputNpc(1) goto Failure
+}
+
+state EasyQuestComplete
+{
+	desc	"Return to Slayer Master"
+
+	action	AddNpcText(78, "Well done, I heard from the guards of your successful monster subjugation.");
+	action	AddNpcText(78, "Here's the reward promised.");
+
+	rule	TalkedToNpc(78) goto EasyReward
+}
+
+state EasyReward
+{
+	action  GiveExp(7500);
+	action	GiveItem(1,1500);
+	action  ShowHint("[Quest Complete] You gained 8000 EXP and 1500 gold");
+	action	PlaySound(97);
+	action  ResetDaily();
+}
+
+state MediumRoll
+{
+	action	Roll(5)
+		
+	rule    Rolled(1) goto Carnivo
+	rule    Rolled(2) goto Headless
+	rule    Rolled(3) goto Bogo
+	rule    Rolled(4) goto Puppet
+	rule    Rolled(5) goto Optica
+}
+
+state Carnivo
+{
+	desc    "Kill 120 Carnivo"
+
+	action	AddNpcText(78, "Kill 120 carnivos and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule    KilledNpcs(121,120) goto MediumQuestComplete	  
+	rule	InputNpc(1) goto Failure
+}
+
+state Headless
+{
+	desc	"Kill 120 Headless Hunters"
+
+	action  AddNpcText(78, "Kill 120 headless hunters and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule    KilledNpcs(138,120) goto MediumQuestComplete	  
+	rule	InputNpc(1) goto Failure	  
+}		   		   
+
+state Bogo
+{
+	desc	"Kill 120 Bogo Men"
+
+	action  AddNpcText(78, "Kill 120 bogo men and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule    KilledNpcs(132,120) goto MediumQuestComplete	  
+	rule	InputNpc(1) goto Failure	  
+}
+
+state Puppet
+{
+	desc	"Kill 120 Puppets"
+
+	action  AddNpcText(78, "Kill 120 puppets and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule    KilledNpcs(173,120) goto MediumQuestComplete	  
+	rule	InputNpc(1) goto Failure	  
+}
+
+state Optica
+{
+	desc	"Kill 120 Opticas"
+
+	action  AddNpcText(78, "Kill 120 opticas and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule    KilledNpcs(131,120) goto MediumQuestComplete	  
+	rule	InputNpc(1) goto Failure	  
+}
+
+state MediumQuestComplete
+{
+	desc	"Return to Slayer Master"
+
+	action	AddNpcText(78, "Well done, I heard from the guards of your successful monster subjugation.");
+	action	AddNpcText(78, "Here's the reward promised.");
+
+	rule	TalkedToNpc(78) goto MediumReward
+}
+
+state MediumReward
+{
+
+	action  ShowHint("[Quest Complete] You gained 15000 EXP and 3000 gold");
+	action	PlaySound(97);
+	action  GiveExp(15000);
+	action  GiveItem(1, 3000);
+	action  ResetDaily();
+}
+
+state HardRoll
+{
+	action	Roll(5)
+	  
+	rule	Rolled(1) goto Mask
+	rule	Rolled(2) goto Vine
+	rule	Rolled(3) goto Crane
+	rule	Rolled(4) goto Banshee
+	rule	Rolled(5) goto Flymen
+}		   		   	              		  
+
+state Mask
+{
+	desc	"Kill 180 Cursed Masks"
+
+	action	AddNpcText(78, "Kill 180 cursed masks and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule	KilledNpcs(134,180) goto HardQuestComplete
+	rule	InputNpc(1) goto Failure	  
+}
+
+state Vine
+{
+	desc	"Kill 180 Vinesd"
+
+	action	AddNpcText(78, "Kill 180 vines and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule	KilledNpcs(137,180) goto HardQuestComplete
+	rule	InputNpc(1) goto Failure		  
+}
+
+state Crane
+{
+	desc	"Kill 180 Cranes"
+
+	action	AddNpcText(78, "Kill 180 cranes and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule	KilledNpcs(145,180) goto HardQuestComplete
+	rule	InputNpc(1) goto Failure	  
+}
+
+state Banshee
+{
+	desc	"Kill 180 Banshis"
+
+	action	AddNpcText(78, "Kill 180 banshis and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule	KilledNpcs(209,180) goto HardQuestComplete
+	rule	InputNpc(1) goto Failure		  
+}
+
+state Flymen
+{
+	desc	"Kill 180 Flymen"
+
+	action	AddNpcText(78, "Kill 180 Flymen and return for your reward");
+	action	AddNpcInput(78, 1, "Give Up");
+
+	rule	KilledNpcs(226,180) goto HardQuestComplete
+	rule	InputNpc(1) goto Failure	  
+}
+
+state HardQuestComplete
+{
+	desc	"Return to Slayer Master"
+
+	action	AddNpcText(78, "Well done, I heard from the guards of your successful monster subjugation.");
+	action	AddNpcText(78, "Here's the reward promised.");
+
+	rule	TalkedToNpc(78) goto HardReward
+}
+
+state HardReward
+{
+	action	ShowHint("[Quest Complete] You gained 22000 EXP and 5000 gold");
+	action	PlaySound(97);
+	action	GiveExp(22000);
+	action	GiveItem(1, 5000);
+	action	ResetDaily();
+}
+
+state Endwithoutreset
+{
+	desc	"Talk to the Slayer Master"
+	action	ShowHint("You can only complete this quest once a day.");
+	action	AddNpcText(78, "You slayed all the monsters I needed you to today, come back tomorrow.");
+	rule	TalkedToNpc(78) goto GoReset
+}
+
+state GoReset
+{
+	action	ShowHint("Slayer Master quest aborted");
+	action	ResetDaily();
+}		

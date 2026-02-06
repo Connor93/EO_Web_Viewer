@@ -1,0 +1,69 @@
+Main
+{
+	questname 	"Slime Defender"
+	version		1
+}
+
+state Begin
+{
+	desc		"Kill 25 slime blobs"
+
+	action		ShowHint("Quest reward: 1000 EXP")
+
+	action		AddNpcText (30, "Noone knows what happened here but these slimey creatures ate all our goats!!" );
+	action		AddNpcText (30, "We need help to stop the creatures from reaching our village." );
+	action		AddNpcText (30, "To defeat the blobs one must properly be equiped with at least a DAGGER and some minimal armor." );
+	action		AddNpcText (30, "Please help us stop the blobs and I will reward you." );
+
+	action		AddNpcInput (30, 1, "I'll help!");
+	action		AddNpcInput (30, 2, "Sorry, I can't help..");
+
+	rule 		InputNpc (1) goto KillSlime
+	rule		InputNpc (2) goto Reset
+
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+State KillSlime
+{
+	desc		"Kill 25 Blob Slime!"
+	
+	action		ShowHint ("Find and kill 25 Blob Slime and return to Defender!");
+	action		PlaySound (17);
+
+	rule 		KilledNpcs (3, 25) goto Talk2
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+}
+
+state Talk2
+{
+	desc		"Speak to defender"
+
+	action		ShowHint("You succesfully killed 25 blobs, return to Defender!")
+	action		PlaySound (18);
+
+	action		AddNpcText (30 , "Thank you for getting rid of these blob creatures, please accept my reward." );
+
+	rule 		TalkedToNpc (30) goto GetReward
+	rule		EnterMap (1) goto Reset
+	rule		EnterMap (5) goto Reset
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 1000 EXP and 10 Bottles of Water!");
+	action		PlaySound(97);
+
+	action		GiveItem (686, 10)
+	action		GiveExp(1000)
+	action		End();
+}
+
+state Reset
+{
+	action		ShowHint("Slime defender quest aborted..")
+	action		PlaySound (6);
+	action		Reset()
+}	

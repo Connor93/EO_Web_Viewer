@@ -1,0 +1,74 @@
+Main
+{
+	questname 	"Butterfly catcher! (rep)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to Mark"
+
+	action		AddNpcText( 75 , "The butterflys have gotten out of hand! " );
+	action		AddNpcText( 75 , "I used to come here as a kid but now there is too many flying insects everywhere!" );
+	action		AddNpcText( 75 , "Would you help kill these butterflys? I would help but uh...I'm..just so busy..yeah that's it, i'm busy!" );
+
+	action		AddNpcInput( 75 , 1 , "I don't kill butterflys!");
+	action		AddNpcInput( 75 , 2 , "Sure, who likes insects anyway?!");
+
+	rule 		InputNpc( 1 ) goto Reset
+	rule 		InputNpc( 2 ) goto Talk1
+
+}
+
+state Talk1
+{
+	desc		"Talk to Mark"
+	
+	action		ShowHint("Quest reward: 7000 EXP (rep)")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 75 , "Please kill 60 butterflys for me and I will reward you well!");
+
+	action		AddNpcInput( 75 , 1 , "Sorry, I changed my mind.");
+	action		AddNpcInput( 75 , 2 , "Im working on it!");
+
+	rule 		InputNpc (1) goto Reset
+	rule		InputNpc (2) goto KillTenba
+}
+
+state KillTenba
+{
+	desc		"Kill 60 butterflys"
+	
+	action		ShowHint ("Find and kill 60 butterflys");
+	action		PlaySound (18)
+	
+	rule 		KilledNpcs( 133, 60) goto Talk2
+}
+
+state Talk2
+{
+	desc		"Talk to Mark"
+	
+	action		ShowHint("Go find Mark!")
+	action		PlaySound (18);
+	
+	action		AddNpcText( 75 , "Wow, thanks a lot! Although you took care of a lot of them, there's still work to be done. Here's a reward for your time." );
+
+	rule 		TalkedToNpc( 75 ) goto GetReward
+
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 7000 EXP!");
+	action		PlaySound(97);
+	action		GiveExp(7000);
+	action		Reset();
+}
+
+state Reset
+{
+	action		ShowHint("I guess I'm not the only one scared of insects..")
+	action		Reset();
+}	

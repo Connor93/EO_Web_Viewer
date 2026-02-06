@@ -1,0 +1,94 @@
+// Edit by Vexx
+Main
+{
+	questname 	"Fox fur (daily)"
+	version		2
+}
+
+state Begin
+{
+	desc		"Talk to Ash or Boum."
+	action		AddNpcText( 50 , "Hi stranger! Im on a fox hunt together with my brother, we are trying to craft a magical fox fur coat but hunting 15 fox fur is pretty difficult." );
+	action		AddNpcText( 50 , "Hmm, how about we pay you 3120 exp and 240 gold for the fur we need?" );
+
+	action		AddNpcInput( 50 , 1 , "Sounds good!");
+	action		AddNpcInput( 50 , 2 , "I'm busy right now");
+	
+	rule		DoneDaily( 1 ) goto EndWithoutReset
+	rule 		InputNpc( 1 ) goto CollectFurs
+	rule 		InputNpc( 2 ) goto Reset
+	
+}
+
+state CollectFurs
+{
+	desc		"Collect 15 fox fur"
+	action		ShowHint("Quest reward : 3120 EXP and 240 gold");
+
+	action		AddNpcText(50, "Thank you for your help, come and speak to me again once you have collected all 15 fox furs");
+	action		AddNpcInput(50, 1, "Give Up");
+
+	rule 		GotItems( 252 , 15 ) goto GotFurs
+	rule 		InputNpc( 2 ) goto Reset
+	
+}
+
+state GotFurs
+{
+	desc		"Talk to Ash or Boum."
+	action		ShowHint("You succesfully collected 15 fox fur horns");
+	action		PlaySound(5);
+
+	action		AddNpcChat( 50 , "Fox fur!" );
+	action		AddNpcText( 50 , "You're back, how did you go with your hunt?");
+	
+	action		AddNpcInput(50, 1, "Give Furs");
+
+	rule 		InputNpc(1) goto CheckFurs
+}
+
+state CheckFurs
+{
+	desc		"Talk to Ash or Boum."
+
+	rule		GotItems(252,15) goto TakeFurs
+
+	action		AddNpcText(50, "Oh I thought you were done? Come and see me once you have collected those fox furs.");
+	rule		TalkedToNpc(50) goto CollectFurs
+}
+
+state TakeFurs
+{
+	desc		"Talk to Ash or Boum."
+
+	action		RemoveItem( 252 , 15 );
+	action		AddNpcText( 50 , "Thanks for hunting the fur for us, I will take it in and inform my brother about your success.");
+	rule		TalkedToNpc(50) goto GetReward
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 3120 EXP and 240 gold (DAILY)");
+	action		PlaySound(97);
+
+	
+	action		GiveItem( 1, 240);
+	action		GiveExp(3120);
+	action		ResetDaily();
+}
+
+state EndWithoutReset
+{
+	desc		"Talk to Ash or Boum."
+	action		ShowHint("You can only complete this quest once a day.");
+
+	action		AddNpcText( 50 , "Okay thats enough fox fur for today, my brother and I thank you for your help." );
+	action		AddNpcText( 50 , "[ you cannot complete this quest today , please come back tomorrow ]" );
+	rule 		TalkedToNpc( 50 ) goto Reset
+}
+
+state Reset
+{
+	action		ShowHint("Fox fur quest aborted..")
+	action		Reset();
+}	

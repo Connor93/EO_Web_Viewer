@@ -1,0 +1,132 @@
+Main
+{
+   questname "Rocky End(Daily)"
+   version 1
+}
+
+state Begin
+{
+   desc     "Talk to the Geologist"
+   action   Addnpctext( 83 , "I've been in this desert so long it feels like even the rocks are talking..");
+   action   Addnpctext( 83 , "I was sent here by the king to study some of the land but things just aren't right..");
+   action   Addnpctext( 83 , "Can you do me a favour? Will you kill some of the rocks around here so I can study in peace?");
+   
+   action   Addnpcinput(83 , 1 , "Kill rocks? sure!");
+   action   Addnpcinput(83 , 2 , "I'm busy");
+   
+   rule    DoneDaily( 1 ) goto EndWithoutReset // once a day ( 1 ) 
+   rule    InputNpc (1) goto begin1
+   rule    InputNpc (2) goto reset
+   
+}
+
+State begin1
+{
+  desc    "Find 25 rocks to kill"
+  
+  action   Showhint ("Find and Kill 25 rocks");
+  action   Playsound (18)
+  
+  rule     KilledNpcs ( 95, 25) goto begin2
+}
+
+State begin2
+{
+  desc    "Talk to the Geologist"
+  
+  action  Showhint("Go back to the Geologist");
+  action  Addnpctext(83, "While you was away I saw this HUGEE golem type thing, do you think you could kill some of them for me?")
+  
+  action  Addnpcinput(83, 1, "Sure let's do it");
+  action  Addnpcinput(83, 2, "Golem? no way");
+  
+  rule    InputNpc (1) goto begin3
+  rule    InputNpc (2) goto begin2
+}
+
+state begin3
+{
+  desc  "Find and kil 30 stone gollems"
+  
+  action  Showhint("find and kill 30 stone gollems");
+  action  Playsound (18)
+
+  rule   KilledNpcs ( 96, 30) goto begin4
+}
+
+state begin4
+{
+  desc "Go back to the Geologist"
+  
+  action  Showhint("Go back to Geologist");
+  action  Addnpctext(83, "Oh thank god your back! I found a cave on the other side of the desert and there is a realy big stone gollem in there");
+  action  Addnpctext(83, "I think if you kill that thing, it might stop the gollems from taking over the desert, will you do that?");
+  
+  action Addnpcinput(83, 1, "Let's do this!");
+  action Addnpcinput(83, 2, "Maybe later");
+  
+  rule   InputNpc (1) goto begin5
+  rule   InputNpc (2) goto begin4
+}
+
+state begin5
+{
+ desc "Go kill the Big Gollem"
+ 
+ action  Showhint("find the cave and kill the Big Gollem")
+ 
+ rule    EnterCoord(141, 3, 39) goto killgollem
+}
+
+state killgollem
+{
+  desc "Kill the Big Gollem"
+  action  SetCoord(303, 14, 8)
+  
+  action Showhint("Kill the Big Gollem");
+  action Addnpctext(83, "I'm sure if you kill the Gollem in the cave it will slow the rocks taking over")
+  
+  action Addnpcinput(83, 1, "Going to kill him now");
+  action Addnpcinput(83, 2, "Nevermind, you deal with it");
+  
+  rule InputNpc (1) goto begin5
+  rule InputNpc (2) goto begin5
+  rule KilledNpcs(368, 1) goto begin6
+}
+
+state begin6
+{
+ desc "Return to the Geologist"
+ action Showhint("Return to the Geologist")
+ 
+ action Addnpctext(83, "Your back! well done! I can now study in peace...for now! Check back on me I might need your help again!")
+ 
+ rule TalkedToNpc(83) goto reward
+}
+
+state reward
+{
+    action		ShowHint("[Quest Complete] You gained 10500 EXP and 2500 gold (DAILY)");
+	action		PlaySound(97);
+
+	action		GiveItem( 1, 2500)
+	action		GiveExp(10500)
+	action		ResetDaily();
+}
+
+state EndWithoutReset
+{
+	desc		"Talk to Geologist"
+	action		ShowHint("You can only complete this quest once a day.");
+	action		AddNpcText( 83 , "You've already killed the Big gollem today, maybe he will return tomorrow.." );
+	action		AddNpcText( 83 , "[ you cannot complete this quest today , please come back tomorrow ]" );
+	rule 		TalkedToNpc( 83 ) goto Reset // requires to talk	
+}
+
+state reset
+{
+    action		ShowHint("Rocky End quest aborted..")
+	action		Reset(); // reset and abort quest
+}
+ 
+  

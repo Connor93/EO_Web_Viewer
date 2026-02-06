@@ -1,0 +1,67 @@
+Main
+{
+	questname	"Shark Hunter (rep)"
+	version		1
+}
+
+state Begin
+{
+    desc    "Talk to the Crazy Pirate"
+
+    action  AddNpcText(208, "Yarrr, yee should not fear them big fishes! But they do be causing troubles yarr see..");
+    action  AddNpcText(208, "Cull their number by threescore and three, then a reward will come to ye..");
+    action  AddNpcText(208, "[Quest Reward: 5500exp & 200g]");
+
+    action  AddNpcInput(208, 1, "Accept Quest");
+    action  AddNpcInput(208, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto StartQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state GiveUp
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state StartQuest
+{
+    desc    "Kill 63 Sharks"
+
+    action  AddNpcText(208, "Yarrr, threescore and three or sixty three. Slay thee then a reward for ye.");
+    action  AddNpcInput(208, 1, "I'm working on it..")
+    action  AddNpcInput(208, 2, "I give up");
+
+    rule    KilledNpcs(204,63) goto SlayedSharks
+    rule    InputNpc(2) goto GiveUp
+}
+
+state SlayedSharks
+{
+    desc    "Return to Crazy Pirate"
+
+    action  ShowHint("You have slayed 63 Sharks, return to the Crazy Pirate");
+    action  PlaySound(17);
+
+    action  AddNpcText(208, "A coward ye not be! A reward for yarrr!");
+    action  AddNpcInput(208, 1, "Collect Reward");
+    rule    InputNpc(1) goto Reward
+}
+
+state Reward
+{
+    action  ShowHint("[Quest Complete] You gained 5500exp & 200g");
+    action  PlaySound(97);
+
+    action  GiveExp(5500);
+    action  GiveItem(1,200);
+
+    action  Reset();
+}

@@ -1,0 +1,49 @@
+Main
+{
+    questname 	"My Mommy"
+    version		2
+    hidden
+}
+
+state Begin
+{
+	desc		"Check Potions"
+
+    rule        GotItems(686,1) goto HasPotions
+
+    action      AddNpcText(92, "All out of water? Here, you can have some more.");
+    rule        DoneDaily(10) goto EndWithoutReset
+    rule        TalkedToNpc(92) goto GivePotions
+
+}
+
+state HasPotions
+{
+    desc        "Talk to Mommy"
+
+    action      AddNpcText(92, "You can always back and see me if you run out of water on your adventures.");
+    action      AddNpcText(92, "Have fun out there and stay hydrated!");
+    rule        TalkedToNpc(92) goto Restart
+}
+
+state GivePotions
+{
+    action      GiveItem(686,5);
+    action      ShowHint("You have been given 5 Bottle's of Water.");
+    action      PlaySound(5);
+    action	ResetDaily();
+}
+
+state EndWithoutReset
+{
+    desc        "Talk to Mommy"
+
+    action      AddNpcText(92, "Oh sorry honny, looks like I'm all out.");
+    action      AddNpcText(92, "I will go into town and buy some more tomorrow, come and see me then.");
+    rule        TalkedToNpc(92) goto Restart
+}
+
+state Restart
+{
+    action      Reset();
+}

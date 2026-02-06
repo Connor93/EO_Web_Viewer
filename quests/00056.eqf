@@ -1,0 +1,150 @@
+// Copyright (c) Vult-r
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://opensource.org/licenses/MIT.
+
+Main
+{
+	questname 	"Baru Supplies (daily)"
+	version		1
+}
+
+state Begin
+{
+	desc		"Talk to Baru Shepherd"
+	action		AddNpcText( 56 , "It's so warm out here, if only i could cool down a little bit.." );
+
+	rule 		TalkedToNpc( 56 ) goto Begin2
+}
+
+state Begin2
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		AddNpcText(56, "Could you bring me 5 Ice Gems please?");
+	action		AddNpcText(56, "[Quest Reward] 1500 EXP (Daily)");
+
+	action		AddNpcInput( 56 , 1 , "Accept Quest");
+	action		AddNpcInput( 56 , 2 , "Decline Quest");
+
+	rule		DoneDaily( 1 ) goto EndWithoutReset // once a day ( 1 )
+	rule 		InputNpc( 1 ) goto CollectGems
+	rule 		InputNpc( 2 ) goto Reset
+}
+
+state CollectGems
+{
+	desc	"Collect 5 Ice Gems"
+
+	action		AddNpcText(56, "Please bring me 5 Ice Gems, it's so hot I'm melting!");
+	action		AddNpcInput(56, 1, "Im working on it");
+	action		AddNpcInput(56, 2, "I give up..");
+
+	rule		InputNpc(2) goto Reset
+	rule 		GotItems( 337 , 5 ) goto Talk2
+
+}
+
+state Talk2
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		ShowHint("You have collected 5 Ice Gems, return to the Baru Shepherd");
+	action		PlaySound(5);
+
+	action		AddNpcText( 56 , "You're back, did you get those Ice Gems?" );
+
+	action		AddNpcInput(56, 1, "Give Gems");
+	rule		InputNpc(1) goto CheckGems
+}
+
+state CheckGems
+{
+	desc		"Talk to Baru Shepherd"
+
+	rule		GotItems(337,5) goto TakeGems
+
+	action		AddNpcText(56, "Oh I thought you had those Ice Gems? Come and see me when you do.");
+	action		AddNpcInput(56, 1, "I'm working on it");
+	rule		InputNpc(1) goto Begin2
+}
+
+state TakeGems
+{
+	action		RemoveItem(337,5);
+	rule		Always() goto GetCubes
+}
+
+state GetCubes
+{
+	desc		"Collect 5 Ice Cubes"
+
+	action		AddNpcText(56, "Ah perfect, but this isn't enough. Can you also collect 5 Ice Cubes for me as well?");
+
+	action		AddNpcInput(56, 1, "I'm working on it");
+	action		AddNpcInput(56, 2, "I give up..");
+
+	rule		InputNpc(2) goto Reset
+	rule		GotItems(338,5) goto GotCubes
+}
+
+state GotCubes
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		ShowHint("You have collected 5 Ice Cubes, return to the Baru Shepherd");
+	action		PlaySound(5);
+
+	action		AddNpcText(56, "You're back, did you get those Ice Cubes?");
+
+	action		AddNpcInput(56, 1, "Give Cubes");
+	rule		InputNpc(1) goto CheckCubes
+
+}
+
+state CheckCubes
+{
+	desc		"Talk to Baru Shepherd"
+
+	rule		GotItems(338,5) goto TakeCubes
+
+	action		AddNpcText(56, "Oh I thought you had those Ice Cubes? Come and see me when you do.");
+	action		AddNpcInput(56, 1, "I'm working on it");
+	rule		InputNpc(1) goto Begin2
+}
+
+state TakeCubes
+{
+	action		RemoveItem(338,5);
+	rule		Always() goto GetReward
+}
+
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 1500 EXP (DAILY)");
+
+	action		AddNpcChat(56, "Thank you so much, I feel much better now!");
+	action		PlaySound(97);
+
+	action		GiveExp(1500);
+	action		ResetDaily();
+}
+
+state EndWithoutReset
+{
+	desc		"Talk Baru Shepherd"
+
+	action		ShowHint("You can only complete this quest once a day.");
+
+	action		AddNpcText(56, "Thank you so much for bringing those ice cubes and Ice Gems!");
+	action		AddNpcText(56, "[You cannot complete this quest today , please come back tomorrow]");
+	rule 		TalkedToNpc(56) goto Reset
+}
+
+state Reset
+{
+	action		ShowHint("Baru Supplies quest aborted..")
+	action		Reset();
+}	

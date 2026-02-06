@@ -1,0 +1,59 @@
+Main
+{
+	questname	"Unseen Hands"
+	version 	1
+}
+State Begin
+{
+	desc		"Patrons of Endless Memories"
+
+	rule		GotItems (872,1) goto Talk2
+	action		AddNpcText (214, "Good day to be on Endless Memories.. aint it?!");
+	action		AddNpcText (214, "Remember.. Trippie is ALWAYS watching.. o_o");
+
+	action		AddNpcInput (214, 1, "That's.. weird.. Ok.");
+
+	rule		InputNpc (1) goto Restart
+}
+State Restart
+{
+	action		Reset();
+}
+State Talk2
+{
+	desc		"Patrons of Endless Memories"
+
+	action		AddNpcText (214, "Thank you for your contribution to Endless Memories! We really appreciate your help.");
+	action		AddNpcText (214, "As a thank you, we would like to give you some items that may be of use to you.");
+	action		AddNpcText (214, "This part is IMPORTANT. PLEASE make sure that you have room in your inventory before continuing..");
+	action		AddNpcText (214, "Have you cleared up some room in your inventory?");
+
+	action		AddNpcInput (214, 1, "Yes!");
+	action		AddNpcInput (214, 2, "No, I need a second!");
+	
+	rule		InputNpc (1) goto Talk3
+	rule		InputNpc (2) goto Talk2
+}
+State Talk3
+{
+	desc		"Patrons of Endless Memories"
+	
+	action		AddNpcText (214, "Great! I'll shut up now, please accept these rewards. :)");
+	action		RemoveItem (872,1);
+
+	action		AddNpcInput (214, 1, "Thank you!");
+
+	rule		InputNpc (1) goto Reward
+}
+State Reward
+{
+	action		ShowHint ("Thanks for supporting Endless Memories!");
+	action		PlaySound (1);
+	action		GiveItem (862,1);
+	action		GiveItem (847,1);
+	action		GiveItem (848,4);
+	action		GiveItem (501,1);
+	action		GiveItem (500,1);
+	action		GiveItem (683,10);
+	action		End();
+}

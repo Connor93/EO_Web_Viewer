@@ -1,0 +1,227 @@
+Main
+{
+	questname       "Baru Supplies (daily)"
+	version	 1
+}
+ 
+
+state Begin
+{
+	desc	"Talk to Baru Shepherd"
+ 
+	action		Roll(5)
+
+	rule	DoneDaily( 1 ) goto EndWithoutReset // once a day ( 1 )
+	rule	Rolled(1)       goto Ing1
+	rule	Rolled(2)       goto Ing2
+	rule	Rolled(3)       goto Ing3
+	rule	Rolled(4)       goto Ing4
+	rule	Rolled(5)       goto Ing5
+}
+
+state Ing1
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		AddNpcText (68, "Lets just cut to the chase, I need some Cranes.. can you help me out?");
+	
+	action		AddNpcInput (68, 1, "Sure!");
+	action		AddNpcInput (68, 2, "No thanks");
+
+	rule		InputNpc (1) goto IngCollect1
+}
+
+state IngCollect1
+{
+	desc		"Collect 10 Cranes"
+
+	action		PlaySound(18);
+	action		ShowHint ("You've collected 10 Cranes, return to Baru Shepherd!");
+	
+	rule		GotItems (398, 10) goto Cranes
+}
+
+state Ing2
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		AddNpcText (68, "We seem to be running out of cubes for our drinks, could you collect 10 ice cubes for me?");
+	
+	action		AddNpcInput (68, 1, "Sure!");
+	action		AddNpcInput (68, 2, "No thanks");
+
+	rule		InputNpc (1) goto IngCollect2
+	rule		InputNpc (2) goto Reset
+}
+
+state IngCollect2
+{
+	desc		"Collect 10 Ice Cubes"
+
+	action		PlaySound(18);
+	action		ShowHint ("Collect 10 Ice Cubes, return to Baru Shepherd!");
+	
+	rule		GotItems (338, 10) goto IceCubes
+}
+
+state Ing3
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		AddNpcText (68, "I really need some Flowies for my collection, could you collect 10 Flowies for me?");
+	
+	action		AddNpcInput (68, 1, "Sure!");
+	action		AddNpcInput (68, 2, "No thanks");
+
+	rule		InputNpc (1) goto IngCollect3
+	rule		InputNpc (2) goto Reset
+}
+
+state IngCollect3
+{
+	desc		"Collect 10 Flowies"
+
+	action		PlaySound(18);
+	action		ShowHint ("Collect 10 Flowies, return to Baru Shepherd!");
+	
+	rule		GotItems (480, 10) goto Flowies
+}
+
+state Ing4
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		AddNpcText (68, "I could really use some Dark Rags for a craft I'm doing. Could you collect 10 of them for me?");
+	
+	action		AddNpcInput (68, 1, "Sure!");
+	action		AddNpcInput (68, 2, "No thanks");
+
+	rule		InputNpc (1) goto IngCollect4
+	rule		InputNpc (2) goto Reset
+}
+
+state IngCollect4
+{
+	desc		"Collect 10 Dark Rags"
+
+	action		PlaySound(18);
+	action		ShowHint ("Collect 10 Dark Rags, return to Baru Shepherd!");
+	
+	rule		GotItems (278, 10) goto DarkRags
+}
+
+state Ing5
+{
+	desc		"Talk to Baru Shepherdv"
+
+	action		AddNpcText (68, "I need some Leaves from Carnivos for a craft I'm doing. Would you mind collecting 10 of them for me?");
+	
+	action		AddNpcInput (68, 1, "Sure!");
+	action		AddNpcInput (68, 2, "No thanks");
+
+	rule		InputNpc (1) goto IngCollect5
+	rule		InputNpc (2) goto Reset
+}
+
+state IngCollect5
+{
+	desc		"Collect 10 Leaves"
+
+	action		PlaySound(18);
+	action		ShowHint ("Collect 10 Leaves, return to Baru Shepherd!");
+	
+	rule		GotItems (395, 10) goto Leaves
+}
+
+state Cranes
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		PlaySound(18);
+	action		ShowHint ("You've collected 10 Cranes, return to Baru Shepherd!");
+	
+	action		AddNpcText (68, "Great work! Return to me tomorrow for more tasks I may need help with. Here's some Baru Flock to help with your craft!");
+	action		RemoveItem (398, 10)
+
+	rule		TalkedToNpc (68) goto GetReward
+}
+
+state IceCubes
+{
+	desc		"Talk to Baru Shepherd"
+	
+	action		PlaySound(18);
+	action		ShowHint ("You've collected 10 Ice Cubes, return to Baru Shepherd!");
+
+	action		AddNpcText (68, "Great work! Return to me tomorrow for more tasks I may need help with. Here's some Baru Flock to help with your craft!");
+	action		RemoveItem (338, 10)
+
+	rule		TalkedToNpc (68) goto GetReward
+}
+
+state Flowies
+{
+	desc		"Talk to Baru Shepherd"
+	
+	action		PlaySound(18);
+	action		ShowHint ("You've collected 10 Flowies, return to Baru Shepherd!");
+
+	action		AddNpcText (68, "Great work! Return to me tomorrow for more tasks I may need help with. Here's some Baru Flock to help with your craft!");
+	action		RemoveItem (480, 10)	
+
+	rule		TalkedToNpc (68) goto GetReward
+}
+
+state DarkRags
+{
+	desc		"Talk to Baru Shepherd"
+	
+	action		PlaySound(18);
+	action		ShowHint ("You've collected 10 Dark Rags, return to Baru Shepherd!");
+
+	action		AddNpcText (68, "Great work! Return to me tomorrow for more tasks I may need help with. Here's some Baru Flock to help with your craft!");
+	action		RemoveItem (278, 10)
+	
+	rule		TalkedToNpc (68) goto GetReward
+}
+
+state Leaves
+{
+	desc		"Talk to Baru Shepherd"
+	
+	action		PlaySound(18);
+	action		ShowHint ("You've collected 10 Leaves, return to Baru Shepherd!");
+
+	action		AddNpcText (68, "Great work! Return to me tomorrow for more tasks I may need help with. Here's some Baru Flock to help with your craft!");
+	action	 	RemoveItem (395, 10)
+	
+	rule		TalkedToNpc (68) goto GetReward
+}
+
+state GetReward
+{
+	action		ShowHint("[Quest Complete] You gained 1500 EXP and a Baru flock! (DAILY)");
+	action		PlaySound(97);
+
+	action		GiveItem(492,1);
+	action		GiveExp(1500);
+	action		ResetDaily();
+}
+
+
+state EndWithoutReset
+{
+	desc		"Talk to Baru Shepherd"
+
+	action		ShowHint("You can only complete this quest once a day.");
+	action		AddNpcText (68, "[ you cannot complete this quest today , please come back tomorrow ]" );
+
+	rule		TalkedToNpc (68) goto Reset // requires to talk
+}
+
+
+state Reset
+{
+	action		ShowHint("Baru Supplies quest aborted..");
+	action		Reset(); // reset and abort quest
+}

@@ -1,0 +1,108 @@
+Main
+{
+        questname       "Skywonder Rescue"
+        version         1.0
+}
+state Begin
+{
+        desc    "Speak with Jessica"
+	
+        action  AddNpcText(13, "Hello, as you can see.. I live peacefully with the blobsies in the wonderful sky, then one day the wolfman and the foxes got into a fight and all the foxes came here.");
+        rule    TalkedToNpc(13) goto TalkToWolfLeader
+}
+state TalkToWolfLeader
+{
+        desc    "Speak with the Wolfman Leader"
+	
+        action  AddNpcText(13, "Go talk to the wolfman first im sure he's willing to compromise so we can all live in peace again.");
+        action  AddNpcText(14, "WHAT DO YOU WANT?! Did JESSICA send you?");
+	
+        action  AddNpcInput(14, 1, "I come in peace");
+        action  AddNpcInput(14, 2, "Nothing, bye");
+	
+        rule    InputNpc(1) goto GetBirdFeathers
+ 
+}
+state GetBirdFeathers
+{
+        desc    "Find Bird Feathers"
+	
+        action  AddNpcText(14, "We are at war with the Birdmen on the other mountain. I am currently too busy to talk about peace with the foxes.");
+        action  AddNpcText(14, "You know, I hate those annoying Birdmen! If you help us fight the Birdmen and bring me 10 Bird Feathers, I will think about your offer." );
+	
+	action	AddNpcInput(14, 1, "Okay, no problem!");
+	action	AddNpcInput(14, 2, "This is not my fight..");
+	
+	rule	InputNpc(1) goto CollectFeathers
+	rule	InputNpc(2) goto Reset
+}
+state CollectFeathers
+{
+	desc	"Collect 10 Bird Feathers"
+	
+	action	ShowHint("Kill Birdmen and collect 10 Feathers then return to Wolfman Leader!");
+	action	PlaySound(18);
+
+        action  AddNpcChat(14, "Kill those discusting feather covered pests!");
+        action  AddNpcText(14, "Bring me 10 Bird Feathers and I will think about your offer.");
+	
+        rule    GotItems(299,10) goto GiveFeathers
+ 
+}
+state GiveFeathers
+{
+        desc    "Speak with the Wolfman Leader"
+	
+	action	ShowHint("You've successfully collected 10 Bird Feathers, return to Wolfman Leader!");
+	action	PlaySound(18);
+	
+        action  AddNpcText(14, "Impossible.. you've defeated some Birdmen AND returned with all 10 feathers?!");
+        action  AddNpcText(14, "Show me those Bird Feathers and I'll believe it..");
+	
+        action  AddNpcInput(14, 1, "Ok, here!");
+        action  AddNpcInput(14, 2, "No, these are mine");
+	
+        rule    InputNpc(1) goto TalkToJessica
+	
+        rule    LostItems(299,10) goto CollectFeathers
+ 
+}
+state TalkToJessica
+{
+        desc    "Speak with the Wolfman Leader"
+	
+        action  RemoveItem(299,10);
+        action  ShowHint("You gave the Wolfman Leader 10 Bird Feathers.");
+	
+        action  AddNpcText(14, "Very well.. Go tell Jessica we shall make peace with the Foxes");
+        rule    TalkedToNpc(14) goto ReturnToJessica
+}
+
+state ReturnToJessica
+{
+        desc    "Speak with the Jessica"
+
+        action  ShowHint("You have brokered peace between Jessica and the Wolfman Leader! Go and speak with Jessica.");
+        action  PlaySound(18);
+
+        action  AddNpcChat(14, "We're done talking.");
+
+        action  AddNpcText(13, "Thank you so much for your time and help, please accept this reward, for your efforts.");
+        rule    TalkedToNpc(13) goto Reward
+}
+state Reward
+{
+	action	AddNpcChat(13, "Finally.. we shall have peace again, thanks to you..");
+        action  ShowHint("[Quest Complete] You gained 3500 exp and 1000 gold!");
+	action	PlaySound(97);
+        action  GiveExp(3500);
+        action  GiveItem(1, 1000);
+
+        action  End();
+}
+state Reset
+{
+	action	ShowHint("Skywonder Rescue quest aborted..");
+	action	PlaySound(17);
+	action	Reset();
+}

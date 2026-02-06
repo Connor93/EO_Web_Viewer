@@ -1,0 +1,71 @@
+Main
+{
+	questname	"Eating Rich"
+	version		1
+    // NPC ID 424
+}
+
+state Begin
+{
+	desc	"Talk to Elrik"
+
+    action  AddNpcText(202, "Oh man! Look at all those juicy lobsters, that's a meal I would be satisfied with!");
+    action  AddNpcText(202, "You look strong, bet you can get me some of that juicy lobster meat? I'll pay you of course!");
+    action  AddNpcText(202, "[Quest Reward: 7,000 exp & 130g]");
+
+    action  AddNpcInput(202, 1, "Accept Quest");
+    action  AddNpcInput(202, 2, "Decline Quest");
+
+    rule    InputNpc(1) goto AcceptQuest
+    rule    InputNpc(2) goto DeclineQuest
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state RewardTime
+{
+    action  RemoveItem(722,30);
+    action  GiveExp(7000);
+    action  GiveItem(1,130);
+    action  PlaySound(97);
+    action  ShowHint("[Quest Complete] You have gained 7,000 exp & 130g!");
+    action  Reset();
+}
+
+state AcceptQuest
+{
+    desc    "Collect 30 Lobster Meat"
+
+    action  AddNpcText(202, "Oh that's great, I can't wait to bite into that succulant meat!");
+    action  AddNpcText(202, "Come and speak with me again once you have 30 Lobster Meat!");
+
+    rule    GotItems(722,30) goto GotMeat
+}
+
+state GotMeat
+{
+    desc    "Talk to Elrik"
+
+    action  ShowHint("You have collected 30 Lobster Meat! Return to Elrik");
+    action  PlaySound(37);
+
+    action  AddNpcText(202, "You're back, did you get the meat?");
+    action  AddNpcInput(202, 1, "Give Meat");
+
+    rule    InputNpc(1) goto CheckMeat
+}
+
+state CheckMeat
+{
+    desc    "Talk to Elrik"
+
+    rule    GotItems(722,30) goto RewardTime
+
+    action  AddNpcText(202, "Oh I thought you had the meat?");
+    action  AddNpcInput(202, 1, "I'll get it.");
+    rule    InputNpc(1) goto AcceptQuest
+}

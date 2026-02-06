@@ -1,0 +1,22 @@
+Main // warp
+{
+    questname     "Monkey Island Warp"
+    version          1.0
+    hidden
+}
+
+state Begin
+{
+    action  AddNpcText(21, "Want to head back to Monkey Island?");
+
+    action  AddNpcInput(21, 1, "Let's go");
+    action  AddNpcInput(21, 2, "Later");
+
+    rule    InputNpc(1) goto Warp
+}
+
+state Warp
+{
+    action  SetCoord(271,25, 54);
+    rule    Always() goto Begin
+}

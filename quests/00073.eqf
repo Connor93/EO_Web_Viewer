@@ -1,0 +1,46 @@
+Main
+{
+	questname 	"Sail the seas!"
+	version		1
+}
+state Begin
+{	 
+	desc        "Talk to the Sailor"
+	
+	action		Playsound (17);
+	action		ShowHint ("Where would you like to go?");
+	
+    action      AddNpcText( 73 , "You can use my boat to travel to these locations!" );
+	
+	action      AddNpcInput ( 73 , 1 , "Vult island");
+	action      AddNpcInput ( 73 , 2 , "Monkey island");
+	action      AddNpcInput ( 73 , 3 , "Stay at port");
+	
+	rule        InputNpc ( 1 ) goto warpp
+	rule        InputNpc ( 2 ) goto warppp
+    rule        InputNpc ( 3 ) goto nowarp
+}
+
+state warpp
+{
+    action      SetCoord( 228 , 16 , 47);
+	action		PlaySound (33);
+	action		ShowHint ("Welcome to Vult Island!");
+    
+	action      Reset();
+}
+
+state warppp
+{
+    action      SetCoord( 271 , 24 , 55);
+	action		PlaySound (33);
+	action		ShowHint ("Welcome to Moneky Island!");
+
+    action      Reset();
+}	
+
+State nowarp
+{
+    action       Reset();
+	action		ShowHint ("Come back when you're ready to sail!");
+}	

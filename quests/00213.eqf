@@ -1,0 +1,54 @@
+Main
+{
+	questname 	"Xmas Event 2025"
+	version		1
+}
+
+state Begin
+{
+    rule    Always() goto EventOver
+}
+
+state DeclineQuest
+{
+    action  PlaySound(98);
+    action  Reset();
+}
+
+state EventOver
+{
+    action  End();
+}
+
+state StartQuest
+{
+    rule    Always() goto EventOver
+}
+
+state KillHarold1
+{
+    rule    Always() goto EventOver
+}
+
+state KillHarold2
+{
+    rule    Always() goto EventOver
+
+}
+
+state KillHarold3
+{
+    rule    Always() goto EventOver
+
+}
+
+state WarpOut
+{
+    rule    Always() goto EventOver
+}
+
+state Reward
+{
+    rule    Always() goto EventOver
+
+}
